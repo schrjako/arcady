@@ -1,6 +1,7 @@
 import pygame
 from menu.menu import show_menu
-import games.snake.snake as snake
+import games.snake.main as snake
+
 
 def main():
     pygame.init()
@@ -16,6 +17,7 @@ def main():
             running = False
 
     pygame.quit()
+
 
 if __name__ == "__main__":
     main()
