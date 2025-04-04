@@ -114,15 +114,14 @@ class GameState():
         scoreText_bottom = self.font.render(str(self.score), True, (155, 155, 155))
         scoreText_shadow = self.font.render(str(self.score), True, (0, 0, 0))
 
-        #todo - I suspect that the surfaces do not have a .width attribute in all pygame versions, required further testing and fix
-        screen.blit(highScoreText_shadow, (screenWidth - 15 - highScoreText_shadow.width, 30 + screenHeight/2 - highScoreText_shadow.width/2))
-        screen.blit(scoreText_shadow, (screenWidth - 15 - scoreText_shadow.width, 30 + screenHeight/2 - scoreText_shadow.width/2 + 45))
+        screen.blit(highScoreText_shadow, (screenWidth - 15 - highScoreText_shadow.get_width(), 30 + screenHeight/2 - highScoreText_shadow.get_width()/2))
+        screen.blit(scoreText_shadow, (screenWidth - 15 - scoreText_shadow.get_width(), 30 + screenHeight/2 - scoreText_shadow.get_width()/2 + 45))
 
-        screen.blit(highScoreText_bottom, (screenWidth - 15 - highScoreText_bottom.width, 18 + screenHeight/2 - highScoreText_bottom.width/2))
-        screen.blit(scoreText_bottom, (screenWidth - 15 - scoreText_bottom.width, 18 + screenHeight/2 - scoreText_bottom.width/2  + 45))
+        screen.blit(highScoreText_bottom, (screenWidth - 15 - highScoreText_bottom.get_width(), 18 + screenHeight/2 - highScoreText_bottom.get_width()/2))
+        screen.blit(scoreText_bottom, (screenWidth - 15 - scoreText_bottom.get_width(), 18 + screenHeight/2 - scoreText_bottom.get_width()/2  + 45))
 
-        screen.blit(highScoreText_top, (screenWidth - 15 - highScoreText_top.width, 15 + screenHeight/2 - highScoreText_top.width/2))
-        screen.blit(scoreText_top, (screenWidth - 15 - scoreText_top.width, 15 + screenHeight/2 - scoreText_top.width/2 + 45))
+        screen.blit(highScoreText_top, (screenWidth - 15 - highScoreText_top.get_width(), 15 + screenHeight/2 - highScoreText_top.get_width()/2))
+        screen.blit(scoreText_top, (screenWidth - 15 - scoreText_top.get_width(), 15 + screenHeight/2 - scoreText_top.get_width()/2 + 45))
 
 class gameSceneTransition():
     def __init__(self, gs):
