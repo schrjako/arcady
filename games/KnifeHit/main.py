@@ -1,52 +1,29 @@
-import os
-
-abspath = os.path.abspath(__file__)
-dname = os.path.dirname(abspath)
-os.chdir(dname)
 
 #by default not on gimvic computers
 import pygame
 import numpy as np
-
 #extra lib
 import math
 import random
 import time
-
 #project scripts
 #import ExtraMath
-import OrderedSprites
-import GameObjects
-import Sound
-
-#------------------------------------------------------------------------------------------------------
-
-musicVolume = 0.4
-soundVolume = 0.4
-
-#------------------------------------------------------------------------------------------------------
-
-#window initialization
-screenWidth = 400
-screenHeight = 800
-
-pygame.init()
-screen = pygame.display.set_mode((screenWidth, screenHeight))
-
-#remove window icon and set caption
-pygame.display.set_caption('Knife Hit')
-
-transparent_surface = pygame.Surface((32, 32), pygame.SRCALPHA)
-transparent_surface = pygame.image.load('./Sprites/Apple.png').convert_alpha()
-pygame.display.set_icon(transparent_surface)
-
-#------------------------------------------------------------------------------------------------------
+from . import OrderedSprites
+from . import GameObjects
+from . import Sound
 
 #game management classes and functions and some UI that doesnt realy fit anywhere else
 class GameState():
-    def __init__(self):
+    def __init__(self, screen, screenWidth, screenHeight, musicVolume, soundVolume):
+
+        self.screen = screen
+        self.screenWidth = screenWidth
+        self.screenHeight = screenHeight
+        self.musicVolume = musicVolume
+        self.soundVolume = soundVolume
+
         #initialize everything for all scenes
-        self.soundMngr = Sound.SoundManager(musicVolume, soundVolume)
+        self.soundMngr = Sound.SoundManager(self.musicVolume, self.soundVolume)
 
         self.highScore = 0
         self.score = 0
@@ -119,14 +96,14 @@ class GameState():
         scoreText_bottom = self.font.render(str(self.score), True, (155, 155, 155))
         scoreText_shadow = self.font.render(str(self.score), True, (0, 0, 0))
 
-        screen.blit(highScoreText_shadow, (screenWidth - 15 - highScoreText_shadow.get_width(), 30 + screenHeight/2 - highScoreText_shadow.get_width()/2))
-        screen.blit(scoreText_shadow, (screenWidth - 15 - scoreText_shadow.get_width(), 30 + screenHeight/2 - scoreText_shadow.get_width()/2 + 45))
+        self.screen.blit(highScoreText_shadow, (self.screenWidth - 15 - highScoreText_shadow.get_width(), 30 + self.screenHeight/2 - highScoreText_shadow.get_width()/2))
+        self.screen.blit(scoreText_shadow, (self.screenWidth - 15 - scoreText_shadow.get_width(), 30 + self.screenHeight/2 - scoreText_shadow.get_width()/2 + 45))
 
-        screen.blit(highScoreText_bottom, (screenWidth - 15 - highScoreText_bottom.get_width(), 18 + screenHeight/2 - highScoreText_bottom.get_width()/2))
-        screen.blit(scoreText_bottom, (screenWidth - 15 - scoreText_bottom.get_width(), 18 + screenHeight/2 - scoreText_bottom.get_width()/2  + 45))
+        self.screen.blit(highScoreText_bottom, (self.screenWidth - 15 - highScoreText_bottom.get_width(), 18 + self.screenHeight/2 - highScoreText_bottom.get_width()/2))
+        self.screen.blit(scoreText_bottom, (self.screenWidth - 15 - scoreText_bottom.get_width(), 18 + self.screenHeight/2 - scoreText_bottom.get_width()/2  + 45))
 
-        screen.blit(highScoreText_top, (screenWidth - 15 - highScoreText_top.get_width(), 15 + screenHeight/2 - highScoreText_top.get_width()/2))
-        screen.blit(scoreText_top, (screenWidth - 15 - scoreText_top.get_width(), 15 + screenHeight/2 - scoreText_top.get_width()/2 + 45))
+        self.screen.blit(highScoreText_top, (self.screenWidth - 15 - highScoreText_top.get_width(), 15 + self.screenHeight/2 - highScoreText_top.get_width()/2))
+        self.screen.blit(scoreText_top, (self.screenWidth - 15 - scoreText_top.get_width(), 15 + self.screenHeight/2 - scoreText_top.get_width()/2 + 45))
 
 class gameSceneTransition():
     def __init__(self, gs):
@@ -135,7 +112,7 @@ class gameSceneTransition():
         self.a = 255
         self.ta = 0
 
-        self.overlaySurface = pygame.Surface((screenWidth, screenHeight), pygame.SRCALPHA)
+        self.overlaySurface = pygame.Surface((self.gs.screenWidth, self.gs.screenHeight), pygame.SRCALPHA)
         self.overlaySurface.fill((0, 0, 0, self.a))  # RGBA: black with 50% opacity
 
     def updateOverlay(self):
@@ -148,7 +125,7 @@ class gameSceneTransition():
             self.a = 0
 
         self.overlaySurface.fill((0, 0, 0, int(self.a)))  # RGBA: black with 50% opacity
-        screen.blit(self.overlaySurface, (0, 0))
+        self.gs.screen.blit(self.overlaySurface, (0, 0))
 
     def outTransition(self):
         #set target a to black
@@ -191,126 +168,161 @@ class KnifeBar(pygame.sprite.Sprite):
             if i >= self.knivesLeft:
                 self.fullSlotSprites[i].doBlit = False
 
-#- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+class KnifeHitGame:
+    def __init__(self, screen):
+        self.screen = screen
 
-def checkForWin():
-    #check if any apples left
-    if len(gs.apples) == 0:
-        #Win
-        gs.transition.outTransition()
+    def initKnifeHit(self, screen):
+        import os
 
-    #check if no more knives and all knives have hit the log
-    else:
-        if gs.knifeBar.knivesLeft <= 0:
+        abspath = os.path.abspath(__file__)
+        dname = os.path.dirname(abspath)
+        os.chdir(dname)
 
-            hitKnives = 0
-            for knife in gs.knives:
-                if knife.hasHit == True:
-                    hitKnives += 1
+        self.musicVolume = 0.4
+        self.soundVolume = 0.4
 
-            if hitKnives == len(gs.knives):
-                #Lose
-                gs.score = 0
-                gs.transition.outTransition()
+        #window initialization
+        self.screenWidth = 400
+        self.screenHeight = 800
 
-#------------------------------------------------------------------------------------------------------
+        self.screen = pygame.display.set_mode((self.screenWidth, self.screenHeight))
 
-#initialize vars as game state
-gs = GameState()
+        #remove window icon and set caption
+        pygame.display.set_caption('Knife Hit')
 
-#get delta time initial ticks
-prevT = pygame.time.get_ticks()
+        transparent_surface = pygame.Surface((32, 32), pygame.SRCALPHA)
+        transparent_surface = pygame.image.load('./Sprites/Apple.png').convert_alpha()
+        pygame.display.set_icon(transparent_surface)
 
-running = True
-while running:
+    def run(self):
 
-    #update delta time
-    currT = pygame.time.get_ticks()
-    dTms = currT - prevT
-    dTs = dTms
+        self.initKnifeHit(self.screen)
 
-    # Fill screen
-    screen.fill((30, 30, 30))
+        #initialize vars as game state
+        self.gs = GameState(self.screen, self.screenWidth, self.screenHeight, self.musicVolume, self.soundVolume)
 
-    # Handle inputs
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+        #get delta time initial ticks
+        prevT = pygame.time.get_ticks()
 
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:
-                
-                #get press position and determine if settings pressed or knife thrown
-                mPos = pygame.mouse.get_pos()
+        running = True
+        while running:
 
-                if mPos[0] < 30 and mPos[1] < 30:
-                    #toggle music
-                    gs.soundMngr.toggleMusic()
+            #update delta time
+            currT = pygame.time.get_ticks()
+            dTms = currT - prevT
+            dTs = dTms
 
-                elif mPos[0] < 75 and mPos[1] < 30:
-                    #toggle sound
-                    gs.soundMngr.toggleSound()
+            # Fill screen
+            self.screen.fill((30, 30, 30))
 
-                else:
-                    #throw all not yet thrown knives
-                    for knife in gs.knives:
-                        knife.throw(gs.knifeThrowForce)
-                        gs.soundMngr.playFromSounds(gs.soundMngr.knifeThrowSfx)
+            # Handle inputs
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
 
-                    #spawn new knife 
-                    gs.knifeBar.knivesLeft -= 1
-                    if gs.knifeBar.knivesLeft > 0:
-                        newKnife = GameObjects.Knife(gs, 200, 600)
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        
+                        #get press position and determine if settings pressed or knife thrown
+                        mPos = pygame.mouse.get_pos()
 
-    #update log
-    gs.log.updateRotation(dTs)
-    gs.log.updateSprites()
+                        if mPos[0] < 30 and mPos[1] < 30:
+                            #toggle music
+                            self.gs.soundMngr.toggleMusic()
 
-    #update knives
-    for knife in gs.knives:
-        knife.move(dTs)
-        knife.collide()
-        knife.updateSprites()
+                        elif mPos[0] < 75 and mPos[1] < 30:
+                            #toggle sound
+                            self.gs.soundMngr.toggleSound()
 
-    #update apples
-    for apple in gs.apples:
-        apple.move(dTs)
-        apple.collide()
-        apple.updateSprites()
+                        else:
+                            #throw all not yet thrown knives
+                            for knife in self.gs.knives:
+                                knife.throw(self.gs.knifeThrowForce)
+                                self.gs.soundMngr.playFromSounds(self.gs.soundMngr.knifeThrowSfx)
 
-    #update knife bar UI
-    gs.knifeBar.updateSprites()
+                            #spawn new knife 
+                            self.gs.knifeBar.knivesLeft -= 1
+                            if self.gs.knifeBar.knivesLeft > 0:
+                                newKnife = GameObjects.Knife(self.gs, 200, 600)
 
-    #remove dead objects
-    gs.apples = [apple for apple in gs.apples if apple.dead == False]
-    gs.knives = [knife for knife in gs.knives if knife.dead == False]
-    gs.orderedSprites = [ordrdSprt for ordrdSprt in gs.orderedSprites if ordrdSprt.parent.dead == False]
+            #update log
+            self.gs.log.updateRotation(dTs)
+            self.gs.log.updateSprites()
 
-    #update score
-    gs.updateScore()
+            #update knives
+            for knife in self.gs.knives:
+                knife.move(dTs)
+                knife.collide()
+                knife.updateSprites()
 
-    #check for win/lose condition, (if statement to allow for close button quiting)
-    checkForWin()
+            #update apples
+            for apple in self.gs.apples:
+                apple.move(dTs)
+                apple.collide()
+                apple.updateSprites()
 
-    #draw ordered sprites (blit everything other than particles)
-    OrderedSprites.blitOrderedSprites(screen, gs)
+            #update knife bar UI
+            self.gs.knifeBar.updateSprites()
 
-    #blit particles
-    for particle in gs.particles:
-        particle.update(screen)
-    gs.particles = [particle for particle in gs.particles if particle.lifeTime > 0]
+            #remove dead objects
+            self.gs.apples = [apple for apple in self.gs.apples if apple.dead == False]
+            self.gs.knives = [knife for knife in self.gs.knives if knife.dead == False]
+            self.gs.orderedSprites = [ordrdSprt for ordrdSprt in self.gs.orderedSprites if ordrdSprt.parent.dead == False]
 
-    #display music/sound ui
-    gs.soundMngr.displayIcons(screen)
+            #update score
+            self.gs.updateScore()
 
-    #update transition animation
-    gs.transition.updateOverlay()
+            #check for win/lose condition, (if statement to allow for close button quiting)
+            self.checkForWin()
 
-    # Update the display
-    pygame.display.flip()
+            #draw ordered sprites (blit everything other than particles)
+            OrderedSprites.blitOrderedSprites(self.screen, self.gs)
 
-    #update delta time
-    prevT = currT
+            #blit particles
+            for particle in self.gs.particles:
+                particle.update(self.screen)
+            self.gs.particles = [particle for particle in self.gs.particles if particle.lifeTime > 0]
 
-# Quit Pygame
-pygame.quit()
+            #display music/sound ui
+            self.gs.soundMngr.displayIcons(self.screen)
+
+            #update transition animation
+            self.gs.transition.updateOverlay()
+
+            # Update the display
+            pygame.display.flip()
+
+            #update delta time
+            prevT = currT
+
+        # Quit Pygame
+        pygame.quit()
+
+    def checkForWin(self):
+        #check if any apples left
+        if len(self.gs.apples) == 0:
+            #Win
+            self.gs.transition.outTransition()
+
+        #check if no more knives and all knives have hit the log
+        else:
+            if self.gs.knifeBar.knivesLeft <= 0:
+
+                hitKnives = 0
+                for knife in self.gs.knives:
+                    if knife.hasHit == True:
+                        hitKnives += 1
+
+                if hitKnives == len(self.gs.knives):
+                    #Lose
+                    self.gs.score = 0
+                    self.gs.transition.outTransition()
+
+def run(screen):
+    KnifeHitGame(screen).run()
+
+if __name__ == "__main__":
+    pygame.init()
+    screen = pygame.display.set_mode(400, 800)
+    run(screen)
