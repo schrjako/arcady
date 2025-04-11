@@ -31,6 +31,9 @@ class SnakeGame:
 			self.screen.get_height() // 2,
 		)
 
+		# Background color
+		self.backgound: tuple[int, int, int] = (26, 27, 38)
+
 		self.board: HexBoard = HexBoard(board_radius, cell_size, self.offset)
 		self.snake: Snake = Snake((0, 0), 5, self.board)
 		self.apples: Apples = Apples(self.board)
@@ -70,7 +73,7 @@ class SnakeGame:
 			if self.snake.head() in list(self.snake.arr)[1:]:
 				self.running = False
 
-			self.screen.fill((30, 30, 30))
+			self.screen.fill(self.backgound)
 
 			self.board.draw(self.screen)
 			self.snake.draw(self.screen)
@@ -82,7 +85,7 @@ class SnakeGame:
 
 
 def run(screen: pygame.Surface):
-	SnakeGame(screen, board_radius=6, cell_size=20).run()
+	SnakeGame(screen, board_radius=10, cell_size=17).run()
 
 
 if __name__ == "__main__":

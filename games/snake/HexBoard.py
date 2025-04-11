@@ -87,7 +87,7 @@ class HexBoard:
 		for cell in self.cells:
 			center = cell.axial_to_pixel(self.cell_size, self.offset)
 			points = cell.get_polygon_points(center, self.cell_size)
-			pygame.draw.polygon(surface, (200, 200, 200), points, 2)
+			pygame.draw.polygon(surface, (111, 117, 142), points, 2)
 
 			if cell_numbers:
 				text = font.render(f"{cell.q},{cell.r}", True, (255, 255, 255))
