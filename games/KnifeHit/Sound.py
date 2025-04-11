@@ -36,7 +36,70 @@ class SoundManager():
         self.lose_sfx = pygame.mixer.Sound('./Sounds/lose1.mp3')
         self.loseSfx = [self.lose_sfx]
 
+        #settings toggle
+        self.doMusic = True
+        self.doSound = True
+
+        #load images
+        self.musicOnImage = pygame.image.load('./Sprites/MusicIcon.png').convert_alpha()
+        self.musicOffImage = pygame.image.load('./Sprites/MusicOffIcon.png').convert_alpha()
+        self.musicShadowImage = pygame.image.load('./Sprites/MusicIconShadow.png').convert_alpha()
+
+        self.soundOnImage = pygame.image.load('./Sprites/SoundIcon.png').convert_alpha()
+        self.soundOffImage = pygame.image.load('./Sprites/SoundOffIcon.png').convert_alpha()
+        self.soundShadowImage = pygame.image.load('./Sprites/SoundIconShadow.png').convert_alpha()
+
+        #scale images
+        self.musicShadowImage = pygame.transform.scale(self.musicShadowImage, (25, 25))
+        self.soundShadowImage = pygame.transform.scale(self.soundShadowImage, (25, 25))
+
+        self.musicOnImage = pygame.transform.scale(self.musicOnImage, (25, 25))
+        self.musicOffImage = pygame.transform.scale(self.musicOffImage, (25, 25))
+        self.soundOnImage = pygame.transform.scale(self.soundOnImage, (25, 25))
+        self.soundOffImage = pygame.transform.scale(self.soundOffImage, (25, 25))
+
+    def toggleMusic(self):
+        self.doMusic = not self.doMusic
+
+        if self.doMusic:
+            pygame.mixer.music.set_volume(self.musicVolume)
+        else:
+            pygame.mixer.music.set_volume(0)
+
+    def toggleSound(self):
+        self.doSound = not self.doSound
+
+    def displayIcons(self, screen):
+        #draw shadows
+        musicShadowRect = self.musicShadowImage.get_rect(center=(17.5, 17.5 + 7))
+        soundShadowRect = self.soundShadowImage.get_rect(center=(17.5*2 + 15, 17.5 + 7))
+
+        screen.blit(self.musicShadowImage, musicShadowRect)
+        screen.blit(self.soundShadowImage, soundShadowRect)
+
+        #draw on/off images
+        if self.doMusic:
+            musicImage = self.musicOnImage
+            musicRect = musicImage.get_rect(center=(17.5, 17.5))
+        else:
+            musicImage = self.musicOffImage
+            musicRect = musicImage.get_rect(center=(17.5, 17.5))
+        screen.blit(musicImage, musicRect)
+        
+        if self.doSound:
+            soundImage = self.soundOnImage
+            soundRect = soundImage.get_rect(center=(17.5*2 + 15, 17.5))
+        else:
+            soundImage = self.soundOffImage
+            soundRect = soundImage.get_rect(center=(17.5*2 + 15, 17.5))
+        screen.blit(soundImage, soundRect)
+
     def playFromSounds(self, sounds):
         sound = sounds[random.randint(0, len(sounds) - 1)]
-        sound.set_volume(self.soundVolume)
+
+        if self.doSound:
+            sound.set_volume(self.soundVolume)
+        else:
+            sound.set_volume(0)
+
         sound.play()
