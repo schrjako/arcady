@@ -49,6 +49,9 @@ class SoundManager():
         self.soundOffImage = pygame.image.load('./Sprites/SoundOffIcon.png').convert_alpha()
         self.soundShadowImage = pygame.image.load('./Sprites/SoundIconShadow.png').convert_alpha()
 
+        self.returnImage = pygame.image.load('./Sprites/ReturnIcon.png').convert_alpha()
+        self.returnShadowImage = pygame.image.load('./Sprites/ReturnIconShadow.png').convert_alpha()
+
         #scale images
         self.musicShadowImage = pygame.transform.scale(self.musicShadowImage, (25, 25))
         self.soundShadowImage = pygame.transform.scale(self.soundShadowImage, (25, 25))
@@ -58,6 +61,9 @@ class SoundManager():
         self.soundOnImage = pygame.transform.scale(self.soundOnImage, (25, 25))
         self.soundOffImage = pygame.transform.scale(self.soundOffImage, (25, 25))
 
+        self.returnImage = pygame.transform.scale(self.returnImage, (30, 25))
+        self.returnShadowImage = pygame.transform.scale(self.returnShadowImage, (30, 25))
+
     def toggleMusic(self):
         self.doMusic = not self.doMusic
 
@@ -65,6 +71,9 @@ class SoundManager():
             pygame.mixer.music.set_volume(self.musicVolume)
         else:
             pygame.mixer.music.set_volume(0)
+
+    def stopMusic(self):
+        pygame.mixer.music.stop()
 
     def toggleSound(self):
         self.doSound = not self.doSound
@@ -76,6 +85,11 @@ class SoundManager():
 
         screen.blit(self.musicShadowImage, musicShadowRect)
         screen.blit(self.soundShadowImage, soundShadowRect)
+
+        sWidth, sHeight = screen.get_size()
+        returnShadowRect = self.returnShadowImage.get_rect(center=(sWidth - 20, 17.5 + 7))
+
+        screen.blit(self.returnShadowImage, returnShadowRect)
 
         #draw on/off images
         if self.doMusic:
@@ -93,6 +107,9 @@ class SoundManager():
             soundImage = self.soundOffImage
             soundRect = soundImage.get_rect(center=(17.5*2 + 15, 17.5))
         screen.blit(soundImage, soundRect)
+
+        returnRect = self.returnImage.get_rect(center=(sWidth - 20, 17.5))
+        screen.blit(self.returnImage, returnRect)
 
     def playFromSounds(self, sounds):
         sound = sounds[random.randint(0, len(sounds) - 1)]
