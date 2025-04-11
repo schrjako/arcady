@@ -3,8 +3,8 @@ import pygame
 import random
 import math
 
-import ExtraMath
-import OrderedSprites
+from ..KnifeHit import ExtraMath
+from ..KnifeHit import OrderedSprites
 
 class Log(pygame.sprite.Sprite):
     def __init__(self, gs, x, y):
