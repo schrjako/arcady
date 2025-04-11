@@ -1,6 +1,6 @@
 import pygame
 from menu.menu import show_menu
-#import games.snake.main as snake
+import games.snake.main as snake
 import games.KnifeHit.main as knifehit;
 
 
@@ -13,8 +13,7 @@ def main():
 	while running:
 		choice = show_menu(screen, ["snake", "knifehit"])
 		if choice == "snake":
-			#snake.run(screen)
-			...
+			snake.run(screen)
 		if choice == "knifehit":
 			knifehit.run(screen)
 		elif choice == "quit":

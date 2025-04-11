@@ -172,6 +172,9 @@ class KnifeHitGame:
     def __init__(self, screen):
         self.screen = screen
 
+        #get original arcady menu dimensions for returning back to menu after quiting knifehit
+        self.menuWidth, self.menuHeight = pygame.display.get_surface().get_size()
+
     def initKnifeHit(self, screen):
         import os
 
@@ -194,6 +197,10 @@ class KnifeHitGame:
         transparent_surface = pygame.Surface((32, 32), pygame.SRCALPHA)
         transparent_surface = pygame.image.load('./Sprites/Apple.png').convert_alpha()
         pygame.display.set_icon(transparent_surface)
+
+    def returnToMenu(self):
+        #set screen dimensions to original/menu
+        self.screen = pygame.display.set_mode((self.menuWidth, self.menuHeight))
 
     def run(self):
 
@@ -220,6 +227,11 @@ class KnifeHitGame:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
+
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_BACKSPACE:
+                        self.returnToMenu()
+                        return
 
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
