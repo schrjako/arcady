@@ -202,6 +202,14 @@ class KnifeHitGame:
         #set screen dimensions to original/menu
         self.screen = pygame.display.set_mode((self.menuWidth, self.menuHeight))
 
+        #stop music
+        self.gs.soundMngr.stopMusic()
+
+        #reset caption
+        pygame.display.set_caption("Arcady")
+
+        #todo - reset window icon
+
     def run(self):
 
         self.initKnifeHit(self.screen)
@@ -246,6 +254,11 @@ class KnifeHitGame:
                         elif mPos[0] < 75 and mPos[1] < 30:
                             #toggle sound
                             self.gs.soundMngr.toggleSound()
+
+                        elif mPos[0] > self.screenWidth - 35 and mPos[1] < 30:
+                            #return to arcady menu
+                            self.returnToMenu()
+                            return
 
                         else:
                             #throw all not yet thrown knives
