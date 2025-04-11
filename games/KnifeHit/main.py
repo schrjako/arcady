@@ -175,9 +175,14 @@ class KnifeHitGame:
         #get original arcady menu dimensions for returning back to menu after quiting knifehit
         self.menuWidth, self.menuHeight = pygame.display.get_surface().get_size()
 
-    def initKnifeHit(self, screen):
+        #get original arcady working directory
         import os
+        import sys
+        self.originalWorkingDir = os.path.dirname(os.path.abspath(sys.argv[0])) 
 
+    def initKnifeHit(self, screen):
+        #set working dir to knifehit games main folder
+        import os
         abspath = os.path.abspath(__file__)
         dname = os.path.dirname(abspath)
         os.chdir(dname)
@@ -207,6 +212,10 @@ class KnifeHitGame:
 
         #reset caption
         pygame.display.set_caption("Arcady")
+
+        #reset working dir to original
+        import os
+        os.chdir(self.originalWorkingDir)
 
         #todo - reset window icon
 
