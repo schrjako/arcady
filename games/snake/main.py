@@ -1,8 +1,9 @@
 import pygame
 
-from .HexBoard import HexBoard
-from .Snake import Snake
-from .Apples import Apples
+from .hex import HexBoard
+from .snake import Snake
+from .spawnables import SpawnableManager, Apple, Bomb
+from .collisionManager import CollisionManager
 
 import random
 
@@ -26,25 +27,35 @@ class SnakeGame:
 		self.screen: pygame.Surface = screen
 		self.clock: pygame.time.Clock = pygame.time.Clock()
 
-		self.offset: tuple[int, int] = (
+		self.backgound: tuple[int, int, int] = (26, 27, 38)
+
+		offset: tuple[int, int] = (
 			self.screen.get_width() // 2,
 			self.screen.get_height() // 2,
 		)
+		self.board: HexBoard = HexBoard(board_radius, cell_size, offset)
 
-		# Background color
-		self.backgound: tuple[int, int, int] = (26, 27, 38)
-
-		self.board: HexBoard = HexBoard(board_radius, cell_size, self.offset)
 		self.snake: Snake = Snake((0, 0), 5, self.board)
-		self.apples: Apples = Apples(self.board)
+
+		self.spawnable_manager: SpawnableManager = SpawnableManager(
+			self.board, self.snake
+		)
+
+		self.collision_manager: CollisionManager = CollisionManager(
+			self.snake, self.spawnable_manager, self.game_over
+		)
 
 		self.running: bool = True
+
+	def game_over(self, message: str) -> None:
+		self.running = False
 
 	def run(self) -> None:
 		"""
 		Runs the main game loop, handling events and drawing the board.
 		"""
 		frame = 0
+
 		while self.running:
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
@@ -59,25 +70,28 @@ class SnakeGame:
 			if frame % 10 == 0:
 				self.snake.move()
 
-			# Eat apples
-			if self.snake.head() in self.apples.arr:
-				self.snake.length += 1
-				self.apples.arr.remove(self.snake.head())
-
 			# Spawn apples
-			if frame % 120 == 0 and len(self.apples) < 5:
-				if random.randint(0, len(self.apples)) == 0:
-					self.apples.add_random_apple(self.snake)
+			if frame % 120 == 0:
+				if random.randint(0, len(self.spawnable_manager.get(Apple))) == 0:
+					self.spawnable_manager.spawn_random(Apple)
 
-			# Check for self collision (game over)
-			if self.snake.head() in list(self.snake.arr)[1:]:
-				self.running = False
+			# Spawn bombs
+			if frame % 120 == 0:
+				if random.randint(0, len(self.spawnable_manager.get(Bomb))) == 0:
+					self.spawnable_manager.spawn_random(Bomb)
 
+			# Update spawnables
+			self.spawnable_manager.update()
+
+			# Handle collisions
+			self.collision_manager.handle_collisions()
+
+			# Draw everything
 			self.screen.fill(self.backgound)
 
 			self.board.draw(self.screen)
 			self.snake.draw(self.screen)
-			self.apples.draw(self.screen)
+			self.spawnable_manager.draw(self.screen)
 
 			pygame.display.flip()
 			self.clock.tick(60)

@@ -19,7 +19,16 @@ def draw_cube(
 
 
 def draw_triangle(
-	surface: pygame.Surface, center: tuple[int, int], radius: float, color: pygame.Color | tuple[int, int, int]
+	surface: pygame.Surface,
+	center: tuple[float, float],
+	radius: float,
+	color: pygame.Color | tuple[int, int, int],
 ):
-	points = [[center[0] + math.sin(math.radians(i)) * radius, center[1] + math.cos(math.radians(i)) * radius] for i in range(0, 360, 120)]
+	points = [
+		[
+			center[0] + math.sin(math.radians(i)) * radius,
+			center[1] + math.cos(math.radians(i)) * radius,
+		]
+		for i in range(180, 540, 120)
+	]
 	pygame.draw.polygon(surface, color, points)

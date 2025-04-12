@@ -1,6 +1,69 @@
 import pygame
 
-from .HexCell import HexCell
+import math
+
+
+class HexCell:
+	"""
+	Represents a single hexagonal cell on the board using axial coordinates.
+	"""
+
+	def __init__(self, q: int, r: int) -> None:
+		"""
+		Initializes the HexCell with axial coordinates and size.
+		"""
+		self.q: int = q
+		self.r: int = r
+
+	def s(self):
+		return -(self.q + self.r)
+
+	def __eq__(self, other) -> bool:
+		return self.q == other.q and self.r == other.r
+
+	def __hash__(self) -> int:
+		return (self.q, self.r).__hash__()
+
+	def __add__(self, other):
+		return HexCell(self.q + other.q, self.r + other.r)
+
+	def __sub__(self, other):
+		return HexCell(self.q - other.q, self.r - other.r)
+
+	def __mul__(self, scalar: int):
+		return HexCell(self.q * scalar, self.r * scalar)
+
+	def __str__(self):
+		return f"[{self.q}, {self.r}, {self.s()}]"
+
+	def distance_to(self, other) -> int:
+		vec = self - other
+		return max(abs(vec.q), abs(vec.r), abs(vec.s()))
+
+	def get_center(self, size: float, offset: tuple[int, int]) -> tuple[float, float]:
+		"""
+		Converts axial coordinates (q, r) to pixel coordinates for drawing.
+		"""
+		x: float = size * (math.sqrt(3) * self.q + math.sqrt(3) / 2 * self.r)
+		y: float = size * (3 / 2 * self.r)
+		return (x + offset[0], y + offset[1])
+
+	def get_polygon_points(
+		self, center: tuple[float, float], size: float
+	) -> list[tuple[float, float]]:
+		"""
+		Calculates the vertices of the hexagon based on its center.
+		"""
+		points: list[tuple[float, float]] = []
+
+		for i in range(6):
+			angle_deg: float = 60 * i - 30  # Adjust for a pointy-topped orientation.
+			angle_rad: float = math.radians(angle_deg)
+			x: float = center[0] + size * math.cos(angle_rad)
+			y: float = center[1] + size * math.sin(angle_rad)
+			points.append((x, y))
+
+		return points
 
 
 class HexBoard:
@@ -15,7 +78,7 @@ class HexBoard:
 		self.radius: int = radius
 		self.cell_size: float = cell_size
 		self.offset: tuple[int, int] = offset
-		self.cells: list[HexCell] = []
+		self.cells: set[HexCell] = set()
 		self.generate_board()
 
 	def generate_board(self) -> None:
@@ -31,7 +94,7 @@ class HexBoard:
 		for q in range(-N, N + 1):
 			for r in range(-N, N + 1):
 				if -N <= -q - r <= N:
-					self.cells.append(HexCell(q, r))
+					self.cells.add(HexCell(q, r))
 
 	def get_neighbour(self, cell: HexCell, direction: int) -> HexCell:
 		"""
@@ -85,11 +148,11 @@ class HexBoard:
 			font = pygame.font.SysFont(None, 24)
 
 		for cell in self.cells:
-			center = cell.axial_to_pixel(self.cell_size, self.offset)
+			center = cell.get_center(self.cell_size, self.offset)
 			points = cell.get_polygon_points(center, self.cell_size)
 			pygame.draw.polygon(surface, (111, 117, 142), points, 2)
 
 			if cell_numbers:
-				text = font.render(f"{cell.q},{cell.r}", True, (255, 255, 255))
+				text = font.render(f"{cell.q},{cell.r}", True, (255, 255, 255))  # type: ignore
 				text_rect = text.get_rect(center=center)
 				surface.blit(text, text_rect)
