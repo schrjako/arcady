@@ -32,6 +32,7 @@ class CollisionManager:
 		if isinstance(spawnable, Apple):
 			self.snake.grow()
 			self.snake.speed = max(self.snake.speed - 8 / 20, 7)
+			self.snake.score += 1
 			spawnable.kill()
 
 		elif isinstance(spawnable, Bomb):

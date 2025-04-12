@@ -70,6 +70,7 @@ class SnakeGame:
 		self.screen.blit(overlay, (0, 0))
 
 		# Create fonts
+		giant_font = pygame.font.Font(path + "/fonts/PressStart2P.ttf", 65)
 		large_font = pygame.font.Font(path + "/fonts/PressStart2P.ttf", 46)
 		small_font = pygame.font.Font(path + "/fonts/PressStart2P.ttf", 20)
 
@@ -80,12 +81,19 @@ class SnakeGame:
 		)
 		self.screen.blit(game_over_text, game_over_rect)
 
+		# Render score
+		score_text = giant_font.render(str(self.snake.score), True, color)
+		score_rect = score_text.get_rect(
+			center=(self.screen.get_width() // 2, self.screen.get_height() // 4 - 30)
+		)
+		self.screen.blit(score_text, score_rect)
+
 		# Render the message
 		message_text = small_font.render(message, True, color)
-		extra_rect = message_text.get_rect(
+		message_rect = message_text.get_rect(
 			center=(self.screen.get_width() // 2, self.screen.get_height() // 2 + 60)
 		)
-		self.screen.blit(message_text, extra_rect)
+		self.screen.blit(message_text, message_rect)
 
 		# Render the "Press Enter to Continue" text
 		message_text = small_font.render("Press Enter to Continue", True, color)

@@ -16,6 +16,7 @@ class Snake:
 		self.length: int = length
 
 		self.speed: float = speed
+		self.score: int = 0
 
 		self.body: deque[HexCell] = deque()
 		self.body.append(HexCell(location[0], location[1]))
