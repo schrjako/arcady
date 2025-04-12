@@ -45,7 +45,7 @@ class Snake:
 			points = part.get_polygon_points(center, self.board.cell_size)
 			utils.draw_cube(
 				surface,
+				self.head_color if index == 0 else self.part_color,
 				points,
 				center,
-				self.head_color if index == 0 else self.part_color,
 			)

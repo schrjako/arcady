@@ -2,7 +2,7 @@ import pygame
 
 from .hex import HexCell, HexBoard
 from .snake import Snake
-from .utils import draw_cube, draw_triangle
+from .utils import draw_cube, draw_reg_polygon
 
 import random
 from abc import ABC, abstractmethod
@@ -78,7 +78,7 @@ class Apple(Spawnable):
 	def draw(self, surface, board):
 		center = self.position.get_center(board.cell_size, board.offset)
 		points = self.position.get_polygon_points(center, board.cell_size)
-		draw_cube(surface, points, center, self.color)
+		draw_cube(surface, self.color, points, center)
 
 
 class Bomb(Spawnable):
@@ -125,8 +125,28 @@ class Bomb(Spawnable):
 
 		if self.state == Bomb.States.WARNING:
 			# Draw as a triangle while deactivatable
-			draw_triangle(surface, center, board.cell_size * 0.6, self.warning_color)
+			draw_reg_polygon(
+				surface, self.warning_color, 3, center, board.cell_size * 0.6
+			)
 		elif self.state == Bomb.States.BOMB:
 			# Draw as a cube when armed
 			points = self.position.get_polygon_points(center, board.cell_size)
-			draw_cube(surface, points, center, self.bomb_color)
+			draw_cube(surface, self.bomb_color, points, center)
+
+
+class Scissors(Spawnable):
+	def __init__(self, position: HexCell, life_duration: int = 250):
+		super().__init__(position)
+		self.color = (0, 217, 255)
+
+		self.life_duration: int = life_duration
+		self.timer = 0
+
+	def draw(self, surface, board):
+		center = self.position.get_center(board.cell_size, board.offset)
+		draw_reg_polygon(surface, self.color, 6, center, board.cell_size * 0.7)
+
+	def update(self):
+		self.timer += 1
+		if self.timer > self.life_duration:
+			self.kill()

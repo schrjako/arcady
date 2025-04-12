@@ -2,7 +2,7 @@ import pygame
 
 from .hex import HexBoard
 from .snake import Snake
-from .spawnables import SpawnableManager, Apple, Bomb
+from .spawnables import SpawnableManager, Apple, Bomb, Scissors
 from .collisionManager import CollisionManager
 
 import random
@@ -49,14 +49,14 @@ class SnakeGame:
 		)
 
 		self.collision_manager: CollisionManager = CollisionManager(
-			self.snake, self.spawnable_manager, self.game_over
+			self.snake, self.spawnable_manager, self.initiate_game_over
 		)
 
 		self.running: bool = True
 		self.state: SnakeGame.States = self.States.NORMAL
 		self.game_over_msg = ""
 
-	def game_over(self, message: str) -> None:
+	def initiate_game_over(self, message: str) -> None:
 		self.state = self.States.GAME_OVER
 		self.game_over_msg = message
 
@@ -72,14 +72,14 @@ class SnakeGame:
 		# Create fonts
 		large_font = pygame.font.Font(path + "/fonts/PressStart2P.ttf", 46)
 		small_font = pygame.font.Font(path + "/fonts/PressStart2P.ttf", 20)
-		
+
 		# Render the main Game Over message.
 		game_over_text = large_font.render("GAME OVER", True, color)
 		game_over_rect = game_over_text.get_rect(
 			center=(self.screen.get_width() // 2, self.screen.get_height() // 2)
 		)
 		self.screen.blit(game_over_text, game_over_rect)
-		
+
 		# Render the message
 		message_text = small_font.render(message, True, color)
 		extra_rect = message_text.get_rect(
@@ -93,7 +93,6 @@ class SnakeGame:
 			center=(self.screen.get_width() // 2, self.screen.get_height() // 2 - 60)
 		)
 		self.screen.blit(message_text, extra_rect)
-		
 
 	def run(self) -> None:
 		"""
@@ -128,9 +127,17 @@ class SnakeGame:
 						self.spawnable_manager.spawn_random(Apple)
 
 				# Spawn bombs
-				if frame % 120 == 0:
+				if frame % 100 == 0:
 					if random.randint(0, len(self.spawnable_manager.get(Bomb))) == 0:
 						self.spawnable_manager.spawn_random(Bomb)
+
+				# Spawn scrissors
+				if (
+					self.snake.length % 20 == 0
+					and len(self.spawnable_manager.get(Scissors)) == 0
+				):
+					# Only one scissors at a time
+					self.spawnable_manager.spawn_random(Scissors)
 
 				# Update spawnables
 				self.spawnable_manager.update()
@@ -144,7 +151,7 @@ class SnakeGame:
 			self.board.draw(self.screen)
 			self.snake.draw(self.screen)
 			self.spawnable_manager.draw(self.screen)
-			
+
 			if self.state == self.States.GAME_OVER:
 				self.draw_game_over(self.game_over_msg)
 

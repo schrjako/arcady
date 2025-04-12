@@ -27,11 +27,12 @@ class CollisionManager:
 					self._handle_spawnable_collision(spawnable)
 
 	def _handle_spawnable_collision(self, spawnable: Spawnable):
-		from .spawnables import Bomb, Apple
+		from .spawnables import Bomb, Apple, Scissors
 
 		if isinstance(spawnable, Apple):
 			self.snake.grow()
 			spawnable.kill()
+
 		elif isinstance(spawnable, Bomb):
 			if spawnable.state == Bomb.States.WARNING:
 				# Bomb is still deactivatable
@@ -39,3 +40,7 @@ class CollisionManager:
 			elif spawnable.state == Bomb.States.BOMB:
 				# Bomb is armed – game over!
 				self.on_game_over("Bomb bad!")
+
+		elif isinstance(spawnable, Scissors):
+			self.snake.length = max(5, self.snake.length - 10)
+			spawnable.kill()
