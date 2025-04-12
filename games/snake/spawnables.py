@@ -124,10 +124,12 @@ class Bomb(Spawnable):
 		center = self.position.get_center(board.cell_size, board.offset)
 
 		if self.state == Bomb.States.WARNING:
-			# Draw as a triangle while deactivatable
-			draw_reg_polygon(
-				surface, self.warning_color, 3, center, board.cell_size * 0.6
-			)
+			# Draw as a blinking triangle while deactivatable
+			if self.timer // 30 % 2 == 0:
+				draw_reg_polygon(
+					surface, self.warning_color, 3, center, board.cell_size * 0.6
+				)
+
 		elif self.state == Bomb.States.BOMB:
 			# Draw as a cube when armed
 			points = self.position.get_polygon_points(center, board.cell_size)
