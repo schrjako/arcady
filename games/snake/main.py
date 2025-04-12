@@ -42,7 +42,7 @@ class SnakeGame:
 		)
 		self.board: HexBoard = HexBoard(board_radius, cell_size, offset)
 
-		self.snake: Snake = Snake((0, 0), 5, self.board)
+		self.snake: Snake = Snake((0, 0), 5, 15, self.board)
 
 		self.spawnable_manager: SpawnableManager = SpawnableManager(
 			self.board, self.snake
@@ -118,7 +118,7 @@ class SnakeGame:
 
 			if self.state == self.States.NORMAL:
 				# Move snake
-				if frame % 10 == 0:
+				if frame % int(self.snake.speed) == 0:
 					self.snake.move()
 
 				# Spawn apples

@@ -7,11 +7,15 @@ from collections import deque
 
 
 class Snake:
-	def __init__(self, location: tuple[int, int], length: int, board: HexBoard) -> None:
+	def __init__(
+		self, location: tuple[int, int], length: int, speed: float, board: HexBoard
+	) -> None:
 		self.board = board
 
 		self.direction: int = 0
 		self.length: int = length
+
+		self.speed: float = speed
 
 		self.body: deque[HexCell] = deque()
 		self.body.append(HexCell(location[0], location[1]))
