@@ -126,8 +126,7 @@ class SnakeGame:
 
 			if self.state == self.States.NORMAL:
 				# Move snake
-				if frame % int(self.snake.speed) == 0:
-					self.snake.move()
+				self.snake.update()
 
 				# Spawn apples
 				if frame % 120 == 0:

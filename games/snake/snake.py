@@ -16,6 +16,7 @@ class Snake:
 		self.length: int = length
 
 		self.speed: float = speed
+		self.timer: int = 0
 		self.score: int = 0
 
 		self.body: deque[HexCell] = deque()
@@ -33,6 +34,12 @@ class Snake:
 
 	def head(self) -> HexCell:
 		return self.body[0]
+	
+	def update(self) -> None:
+		self.timer += 1
+		if self.timer == int(self.speed):
+			self.move()
+			self.timer = 0
 
 	def move(self) -> None:
 		while len(self.body) >= self.length:
