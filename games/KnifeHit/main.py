@@ -330,8 +330,8 @@ class KnifeHitGame:
             #update delta time
             prevT = currT
 
-        # Quit Pygame
-        pygame.quit()
+        self.returnToMenu()
+        return
 
     def checkForWin(self):
         #check if any apples left
@@ -358,5 +358,5 @@ def run(screen):
 
 if __name__ == "__main__":
     pygame.init()
-    screen = pygame.display.set_mode(400, 800)
+    screen = pygame.display.set_mode((400, 800))
     run(screen)
