@@ -1,6 +1,7 @@
 import pygame
 from menu.menu import show_menu
 import games.snake.main as snake
+import games.spacepunk.main as spacepunk
 
 
 def main():
@@ -10,9 +11,11 @@ def main():
 
 	running = True
 	while running:
-		choice = show_menu(screen, ["snake"])
+		choice = show_menu(screen, ["snake","spacepunk"])
 		if choice == "snake":
 			snake.run(screen)
+		if choice == "spacepunk":
+			spacepunk.run(screen)
 		elif choice == "quit":
 			running = False
 
