@@ -21,3 +21,29 @@ Once you did that, all you need to do to run it again is:
 
 - If you closed the terminal **activate virtual enviroment** again: ``source venv/bin/activate``
 - **Run main.py**: ``python main.py``
+
+-**For Windows Git Bash:**
+   ``git clone https://github.com/schrjako/arcady.git``
+  ``cd arcady``
+ 
+-**Find python path**:
+  ``which python``
+
+- **Create virtual enviroment**:
+  ``{python path} -m venv venv``
+
+-**Activate virtual enviroment**:
+   ``source venv/Scripts/activate``
+
+- **Download the necessary libraries**:
+   ``pip install -r requirements.txt``
+
+- **Run main.py**:
+   ``python main.py``
+  
+
+  
+
+
+  
+  
