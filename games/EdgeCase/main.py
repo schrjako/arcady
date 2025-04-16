@@ -1,6 +1,8 @@
 import pygame
 import random
 
+import threading
+
 import LevelBuilder as bldr
 
 #------------------------------------------------------------------------------------------------------
@@ -8,7 +10,7 @@ import LevelBuilder as bldr
 pygame.init()
 screenWidth = 800
 screenHeight = 600
-screen = pygame.display.set_mode((screenWidth, screenHeight))
+screen = pygame.display.set_mode((screenWidth, screenHeight), pygame.SRCALPHA)
 pygame.display.set_caption('Edge Case')
 
 #remove window icon
@@ -19,6 +21,30 @@ pygame.display.set_icon(transparent_surface)
 FILE_NAME = "levels.json"
 
 #------------------------------------------------------------------------------------------------------
+
+def drawAlphaRect(surface, color, rect, width=0, border_radius=0, border_top_left_radius=-1, border_top_right_radius=-1, border_bottom_left_radius=-1, border_bottom_right_radius=-1):
+    #get tempt surfcace
+    temp_surface = pygame.Surface((rect[2], rect[3]), pygame.SRCALPHA)
+    
+    #get rect args as dict
+    draw_rect_args = {
+        "surface": temp_surface,
+        "color": color,
+        "rect": pygame.Rect(0, 0, rect[2], rect[3]),
+        "width": width,
+        "border_radius": border_radius,
+        "border_top_left_radius": border_top_left_radius,
+        "border_top_right_radius": border_top_right_radius,
+        "border_bottom_left_radius": border_bottom_left_radius,
+        "border_bottom_right_radius": border_bottom_right_radius,
+    }
+
+    #draw rect on temp surf
+    pygame.draw.rect(**draw_rect_args)
+
+    #blit temp surf on rects x y
+    surface.blit(temp_surface, (rect[0], rect[1]))
+
 
 class Block:
     def __init__(self, x, y, size, life):
@@ -46,8 +72,7 @@ class Block:
                 self.topColor = (92, 152, 255)
             case 4:
                 self.bottomColor = (72, 45, 255)
-                self.topColor = (72, 95, 225)
-        
+                self.topColor = (72, 95, 225)   
 
     def drawShadow(self):
         pygame.draw.rect(screen, (0, 0, 0), pygame.rect.Rect(self.x - self.size/2 + 20, self.y - self.size/2 + 25, self.size, self.size), 0, 7)
@@ -57,6 +82,73 @@ class Block:
 
     def drawTop(self):
         pygame.draw.rect(screen, self.topColor, pygame.rect.Rect(self.x - self.size/2, self.y - self.size/2, self.size, self.size), 0, 7)
+
+class FallingBlock:
+    def __init__(self, gs, parentBlock, delay):
+        #add self to reference array
+        gs.fallingBlocks.append(self)
+
+        #get all parent atrributes
+        self.x = parentBlock.x
+        self.y = parentBlock.y
+        self.startY = self.y    #for shadow position
+        self.size = parentBlock.size
+
+        #get personal animation vars
+        self.life = 0.5 #secodns
+        self.startLife = self.life
+
+        self.gravity = 0.00045
+        self.vel = 0
+
+        #delay for domino style fall
+        self.delay = delay
+        self.currDelay = 0
+
+    def updateFall(self, dT):
+        #update delay timer
+        self.currDelay += 1 * dT
+
+        if self.currDelay > self.delay:
+            #update life
+            self.life -= 1 * dT
+
+            #update acceleration
+            self.vel += self.gravity
+
+            #update position
+            self.y += self.vel
+
+    #funcs for drawing z ordered rects
+    def drawShadow(self):
+        alpha = (self.life/self.startLife) * 255
+
+        if alpha > 255:
+            alpha = 255
+        if alpha < 0:
+            alpha = 0
+
+        drawAlphaRect(screen, (0, 0, 0, alpha), pygame.rect.Rect(self.x - self.size/2 + (20 * (self.life/self.startLife)), self.startY - self.size/2 + 25, self.size, self.size), 0, 7)
+    
+    def drawBottom(self):
+        alpha = (self.life/self.startLife) * 255
+
+        if alpha > 255:
+            alpha = 255
+        if alpha < 0:
+            alpha = 0
+
+        drawAlphaRect(screen, (187, 227, 255, alpha), pygame.rect.Rect(self.x - self.size/2, self.y - self.size/2 + 3, self.size, self.size), 0, 7)
+    
+    def drawTop(self):
+        alpha = (self.life/self.startLife) * 255
+
+        if alpha > 255:
+            alpha = 255
+        if alpha < 0:
+            alpha = 0
+
+        drawAlphaRect(screen, (255, 255, 255, alpha), pygame.rect.Rect(self.x - self.size/2, self.y - self.size/2, self.size, self.size), 0, 7)
 
 class BlockGrid:
     def __init__(self, gs, centerX, centerY, width, height, size, margin):
@@ -75,28 +167,6 @@ class BlockGrid:
 
         self.topLeftX = centerX - totalWidth/2 + size/2
         self.topLeftY =  centerY - totalHeight/2 + size/2
-
-    def drawBlocks(self):
-        #draw all shadows
-        for y in range(self.height):
-            for x in range(self.width):
-                #draw block if it exists
-                if self.grid[y][x] != None:
-                    self.grid[y][x].drawShadow()
-
-        #draw all bottoms
-        for y in range(self.height):
-            for x in range(self.width):
-                #draw block if it exists
-                if self.grid[y][x] != None:
-                    self.grid[y][x].drawBottom()
-
-        #draw all tops
-        for y in range(self.height):
-            for x in range(self.width):
-                #draw block if it exists
-                if self.grid[y][x] != None:
-                    self.grid[y][x].drawTop()
     
 class Player:
     def __init__(self, gs):
@@ -121,6 +191,9 @@ class Player:
                 #update color
                 self.gs.blockGrid.grid[self.gy][self.gx].updateColorByLife()
             else:
+                #create new falling block animation object from parent block
+                fallingBlock = FallingBlock(self.gs, self.gs.blockGrid.grid[self.gy][self.gx], (i/movements) * 0.5)
+
                 self.gs.blockGrid.grid[self.gy][self.gx] = None
 
             #move to new
@@ -158,11 +231,50 @@ class GameState:
         self.blockGrid = BlockGrid(self, 400, 300, 9, 9, 50, 5)
         self.player = Player(self)
 
+        #array of falling block animation objects
+        self.fallingBlocks = []
+
         #get scene init vars
         self.initDict = bldr.readEntry(FILE_NAME, 0)
         self.numOfLevels = self.initDict["numOfLevels"]
 
         self.loadLevel(FILE_NAME, self.levelIndex)
+
+        #load level delay function call stop
+        self.hasCalledLoad = False
+
+    def drawBlocksOrdered(self, dT):
+
+        #draw all shadows
+        for block in self.fallingBlocks:
+            block.updateFall(dT)
+            block.drawShadow()
+
+        for y in range(self.blockGrid.height):
+            for x in range(self.blockGrid.width):
+                #draw block if it exists
+                if self.blockGrid.grid[y][x] != None:
+                    self.blockGrid.grid[y][x].drawShadow()
+
+        #draw all bottoms
+        for block in self.fallingBlocks:
+            block.drawBottom()
+
+        for y in range(self.blockGrid.height):
+            for x in range(self.blockGrid.width):
+                #draw block if it exists
+                if self.blockGrid.grid[y][x] != None:
+                    self.blockGrid.grid[y][x].drawBottom()
+
+        #draw all tops
+        for block in self.fallingBlocks:
+            block.drawTop()
+
+        for y in range(self.blockGrid.height):
+            for x in range(self.blockGrid.width):
+                #draw block if it exists
+                if self.blockGrid.grid[y][x] != None:
+                    self.blockGrid.grid[y][x].drawTop()
 
     def loadLevel(self, filename, levelIndex):
         level = bldr.readEntry(filename, levelIndex)
@@ -194,6 +306,9 @@ class GameState:
                 else:
                     self.blockGrid.grid[y][x] = None
 
+        #reset load stop
+        self.hasCalledLoad = False
+
     def checkForWin(self):
         #check if palyer is on last tile
         tilesLeft = 0
@@ -207,7 +322,10 @@ class GameState:
             self.levelIndex += 1
             if self.levelIndex > self.numOfLevels:
                 self.levelIndex = self.numOfLevels
-            self.loadLevel(FILE_NAME, self.levelIndex)
+
+            if self.hasCalledLoad == False:
+                threading.Timer(1, self.loadLevel, [FILE_NAME, self.levelIndex]).start()
+                self.hasCalledLoad = True
 
         else:
             #check if player cant move
@@ -224,7 +342,9 @@ class GameState:
 
             if not hasWay:
                 #reload same level
-                self.loadLevel(FILE_NAME, self.levelIndex)
+                if self.hasCalledLoad == False:
+                    threading.Timer(1, self.loadLevel, [FILE_NAME, self.levelIndex]).start()
+                    self.hasCalledLoad = True
 
 #------------------------------------------------------------------------------------------------------
 
@@ -267,8 +387,8 @@ while running:
             #check for win
             gs.checkForWin()
 
-    #draw blocks
-    gs.blockGrid.drawBlocks()
+    #draw stuff
+    gs.drawBlocksOrdered(dTs)
 
     #update player
     gs.player.draw()
