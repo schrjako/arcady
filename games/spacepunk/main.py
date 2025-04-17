@@ -32,6 +32,13 @@ class Entity:
 		if self.pos.y > space_ship_size.y + space_ship_pos.x -self.r:
 			self.pos.y = space_ship_size.y + space_ship_pos.x -self.r 
 			self.v.y *= self.k
+class Player(Entity):
+	def __init__(self,pos,r,v,a,k):
+		super().__init__(self,pos,r,v,a,k)
+class Turet:
+	def __init__(self,pos):
+		pass
+
 def check_bullet_colision(player,bullets):
 	for bullet in bullets:
 		if(player.pos - bullet.pos).length() <= player.r + bullet.r:
@@ -49,7 +56,7 @@ def run(screen):
 	dt = 0
 	clock = pygame.time.Clock()
 	
-	player = Entity(pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2),25,pygame.Vector2(0,0),pygame.Vector2(0,0),-0.2)
+	player = Player(pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2),25,pygame.Vector2(0,0),pygame.Vector2(0,0),-0.2)
 	global space_ship_pos
 	global space_ship_size
 	space_ship_pos = pygame.Vector2(30, 30)
