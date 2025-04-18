@@ -68,7 +68,7 @@ class Grid:
         self.displayLevel = 1
         
         #initial level load
-        self.loadLevel(self.displayLevel)
+        self.loadLevel()
 
     def drawBlocks(self):
         for y in range(self.height):
@@ -80,8 +80,8 @@ class Grid:
     def drawPlayer(self):
         pygame.draw.rect(screen, (100, 100, 255), pygame.rect.Rect(self.playerX - 25/2, self.playerY - 25/2, 25, 25), 0, 7)
     
-    def loadLevel(self, displayLevel):
-        level = readEntry(FILE_NAME, displayLevel)
+    def loadLevel(self):
+        level = readEntry(FILE_NAME, self.displayLevel)
         #place player
         self.playerGX = level["playerX"]
         self.playerGY = level["playerY"]
@@ -102,7 +102,110 @@ class Grid:
             for x in range(self.width):
                 self.grid[y][x].life = level["grid"][y][x]
                 self.grid[y][x].updateColorByLife()
-                
+
+    def addLevel(self):
+        #move all further levels 1 right
+        #get all levels
+        levels = readData(FILE_NAME)
+        
+        #sort by levels that are further or equal selected
+        furtherLevels = []
+        for level in levels:
+            if level["index"] >= self.displayLevel:
+                furtherLevels.append(level)
+
+        #modify their index to index + 1
+        modifiedLevelsToAdd = []
+        for level in furtherLevels:
+            modifiedLevel = level   #copy level
+            modifiedLevel["index"] = modifiedLevel["index"] + 1 #move right in chain of levels
+            modifiedLevelsToAdd.append(modifiedLevel)   #append to queue to ovveride the previous levels
+
+        #override previous levels with modified levels
+        for modifiedLevel in modifiedLevelsToAdd:
+            addEntry(FILE_NAME, modifiedLevel)
+
+        #create empty level as displaylevel
+        newLevel = {
+            "index": self.displayLevel,
+            "playerX": 0,
+            "playerY": 0,
+            "grid": [[0 for x in range(self.width)] for y in range(self.height)]
+        }
+
+        #override previous displaylevel with empty level
+        addEntry(FILE_NAME, newLevel)
+
+        #update num of levels
+        chainStats = readEntry(FILE_NAME, 0)    #stats of the level chain like num of levels
+        chainStats["numOfLevels"] = chainStats["numOfLevels"] + 1
+        addEntry(FILE_NAME, chainStats)
+
+        #reload display level
+        self.loadLevel()
+
+        print("added level")
+
+    def removeLevel(self):
+        #check if display level isnt last level
+        chainStats = readEntry(FILE_NAME, 0)
+
+        #if display level isnt last level continue (else log issue)
+        if self.displayLevel < chainStats["numOfLevels"]:
+
+            #remove display level
+            removeEntry(FILE_NAME, self.displayLevel)
+
+            #move all further levels 1 left
+            #get all levels
+            levels = readData(FILE_NAME)
+            
+            #sort by levels that are further or equal selected  (can be only further as equal was just deleted)
+            furtherLevels = []
+            for level in levels:
+                if level["index"] >= self.displayLevel:
+                    furtherLevels.append(level)
+
+            #modify their index to index - 1
+            modifiedLevelsToAdd = []
+            for level in furtherLevels:
+                modifiedLevel = level   #copy level
+                modifiedLevel["index"] = modifiedLevel["index"] - 1 #move right in chain of levels
+                modifiedLevelsToAdd.append(modifiedLevel)   #append to queue to ovveride the previous levels
+
+            #override previous levels with modified levels
+            for modifiedLevel in modifiedLevelsToAdd:
+                addEntry(FILE_NAME, modifiedLevel)
+
+            #update num of levels
+            chainStats["numOfLevels"] = chainStats["numOfLevels"] - 1
+            addEntry(FILE_NAME, chainStats)
+
+            #reload display level
+            self.loadLevel()
+
+            print("removed level")
+            
+        else:
+            print("Cant remove last level!")
+
+    def saveLevel(self):
+        #get grid of health
+        healthGrid = [[0 for x in range(self.width)] for y in range(self.height)]
+        for y in range(self.height):
+            for x in range(self.width):
+                healthGrid[y][x] = self.grid[y][x].life
+
+        #create dictionary
+        newDict = {
+            "index": self.displayLevel,
+            "playerX": self.playerGX,
+            "playerY": self.playerGY,
+            "grid": healthGrid
+        }
+
+        #add entry as dirctionary
+        addEntry(FILE_NAME, newDict)
 
 class Block:
     def __init__(self, x, y, size, life):
@@ -125,7 +228,6 @@ class Block:
                 self.color = (72, 95, 225)
     def draw(self):
         pygame.draw.rect(screen, self.color, pygame.rect.Rect(self.x - self.size/2, self.y - self.size/2, self.size, self.size), 0, 7)
-
 
 if __name__ == "__main__":
 
@@ -165,56 +267,36 @@ if __name__ == "__main__":
                     #if can move left
                     if grid.displayLevel - 1 >= 1:
                         #save current level
-
-                        #get grid of health
-                        healthGrid = [[0 for x in range(grid.width)] for y in range(grid.height)]
-                        for y in range(grid.height):
-                            for x in range(grid.width):
-                                healthGrid[y][x] = grid.grid[y][x].life
-                                
-                        #create dictionary
-                        newDict = {
-                            "index": grid.displayLevel,
-                            "playerX": grid.playerGX,
-                            "playerY": grid.playerGY,
-                            "grid": healthGrid
-                        }
-
-                        #add entry as dirctionary
-                        addEntry(FILE_NAME, newDict)
+                        grid.saveLevel()
 
                         #update display level
                         grid.displayLevel -= 1
 
                         #load display level
-                        grid.loadLevel(grid.displayLevel)
+                        grid.loadLevel()
 
                 if event.key == pygame.K_d:
                     if grid.displayLevel + 1 <= readEntry(FILE_NAME, 0)["numOfLevels"]:
                         #save current level
-
-                        #get grid of health
-                        healthGrid = [[0 for x in range(grid.width)] for y in range(grid.height)]
-                        for y in range(grid.height):
-                            for x in range(grid.width):
-                                healthGrid[y][x] = grid.grid[y][x].life
-                                
-                        #create dictionary
-                        newDict = {
-                            "index": grid.displayLevel,
-                            "playerX": grid.playerGX,
-                            "playerY": grid.playerGY,
-                            "grid": healthGrid
-                        }
-
-                        #add entry as dirctionary
-                        addEntry(FILE_NAME, newDict)
+                        grid.saveLevel()
 
                         #update display level
                         grid.displayLevel += 1
 
                         #load new display level
-                        grid.loadLevel(grid.displayLevel)
+                        grid.loadLevel()
+
+                if event.key == pygame.K_1:
+                    #before adding level save current
+                    grid.saveLevel()
+
+                    grid.addLevel()
+
+                if event.key == pygame.K_2:
+                    #before deleting save current
+                    grid.saveLevel()
+
+                    grid.removeLevel()
 
             elif event.type == pygame.MOUSEBUTTONDOWN:
                 if event.button == 1:
