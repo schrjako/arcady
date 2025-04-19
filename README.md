@@ -1,49 +1,53 @@
-# arcady
+# Arcady
 
 ## How to run
 
 ### Prerequisites
-- **git**: You can download it from its official [website](https://git-scm.com/) or using your preferred package manager
-- **python 3.9+**: You can download it from its official [website](https://www.python.org/downloads/) or using your preferred package manager
 
-In order to run the game for the first time follow steps bellow (unix based):
+- **git**: You can download it from its official [website](https://git-scm.com/)
+  or using your preferred package manager.
+- **python 3.9+**: You can download it from its official
+  [website](https://www.python.org/downloads/) or using your preferred package
+  manager.
 
-- **Clone the repository**:
-  ```bash
-  git clone https://github.com/schrjako/arcady.git
-  cd arcady
-  ```
-- **Create virtual enviroment**: Virtual enviroment is useful for keeping installed libraries separated. Create it with ``{python path} -m venv ./venv`` and than activate it with ``source venv/bin/activate``
-- **Download the necessary libraries**: ``pip install -r requirements.txt``
-- **Run main.py**: Run ``python main.py``
+When running stuff on Windows install [git-bash](https://gitforwindows.org/) for
+a somewhat proper commandline interface and working python.
 
-Once you did that, all you need to do to run it again is:
+In order to run the game for the first time follow steps bellow:
 
-- If you closed the terminal **activate virtual enviroment** again: ``source venv/bin/activate``
-- **Run main.py**: ``python main.py``
+1. **Clone the repository**:
+    ```bash
+    git clone git@github.com:schrjako/arcady.git
+    cd arcady
+    ```
 
--**For Windows Git Bash:**
-   ``git clone https://github.com/schrjako/arcady.git``
-  ``cd arcady``
- 
--**Find python path**:
-  ``which python``
+2. **Create virtual enviroment**: Virtual enviroment is useful for keeping
+  installed libraries separated. Create it with
+    ```bash
+    {python path} -m venv ./venv
+    ```
+    and than activate it with
+    ```bash
+    source venv/bin/activate        #   on linux
+    source venv/Scripts/activate    #   on Windows
+    ```
 
-- **Create virtual enviroment**:
-  ``{python path} -m venv venv``
+3. **Download the necessary libraries**:
+    ```bash
+    pip install -r requirements.txt
+    ```
 
--**Activate virtual enviroment**:
-   ``source venv/Scripts/activate``
+4. **Run main.py**:
+    ```bash
+    python main.py
+    ```
 
-- **Download the necessary libraries**:
-   ``pip install -r requirements.txt``
+If the shell doesn't find python you can try to find it with:
+    ```bash
+    which python
+    ```
 
-- **Run main.py**:
-   ``python main.py``
-  
-
-  
-
-
-  
-  
+After the first time when setting up the clone and environment, you just have to
+**activate virtual enviroment** again (`source venv/bin/activate`), install
+aditional requirements (`pip install -r requirements.txt` if `requirements.txt`
+changed) and you're good to go (you can **run main.py**: `python main.py`).
