@@ -32,17 +32,53 @@ class Entity:
 		if self.pos.y > space_ship_size.y + space_ship_pos.x -self.r:
 			self.pos.y = space_ship_size.y + space_ship_pos.x -self.r 
 			self.v.y *= self.k
+
 class Player(Entity):
 	def __init__(self,pos,r,v,a,k):
-		super().__init__(self,pos,r,v,a,k)
-class Turet:
-	def __init__(self,pos):
-		pass
+		self.life = 100
+		super().__init__(pos,r,v,a,k)
+	def take_damage(self,x):
+		self.life -= x
 
-def check_bullet_colision(player,bullets):
-	for bullet in bullets:
-		if(player.pos - bullet.pos).length() <= player.r + bullet.r:
-			bullet.dead = True
+class Bullet(Entity):
+	def __init__(self,pos,r,v,a,k,t):
+		super().__init__(pos,r,v,a,k)
+		self.time = t
+	def tick(self,dt):
+		self.time -= dt
+		if self.time < 0:
+			self.dead = True
+	def check_player_colision(self,player):
+		if(player.pos - self.pos).length() <= player.r + self.r:
+			self.dead = True
+
+class Effect:
+	def __init__(self,pos,time,r):
+		self.pos = pos
+		self.time = time
+		self.r = r
+	def tick(self,dt):
+		self.time -= dt
+	def draw(self,screen):
+		pygame.draw.circle(screen, "orange", self.pos, self.r)
+		
+class Explosion(Effect):
+	def __init__(self,pos,time,r):
+		super().__init__(pos,time,r)
+
+class Turret:
+	def __init__(self,pos):
+		self.pos = pos
+		self.cooldown = 0 
+	def shoot(self,bullets,player):
+		v = (player.pos - self.pos).normalize() * 100
+		bullets.append(Bullet(self.pos.copy(), 5, v, pygame.Vector2(0,0), -0.9,50))
+		self.cooldown = 7
+	def tick(self,dt):
+		self.cooldown -= dt
+	def draw(self,screen):
+		pygame.draw.rect(screen, "lime", pygame.Rect(self.pos.x-20,self.pos.y-20,40,40))
+
 
 def run(screen):
 	pygame.init()
@@ -63,14 +99,9 @@ def run(screen):
 	space_ship_size = pygame.Vector2(screen.get_width()-60, screen.get_height()-60)
 	space_ship = pygame.Rect(space_ship_pos.x, space_ship_pos.y,space_ship_size.x, space_ship_size.y) 
 
+	turrets = [Turret(pygame.Vector2(200,200))]
 	bullets = []
 	explosions = []
-	for i in range(10):
-		e_pos = pygame.Vector2(random.randint(0,screen.get_width()-1),random.randint(0,screen.get_height()-1))
-		e_r = 10
-		e_v = pygame.Vector2(random.randint(0,100),random.randint(0,100))
-		e_a = pygame.Vector2(0,0)
-		bullets.append(Entity(e_pos,e_r,e_v,e_a,-0.9))
 
 
 	while running:
@@ -86,11 +117,12 @@ def run(screen):
 		if keys[pygame.K_a]:player.a = pygame.Vector2(-98,0)
 		#physics
 		player.physics(dt)
-		check_bullet_colision(player,bullets)
 		#entities
 		for i, bullet in enumerate(bullets):
+			bullet.tick(dt)
+			bullet.check_player_colision(player)
 			if bullet.dead:
-				explosions.append([bullet.pos,0.1])
+				explosions.append(Explosion(bullet.pos,0.2,50))
 				bullets.pop(i)
 				continue
 
@@ -98,16 +130,23 @@ def run(screen):
 			bullet.a = max((500 - d),0)/500 * player.a
 			bullet.physics(dt)
 
+		#turrets
+		for turret in turrets:
+			turret.tick(dt)
+			if turret.cooldown < 0:
+				turret.shoot(bullets,player)
 		#render
 		screen.fill("green")
 		pygame.draw.rect(screen, "blue", space_ship)
 		player.draw(screen)
+		for turret in turrets:
+			turret.draw(screen)
 		for bullet in bullets:
 			bullet.draw(screen)
 		for i, explosion in enumerate(explosions):
-			pygame.draw.circle(screen, "orange", explosion[0], 100)
-			explosion[1] -= dt
-			if explosion[1] < 0:
+			explosion.tick(dt)
+			explosion.draw(screen)
+			if explosion.time < 0:
 				explosions.pop(i)
 
 		pygame.display.flip()

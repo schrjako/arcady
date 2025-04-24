@@ -43,46 +43,103 @@
 !_TAG_ROLE_DESCRIPTION!Python!module	namespace	/namespace from where classes\/variables\/functions are imported/
 !_TAG_ROLE_DESCRIPTION!Python!unknown	imported	/imported from the other module/
 !_TAG_ROLE_DESCRIPTION!Python!unknown	indirectlyImported	/classes\/variables\/functions\/modules imported in alternative name/
-Apples	games/snake/Apples.py	/^class Apples:$/;"	c
-HexBoard	games/snake/HexBoard.py	/^class HexBoard:$/;"	c
-HexCell	games/snake/HexCell.py	/^class HexCell:$/;"	c
+Apple	games/snake/spawnables.py	/^class Apple(Spawnable):$/;"	c
+BOMB	games/snake/spawnables.py	/^		BOMB = 0$/;"	v	class:Bomb.States
+Bomb	games/snake/spawnables.py	/^class Bomb(Spawnable):$/;"	c
+CollisionManager	games/snake/collisionManager.py	/^class CollisionManager:$/;"	c
+Effect	games/spacepunk/main.py	/^class Effect:$/;"	c
+Entity	games/spacepunk/main.py	/^class Entity:$/;"	c
+Explosion	games/spacepunk/main.py	/^class Explosion(Effect):$/;"	c
+GAME_OVER	games/snake/main.py	/^		GAME_OVER = 1$/;"	v	class:SnakeGame.States
+HexBoard	games/snake/hex.py	/^class HexBoard:$/;"	c
+HexCell	games/snake/hex.py	/^class HexCell:$/;"	c
 How to run	README.md	/^## How to run$/;"	s	chapter:arcady
+NORMAL	games/snake/main.py	/^		NORMAL = 0$/;"	v	class:SnakeGame.States
+Player	games/spacepunk/main.py	/^class Player(Entity):$/;"	c
 Prerequisites	README.md	/^### Prerequisites$/;"	S	section:arcady""How to run
-Snake	games/snake/Snake.py	/^class Snake:$/;"	c
+Scissors	games/snake/spawnables.py	/^class Scissors(Spawnable):$/;"	c
+Snake	games/snake/snake.py	/^class Snake:$/;"	c
 SnakeGame	games/snake/main.py	/^class SnakeGame:$/;"	c
-__add__	games/snake/HexCell.py	/^	def __add__(self, other):$/;"	m	class:HexCell
-__eq__	games/snake/HexCell.py	/^	def __eq__(self, other) -> bool:$/;"	m	class:HexCell	typeref:typename:bool
-__hash__	games/snake/HexCell.py	/^	def __hash__(self) -> int:$/;"	m	class:HexCell	typeref:typename:int
-__init__	games/snake/Apples.py	/^	def __init__(self, board: HexBoard) -> None:$/;"	m	class:Apples	typeref:typename:None
-__init__	games/snake/HexBoard.py	/^	def __init__(self, radius: int, cell_size: float, offset: tuple[int, int]) -> None:$/;"	m	class:HexBoard	typeref:typename:None
-__init__	games/snake/HexCell.py	/^	def __init__(self, q: int, r: int) -> None:$/;"	m	class:HexCell	typeref:typename:None
-__init__	games/snake/Snake.py	/^	def __init__(self, location: tuple[int, int], length: int, board: HexBoard) -> None:$/;"	m	class:Snake	typeref:typename:None
+Spawnable	games/snake/spawnables.py	/^class Spawnable(ABC):$/;"	c
+SpawnableManager	games/snake/spawnables.py	/^class SpawnableManager:$/;"	c
+States	games/snake/main.py	/^	class States(Enum):$/;"	c	class:SnakeGame
+States	games/snake/spawnables.py	/^	class States(Enum):$/;"	c	class:Bomb
+Turret	games/spacepunk/main.py	/^class Turret:$/;"	c
+WARNING	games/snake/spawnables.py	/^		WARNING = 1$/;"	v	class:Bomb.States
+__add__	games/snake/hex.py	/^	def __add__(self, other):$/;"	m	class:HexCell
+__eq__	games/snake/hex.py	/^	def __eq__(self, other) -> bool:$/;"	m	class:HexCell	typeref:typename:bool
+__hash__	games/snake/hex.py	/^	def __hash__(self) -> int:$/;"	m	class:HexCell	typeref:typename:int
+__init__	games/snake/collisionManager.py	/^	def __init__($/;"	m	class:CollisionManager
+__init__	games/snake/hex.py	/^	def __init__(self, q: int, r: int) -> None:$/;"	m	class:HexCell	typeref:typename:None
+__init__	games/snake/hex.py	/^	def __init__(self, radius: int, cell_size: float, offset: tuple[int, int]) -> None:$/;"	m	class:HexBoard	typeref:typename:None
 __init__	games/snake/main.py	/^	def __init__($/;"	m	class:SnakeGame	typeref:typename:None
-__len__	games/snake/Apples.py	/^	def __len__(self) -> int:$/;"	m	class:Apples	typeref:typename:int
-__mul__	games/snake/HexCell.py	/^	def __mul__(self, scalar: int):$/;"	m	class:HexCell
-__str__	games/snake/HexCell.py	/^	def __str__(self):$/;"	m	class:HexCell
-__sub__	games/snake/HexCell.py	/^	def __sub__(self, other):$/;"	m	class:HexCell
-add_random_apple	games/snake/Apples.py	/^	def add_random_apple(self, snake: Snake) -> None:$/;"	m	class:Apples	typeref:typename:None
+__init__	games/snake/snake.py	/^	def __init__($/;"	m	class:Snake	typeref:typename:None
+__init__	games/snake/spawnables.py	/^	def __init__($/;"	m	class:Bomb
+__init__	games/snake/spawnables.py	/^	def __init__(self, board: HexBoard, snake: Snake):$/;"	m	class:SpawnableManager
+__init__	games/snake/spawnables.py	/^	def __init__(self, position: HexCell) -> None:$/;"	m	class:Apple	typeref:typename:None
+__init__	games/snake/spawnables.py	/^	def __init__(self, position: HexCell):$/;"	m	class:Spawnable
+__init__	games/snake/spawnables.py	/^	def __init__(self, position: HexCell, life_duration: int = 250):$/;"	m	class:Scissors
+__init__	games/spacepunk/main.py	/^	def __init__(self,pos):$/;"	m	class:Turret
+__init__	games/spacepunk/main.py	/^	def __init__(self,pos,r,v,a,k):$/;"	m	class:Entity
+__init__	games/spacepunk/main.py	/^	def __init__(self,pos,r,v,a,k):$/;"	m	class:Player
+__init__	games/spacepunk/main.py	/^	def __init__(self,pos,time,r):$/;"	m	class:Effect
+__init__	games/spacepunk/main.py	/^	def __init__(self,pos,time,r):$/;"	m	class:Explosion
+__mul__	games/snake/hex.py	/^	def __mul__(self, scalar: int):$/;"	m	class:HexCell
+__str__	games/snake/hex.py	/^	def __str__(self):$/;"	m	class:HexCell
+__sub__	games/snake/hex.py	/^	def __sub__(self, other):$/;"	m	class:HexCell
+_handle_spawnable_collision	games/snake/collisionManager.py	/^	def _handle_spawnable_collision(self, spawnable: Spawnable):$/;"	m	class:CollisionManager
 arcady	README.md	/^# arcady$/;"	c
-axial_to_pixel	games/snake/HexCell.py	/^	def axial_to_pixel($/;"	m	class:HexCell	typeref:typename:tuple[float,float]
-distance_to	games/snake/HexCell.py	/^	def distance_to(self, other) -> int:$/;"	m	class:HexCell	typeref:typename:int
-draw	games/snake/Apples.py	/^	def draw(self, surface: pygame.Surface) -> None:$/;"	m	class:Apples	typeref:typename:None
-draw	games/snake/HexBoard.py	/^	def draw(self, surface: pygame.Surface, cell_numbers: bool = False) -> None:$/;"	m	class:HexBoard	typeref:typename:None
-draw	games/snake/Snake.py	/^	def draw(self, surface: pygame.Surface):$/;"	m	class:Snake
+check_bullet_colision	games/spacepunk/main.py	/^def check_bullet_colision(player,bullets):$/;"	f
+check_ship_colision	games/spacepunk/main.py	/^	def check_ship_colision(self):$/;"	m	class:Entity
+distance_to	games/snake/hex.py	/^	def distance_to(self, other) -> int:$/;"	m	class:HexCell	typeref:typename:int
+draw	games/snake/hex.py	/^	def draw(self, surface: pygame.Surface, cell_numbers: bool = False) -> None:$/;"	m	class:HexBoard	typeref:typename:None
+draw	games/snake/snake.py	/^	def draw(self, surface: pygame.Surface):$/;"	m	class:Snake
+draw	games/snake/spawnables.py	/^	def draw(self, surface, board):$/;"	m	class:Apple
+draw	games/snake/spawnables.py	/^	def draw(self, surface, board):$/;"	m	class:Bomb
+draw	games/snake/spawnables.py	/^	def draw(self, surface, board):$/;"	m	class:Scissors
+draw	games/snake/spawnables.py	/^	def draw(self, surface: pygame.Surface):$/;"	m	class:SpawnableManager
+draw	games/snake/spawnables.py	/^	def draw(self, surface: pygame.Surface, board: HexBoard) -> None:$/;"	m	class:Spawnable	typeref:typename:None
+draw	games/spacepunk/main.py	/^	def draw(self,screen):$/;"	m	class:Effect
+draw	games/spacepunk/main.py	/^	def draw(self,screen):$/;"	m	class:Entity
+draw	games/spacepunk/main.py	/^	def draw(self,screen):$/;"	m	class:Turret
+draw_arrow	games/spacepunk/main.py	/^	def draw_arrow(self, screen):$/;"	m	class:Entity
 draw_cube	games/snake/utils.py	/^def draw_cube($/;"	f
+draw_game_over	games/snake/main.py	/^	def draw_game_over(self, message: str) -> None:$/;"	m	class:SnakeGame	typeref:typename:None
+draw_reg_polygon	games/snake/utils.py	/^def draw_reg_polygon($/;"	f
 draw_text	menu/menu.py	/^def draw_text(screen: pg.Surface, text: str, pos: tuple[int, int], font: pg.font.Font, selected:/;"	f	typeref:typename:None
-generate_board	games/snake/HexBoard.py	/^	def generate_board(self) -> None:$/;"	m	class:HexBoard	typeref:typename:None
-get_neighbour	games/snake/HexBoard.py	/^	def get_neighbour(self, cell: HexCell, direction: int) -> HexCell:$/;"	m	class:HexBoard	typeref:typename:HexCell
-get_polygon_points	games/snake/HexCell.py	/^	def get_polygon_points($/;"	m	class:HexCell	typeref:typename:list[tuple[float,float]]
-head	games/snake/Snake.py	/^	def head(self) -> HexCell:$/;"	m	class:Snake	typeref:typename:HexCell
+generate_board	games/snake/hex.py	/^	def generate_board(self) -> None:$/;"	m	class:HexBoard	typeref:typename:None
+get	games/snake/spawnables.py	/^	def get(self, cls: type[Spawnable]) -> list[Spawnable]:$/;"	m	class:SpawnableManager	typeref:typename:list[Spawnable]
+get_center	games/snake/hex.py	/^	def get_center(self, size: float, offset: tuple[int, int]) -> tuple[float, float]:$/;"	m	class:HexCell	typeref:typename:tuple[float,float]
+get_neighbour	games/snake/hex.py	/^	def get_neighbour(self, cell: HexCell, direction: int) -> HexCell:$/;"	m	class:HexBoard	typeref:typename:HexCell
+get_occupied_cells	games/snake/spawnables.py	/^	def get_occupied_cells(self) -> set:$/;"	m	class:SpawnableManager	typeref:typename:set
+get_polygon_points	games/snake/hex.py	/^	def get_polygon_points($/;"	m	class:HexCell	typeref:typename:list[tuple[float,float]]
+grow	games/snake/snake.py	/^	def grow(self) -> None:$/;"	m	class:Snake	typeref:typename:None
+handle_collisions	games/snake/collisionManager.py	/^	def handle_collisions(self):$/;"	m	class:CollisionManager
+head	games/snake/snake.py	/^	def head(self) -> HexCell:$/;"	m	class:Snake	typeref:typename:HexCell
+initiate_game_over	games/snake/main.py	/^	def initiate_game_over(self, message: str) -> None:$/;"	m	class:SnakeGame	typeref:typename:None
+kill	games/snake/spawnables.py	/^	def kill(self) -> None:$/;"	m	class:Spawnable	typeref:typename:None
 main	main.py	/^def main():$/;"	f
-move	games/snake/Snake.py	/^	def move(self) -> None:$/;"	m	class:Snake	typeref:typename:None
+move	games/snake/snake.py	/^	def move(self) -> None:$/;"	m	class:Snake	typeref:typename:None
+path	games/snake/main.py	/^path = ".\/games\/snake"$/;"	v
 pg	menu/menu.py	/^import pygame as pg$/;"	I	nameref:module:pygame
+physics	games/spacepunk/main.py	/^	def physics(self,dt):$/;"	m	class:Entity
 run	games/snake/main.py	/^	def run(self) -> None:$/;"	m	class:SnakeGame	typeref:typename:None
 run	games/snake/main.py	/^def run(screen: pygame.Surface):$/;"	f
-s	games/snake/HexCell.py	/^	def s(self):$/;"	m	class:HexCell
+run	games/spacepunk/main.py	/^def run(screen):$/;"	f
+s	games/snake/hex.py	/^	def s(self):$/;"	m	class:HexCell
 screen	games/snake/main.py	/^	screen = pygame.display.set_mode((800, 600))$/;"	v
+shoot	games/spacepunk/main.py	/^	def shoot(self,bullets,player):$/;"	m	class:Turret
 show_menu	menu/menu.py	/^def show_menu(screen: pg.Surface, options: list[str]) -> str:$/;"	f	typeref:typename:str
 snake	main.py	/^import games.snake.main as snake$/;"	I	nameref:module:games.snake.main
-turn_left	games/snake/Snake.py	/^	def turn_left(self) -> None:$/;"	m	class:Snake	typeref:typename:None
-turn_right	games/snake/Snake.py	/^	def turn_right(self) -> None:$/;"	m	class:Snake	typeref:typename:None
+spacepunk	main.py	/^import games.spacepunk.main as spacepunk$/;"	I	nameref:module:games.spacepunk.main
+spawn_random	games/snake/spawnables.py	/^	def spawn_random(self, spawnable_cls: type[Spawnable], *args, **kwargs) -> None:$/;"	m	class:SpawnableManager	typeref:typename:None
+take_damage	games/spacepunk/main.py	/^	def take_damage(self,x):$/;"	m	class:Player
+tick	games/spacepunk/main.py	/^	def tick(self,dt):$/;"	m	class:Effect
+tick	games/spacepunk/main.py	/^	def tick(self,dt):$/;"	m	class:Turret
+turn_left	games/snake/snake.py	/^	def turn_left(self) -> None:$/;"	m	class:Snake	typeref:typename:None
+turn_right	games/snake/snake.py	/^	def turn_right(self) -> None:$/;"	m	class:Snake	typeref:typename:None
+update	games/snake/snake.py	/^	def update(self) -> None:$/;"	m	class:Snake	typeref:typename:None
+update	games/snake/spawnables.py	/^	def update(self) -> None:$/;"	m	class:Spawnable	typeref:typename:None
+update	games/snake/spawnables.py	/^	def update(self):$/;"	m	class:Bomb
+update	games/snake/spawnables.py	/^	def update(self):$/;"	m	class:Scissors
+update	games/snake/spawnables.py	/^	def update(self):$/;"	m	class:SpawnableManager
