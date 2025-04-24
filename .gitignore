@@ -1,3 +1,9 @@
+# Nix shell
+shell.nix
+
+# Tags for vim
+tags
+
 # Vscode folder
 .vscode
 
