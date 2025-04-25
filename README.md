@@ -57,6 +57,10 @@ changed) and you're good to go (you can **run main.py**: `python main.py`).
 
 ## Setting up ssh keys
 
+For a more in-depth explanation you can read github's [documentation on ssh key
+generation](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent),
+but the guide below should be enough.
+
 If  you're working on a new computer, you'll have to generate and add new ssh
 keys for that machine. To check whether you already have ssh keys run
     ```bash
@@ -85,7 +89,8 @@ When you have your ssh key, you can add it to your github account. The public
 part of the key (which you want to share with github) is stored under
 `~/.ssh/id_X.pub`. You can copy it to your clipboard by opening it in a text
 editor, or by running `cat ~/.ssh/id_X.pub | xclip -i -selection clipboard` on
-Linux and `cat ~/.ssh/id_X.pub | clip` on Windows.
+Linux, `cat ~/.ssh/id_X.pub | clip` on Windows, and `cat ~/.ssh/id_X.pub |
+pbcopy` on Mac.
 
 You can now add the public part of your key to your account in the account
 settings (top right icon -> *settings*) -> *SSH and GPG keys* -> *New SSH key*.
