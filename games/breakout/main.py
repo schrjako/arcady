@@ -34,6 +34,8 @@ class Colors:
 class Breakout:
 	def __init__(self, screen: pygame.Surface):
 		self.screen: pygame.Surface = screen
+		self.menu_size = self.screen.get_size()
+		self.resize_screen((700, 650))
 
 		self.glow_surf: pygame.Surface = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
 		self.draw_surf: pygame.Surface = pygame.Surface(self.screen.get_size())
@@ -53,12 +55,12 @@ class Breakout:
 		}
 
 		self.metrics: Metrics = Metrics(
-			pygame.Rect(45, 5, self.screen.get_width() - 45 * 2, 60), self.colors.text, self.colors.lives
+			pygame.Rect(35, 5, self.screen.get_width() - 35 * 2, 60), self.colors.text, self.colors.lives
 		)
 
 		self.paddle: Paddle = Paddle(
 			self.screen.get_width(),
-			self.screen.get_height() - 100,
+			self.screen.get_height() - 60,
 			width=80,
 			height=15,
 			speed=8,
@@ -70,8 +72,11 @@ class Breakout:
 		self.new_level()
 		self.serve()
 
+	def resize_screen(self, dimensions: tuple[int, int]):
+		self.screen = pygame.display.set_mode(dimensions)
+
 	def new_level(self):
-		self.spawn_blocks(rows=5, columns=9, start_y=self.metrics.rect.bottom, width=75, height=35, padding=5)
+		self.spawn_blocks(rows=7, columns=8, start_y=self.metrics.rect.bottom, width=75, height=35, padding=5)
 
 	def serve(self):
 		"""
@@ -228,6 +233,8 @@ class Breakout:
 
 			pygame.display.flip()
 			self.clock.tick(60)
+
+		self.resize_screen(self.menu_size)
 
 
 def run(screen: pygame.Surface):
