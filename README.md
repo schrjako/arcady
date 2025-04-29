@@ -1,5 +1,7 @@
 # Arcady
 
+A project featuring a set of arcade-inspired games with an integrated game selection menu. Developed as part of the programming club at Gimnazija Vič.
+
 ## How to run
 
 ### Prerequisites
