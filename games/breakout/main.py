@@ -5,6 +5,8 @@ from .paddle import Paddle
 from .block import Block
 from .metrics import Metrics
 from .utils import glow, limit
+from .particle import Particle, ParticleManager
+from .sound import SoundManager
 
 import random
 from typing import Literal
@@ -110,6 +112,7 @@ class Breakout:
 							height,
 						),
 						color=self.colors.block["normal"][i],
+						sound=f"block_hit_{rows - i}",
 					)
 				)
 
@@ -179,12 +182,14 @@ class Breakout:
 				self.ball.update()
 
 				# Bounce from walls
+				bounced = False
+
 				if (
 					self.ball.center.x <= self.ball.radius
 					or self.ball.center.x >= self.screen.get_width() - self.ball.radius
 				):
 					self.ball.direction.x *= -1
-					self.ball.bounce()
+					bounced = True
 
 				self.ball.center.x = limit(
 					self.ball.center.x, self.ball.radius, self.screen.get_width() - self.ball.radius
@@ -192,9 +197,18 @@ class Breakout:
 
 				if self.ball.center.y <= self.ball.radius:
 					self.ball.direction.y *= -1
-					self.ball.bounce()
+					bounced = True
 
 				self.ball.center.y = max(self.ball.center.y, self.ball.radius)
+
+				if bounced:
+					self.ball.bounce()
+					SoundManager().play("wall_hit")
+
+					def draw_glow(particle: Particle, surface: pygame.Surface, glow_surf: pygame.Surface):
+						pygame.draw.circle(glow_surf, self.ball.color, particle.data["position"], 20)
+
+					ParticleManager().spawn(10, draw_glow, [], data={"position": self.ball.center.copy()})
 
 				# Bounce from paddle
 				self.paddle.bounce(self.ball)
@@ -204,6 +218,8 @@ class Breakout:
 					if b.bounce(self.ball):
 						self.metrics.score += 1
 						b.kill()
+
+				ParticleManager().update()
 
 				# Check for lose
 				if self.ball.center.y >= self.screen.get_height() - self.ball.radius:
@@ -232,6 +248,8 @@ class Breakout:
 
 			if self.state == "gameover":
 				self.draw_game_over(self.draw_surf)
+
+			ParticleManager().draw(self.draw_surf, self.glow_surf)
 
 			self.screen.blit(glow(self.glow_surf, falloff=10, quality=0.5), (0, 0), special_flags=pygame.BLEND_RGB_ADD)
 

@@ -2,6 +2,7 @@ import pygame
 
 from .sprite import Sprite
 from .ball import Ball
+from .sound import SoundManager
 
 from typing import Literal
 
@@ -51,3 +52,4 @@ class Paddle(Sprite):
 			ball.direction = pygame.Vector2(0, -1).rotate(angle)
 			ball.center.y = self.position.y - ball.radius  # Pop it out of the paddle to insure no clipping
 			ball.bounce()
+			SoundManager().play("paddle_hit")

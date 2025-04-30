@@ -1,6 +1,22 @@
 import pygame
+
 from PIL import Image, ImageFilter
-from typing import Union
+from typing import Union, Callable, TypeVar, Any
+from functools import wraps
+
+T = TypeVar("T")
+
+
+def singleton(cls: Callable[..., T]) -> Callable[..., T]:
+	instances: dict[Callable[..., T], T] = {}
+
+	@wraps(cls)
+	def get_instance(*args: Any, **kwargs: Any) -> T:
+		if cls not in instances:
+			instances[cls] = cls(*args, **kwargs)
+		return instances[cls]
+
+	return get_instance
 
 
 def no_null(a: float):
