@@ -1,3 +1,10 @@
+
+#todo - level transition animation
+#todo - player move animation (trail effect)
+#todo - proper levels
+
+#------------------------------------------------------------------------------------------------------
+
 import pygame
 import random
 
@@ -47,12 +54,15 @@ def drawAlphaRect(surface, color, rect, width=0, border_radius=0, border_top_lef
 
 
 class Block:
-    def __init__(self, x, y, size, life):
+    def __init__(self, x, y, size, life, gx, gy):
         self.x = x
         self.y = y
         self.size = size
 
         self.life = life
+
+        self.gx = gx
+        self.gy = gy
 
         self.bottomColor = (150, 150, 150)
         self.topColor = (255, 255, 255)
@@ -191,10 +201,9 @@ class Player:
                 #update color
                 self.gs.blockGrid.grid[self.gy][self.gx].updateColorByLife()
             else:
-                #create new falling block animation object from parent block
-                fallingBlock = FallingBlock(self.gs, self.gs.blockGrid.grid[self.gy][self.gx], (i/movements) * 0.5)
-
-                self.gs.blockGrid.grid[self.gy][self.gx] = None
+                #queue a new falling block animation object from parent block
+                self.gs.fallingBlocksQueue.append(self.gs.blockGrid.grid[self.gy][self.gx])
+                self.gs.blockGrid.grid[self.gy][self.gx].life = 0
 
             #move to new
             self.gx += dir[0]
@@ -208,12 +217,19 @@ class Player:
         movements = 0
         igx = self.gx
         igy = self.gy
-        #move igx and igy in dir direction until next tile is either out of array or none
+
+        #move igx and igy in dir direction until next tile is either out of array ,none or has no health
+        #check for in array
         while (igy + dir[1] >= 0 and igy + dir[1] < self.gs.blockGrid.height) and (igx + dir[0] >= 0 and igx + dir[0] < self.gs.blockGrid.width):
+            #check for none
             if self.gs.blockGrid.grid[igy + dir[1]][igx + dir[0]] != None:
-                igx += dir[0]
-                igy += dir[1]
-                movements += 1
+                #check for life > 0
+                if self.gs.blockGrid.grid[igy + dir[1]][igx + dir[0]].life != 0:
+                    igx += dir[0]
+                    igy += dir[1]
+                    movements += 1
+                else:
+                    break
             else:
                 break
         
@@ -233,6 +249,9 @@ class GameState:
 
         #array of falling block animation objects
         self.fallingBlocks = []
+        self.fallingBlocksQueue = []
+        self.currFallQueueTime = 0
+        self.reqFallQueueTime = 60  #in frames
 
         #get scene init vars
         self.initDict = bldr.readEntry(FILE_NAME, 0)
@@ -242,6 +261,25 @@ class GameState:
 
         #load level delay function call stop
         self.hasCalledLoad = False
+
+    def updateFallingBlockQueue(self):
+        self.currFallQueueTime += 1
+
+        if self.currFallQueueTime >= self.reqFallQueueTime and len(self.fallingBlocksQueue) > 0:
+            #spanw new block, first in queue
+            newFallingBlock = FallingBlock(self, self.fallingBlocksQueue[0], 0)
+
+            #delete parent block
+            self.blockGrid.grid[self.fallingBlocksQueue[0].gy][self.fallingBlocksQueue[0].gx] = None
+
+            #remove from queue
+            self.fallingBlocksQueue.pop(0)
+
+            #reset cooldown
+            self.currFallQueueTime = 0
+
+            #check for win after the parent block gets deleted
+            self.checkForWin()
 
     def drawBlocksOrdered(self, dT):
 
@@ -294,7 +332,7 @@ class GameState:
                 newX = self.blockGrid.topLeftX + x * self.blockGrid.size + x * self.blockGrid.margin
                 newY = self.blockGrid.topLeftY + y * self.blockGrid.size + y * self.blockGrid.margin
                 #generate new block
-                self.blockGrid.grid[y][x] = Block(newX, newY, self.blockGrid.size, 1)
+                self.blockGrid.grid[y][x] = Block(newX, newY, self.blockGrid.size, 1, x, y)
 
         #override grid
         for y in range(self.blockGrid.height):
@@ -384,8 +422,8 @@ while running:
             movements = gs.player.findFurthestBlock(dir)
             gs.player.move(dir, movements)
 
-            #check for win
-            gs.checkForWin()
+    #update falling animation queue
+    gs.updateFallingBlockQueue()
 
     #draw stuff
     gs.drawBlocksOrdered(dTs)
