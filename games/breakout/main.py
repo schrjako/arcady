@@ -76,7 +76,7 @@ class Breakout:
 		self.screen = pygame.display.set_mode(dimensions)
 
 	def new_level(self):
-		self.spawn_blocks(rows=7, columns=8, start_y=self.metrics.rect.bottom, width=75, height=35, padding=5)
+		self.spawn_blocks(rows=6, columns=8, start_y=self.metrics.rect.bottom, width=75, height=35, padding=5)
 
 	def serve(self):
 		"""
@@ -87,7 +87,11 @@ class Breakout:
 		self.paddle.position.x = self.screen.get_width() / 2
 
 		self.ball = Ball(
-			10, self.paddle.position - pygame.Vector2(0, 20), pygame.Vector2(0, -1).rotate(random.randint(-30, 30)), 7
+			radius=10,
+			position=self.paddle.position - pygame.Vector2(0, 20),
+			direction=pygame.Vector2(0, -1).rotate(random.randint(-30, 30)),
+			speed=7,
+			color=self.colors.ball,
 		)
 
 	def spawn_blocks(self, rows: int, columns: int, start_y: float, width: float, height: float, padding: float):
@@ -180,6 +184,7 @@ class Breakout:
 					or self.ball.center.x >= self.screen.get_width() - self.ball.radius
 				):
 					self.ball.direction.x *= -1
+					self.ball.bounce()
 
 				self.ball.center.x = limit(
 					self.ball.center.x, self.ball.radius, self.screen.get_width() - self.ball.radius
@@ -187,6 +192,7 @@ class Breakout:
 
 				if self.ball.center.y <= self.ball.radius:
 					self.ball.direction.y *= -1
+					self.ball.bounce()
 
 				self.ball.center.y = max(self.ball.center.y, self.ball.radius)
 

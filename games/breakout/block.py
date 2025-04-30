@@ -56,11 +56,13 @@ class Block(Sprite):
 
 				if inside(p.x, ball.center.x, line[0].x) and inside(p.y, ball.center.y, line[0].y):
 					ball.direction.reflect_ip((line[0] - line[1]).rotate(90))
+					ball.bounce()
 					return True
 
 			for i in range(len(points)):
 				if (points[i] - ball.center).length() <= ball.radius:
 					ball.direction.reflect_ip(pygame.Vector2(points[i] - ball.center))
+					ball.bounce()
 					return True
 
 		return False

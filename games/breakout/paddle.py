@@ -50,3 +50,4 @@ class Paddle(Sprite):
 			angle = (ball.center.x - self.position.x) / self.width * 2 * 60
 			ball.direction = pygame.Vector2(0, -1).rotate(angle)
 			ball.center.y = self.position.y - ball.radius  # Pop it out of the paddle to insure no clipping
+			ball.bounce()
