@@ -11,9 +11,6 @@ class Sprite(ABC):
 	def draw(self, surface: pygame.Surface, glow_surf: pygame.Surface) -> None:
 		pass
 
-	def update(self) -> None:
-		pass
-
 	def kill(self):
 		self.alive = False
 

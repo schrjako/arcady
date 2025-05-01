@@ -21,7 +21,7 @@ def singleton(cls: Callable[..., T]) -> Callable[..., T]:
 
 def no_null(a: float):
 	if int(a) == 0:
-		return 1 * 1 if a > 0 else -1
+		return 1 if a > 0 else -1
 
 	return a
 

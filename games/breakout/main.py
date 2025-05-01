@@ -1,8 +1,8 @@
 import pygame
 
-from .ball import Ball
+from .ball import BallManager
 from .paddle import Paddle
-from .block import Block
+from .block import Block, BlockWithBall
 from .metrics import Metrics
 from .utils import glow, limit
 from .particle import Particle, ParticleManager
@@ -40,7 +40,7 @@ class Breakout:
 		self.resize_screen((700, 650))
 
 		self.glow_surf: pygame.Surface = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
-		self.draw_surf: pygame.Surface = pygame.Surface(self.screen.get_size())
+		self.draw_surf: pygame.Surface = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
 
 		self.clock: pygame.time.Clock = pygame.time.Clock()
 		self.running: bool = True
@@ -63,12 +63,11 @@ class Breakout:
 		self.paddle: Paddle = Paddle(
 			self.screen.get_width(),
 			self.screen.get_height() - 60,
-			width=80,
+			width=100,
 			height=15,
 			speed=8,
 			color=self.colors.paddle,
 		)
-		self.ball: Ball
 		self.blocks: list[Block]
 
 		self.new_level()
@@ -88,12 +87,11 @@ class Breakout:
 
 		self.paddle.position.x = self.screen.get_width() / 2
 
-		self.ball = Ball(
-			radius=10,
-			position=self.paddle.position - pygame.Vector2(0, 20),
-			direction=pygame.Vector2(0, -1).rotate(random.randint(-30, 30)),
-			speed=7,
-			color=self.colors.ball,
+		BallManager().balls = []  # Better safe than sorry
+		BallManager().spawn(
+			self.paddle.position - pygame.Vector2(0, 20),
+			pygame.Vector2(0, -1).rotate(random.randint(-30, 30)),
+			self.colors.ball,
 		)
 
 	def spawn_blocks(self, rows: int, columns: int, start_y: float, width: float, height: float, padding: float):
@@ -103,8 +101,9 @@ class Breakout:
 
 		for i in range(rows):
 			for j in range(columns):
+				type = BlockWithBall if random.randint(0, 17) == 0 else Block
 				self.blocks.append(
-					Block(
+					type(
 						pygame.Rect(
 							start_x + j * (width + padding),
 							start_y + i * (height + padding),
@@ -163,7 +162,7 @@ class Breakout:
 						self.running = False
 
 			self.screen.fill(self.colors.background)
-			self.draw_surf.fill(self.colors.background)
+			self.draw_surf.fill((0, 0, 0, 0))
 			self.glow_surf.fill((0, 0, 0, 0))
 
 			if self.state == "serving":
@@ -178,51 +177,51 @@ class Breakout:
 				if keys[pygame.K_RIGHT]:
 					self.paddle.move(1)
 
-				# Update ball position based on velocity
-				self.ball.update()
+				# Update balls' position based on velocity and remove dead
+				BallManager().update()
 
-				# Bounce from walls
-				bounced = False
+				for ball in BallManager().balls:
+					# Bounce from walls
+					bounced = False
 
-				if (
-					self.ball.center.x <= self.ball.radius
-					or self.ball.center.x >= self.screen.get_width() - self.ball.radius
-				):
-					self.ball.direction.x *= -1
-					bounced = True
+					if ball.center.x <= ball.radius or ball.center.x >= self.screen.get_width() - ball.radius:
+						ball.direction.x *= -1
+						bounced = True
 
-				self.ball.center.x = limit(
-					self.ball.center.x, self.ball.radius, self.screen.get_width() - self.ball.radius
-				)
+					ball.center.x = limit(ball.center.x, ball.radius, self.screen.get_width() - ball.radius)
 
-				if self.ball.center.y <= self.ball.radius:
-					self.ball.direction.y *= -1
-					bounced = True
+					if ball.center.y <= ball.radius:
+						ball.direction.y *= -1
+						bounced = True
 
-				self.ball.center.y = max(self.ball.center.y, self.ball.radius)
+					ball.center.y = max(ball.center.y, ball.radius)
 
-				if bounced:
-					self.ball.bounce()
-					SoundManager().play("wall_hit")
+					if bounced:
+						ball.bounce_anim()
+						SoundManager().play("wall_hit")
 
-					def draw_glow(particle: Particle, surface: pygame.Surface, glow_surf: pygame.Surface):
-						pygame.draw.circle(glow_surf, self.ball.color, particle.data["position"], 20)
+						def draw_glow(particle: Particle, surface: pygame.Surface, glow_surf: pygame.Surface):
+							pygame.draw.circle(glow_surf, particle.data["color"], particle.data["position"], 20)
 
-					ParticleManager().spawn(10, draw_glow, [], data={"position": self.ball.center.copy()})
+						ParticleManager().spawn(
+							10, draw_glow, [], data={"position": ball.center.copy(), "color": ball.color}
+						)
 
-				# Bounce from paddle
-				self.paddle.bounce(self.ball)
+					# Bounce from paddle
+					self.paddle.bounce(ball)
 
-				# Bounce from blocks
-				for b in self.blocks:
-					if b.bounce(self.ball):
-						self.metrics.score += 1
-						b.kill()
+					# Bounce from blocks
+					for b in self.blocks:
+						if b.bounce(ball):
+							self.metrics.score += 1
+							b.kill()
 
-				ParticleManager().update()
+					# Check if the ball fell out of the screen
+					if ball.center.y >= self.screen.get_height() - ball.radius:
+						ball.kill()
 
 				# Check for lose
-				if self.ball.center.y >= self.screen.get_height() - self.ball.radius:
+				if len(BallManager().balls) == 0:
 					self.metrics.lives -= 1
 
 					if self.metrics.lives <= 0:
@@ -230,19 +229,22 @@ class Breakout:
 					else:
 						self.serve()
 
+				# Remove all dead blocks
+				self.blocks = [b for b in self.blocks if b.is_alive()]
+
 				# Check for win
 				if len(self.blocks) == 0:
 					self.new_level()
 
-				# Remove all dead blocks
-				self.blocks = [b for b in self.blocks if b.is_alive()]
+			# Update particles (must outside of "playing" so particles don't get stuck)
+			ParticleManager().update()
 
 			# Draw
 			# =======================================================
 
 			self.metrics.draw(self.draw_surf, self.glow_surf)
 			self.paddle.draw(self.draw_surf, self.glow_surf)
-			self.ball.draw(self.draw_surf, self.glow_surf)
+			BallManager().draw(self.draw_surf, self.glow_surf)
 			for b in self.blocks:
 				b.draw(self.draw_surf, self.glow_surf)
 

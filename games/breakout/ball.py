@@ -1,9 +1,29 @@
 import pygame
 
 from .sprite import Sprite
-from .utils import no_null, limit
+from .utils import no_null, limit, singleton
 
 import math
+
+
+@singleton
+class BallManager:
+	def __init__(self):
+		self.balls: list[Ball] = []
+		self.ball_radius: float = 10
+		self.ball_speed: float = 6
+
+	def spawn(self, position: pygame.Vector2, direction: pygame.Vector2, color: pygame.Color):
+		self.balls.append(Ball(self.ball_radius, position, direction, self.ball_speed, color))
+
+	def update(self):
+		for ball in self.balls:
+			ball.update()
+		self.balls = [b for b in self.balls if b.is_alive()]
+
+	def draw(self, surface: pygame.Surface, glow_surf: pygame.Surface) -> None:
+		for ball in self.balls:
+			ball.draw(surface, glow_surf)
 
 
 class Ball(Sprite):
@@ -34,7 +54,7 @@ class Ball(Sprite):
 	def impulse_stretch(self, impulse: float) -> None:
 		self.stretch_vel += impulse
 
-	def bounce(self) -> None:
+	def bounce_anim(self) -> None:
 		self.impulse_stretch(self.speed * -0.03)
 
 	def update(self) -> None:
@@ -68,6 +88,7 @@ class Ball(Sprite):
 			ball_surf.fill((0, 0, 0, 0))
 			pygame.draw.ellipse(ball_surf, self.color, ball_surf.get_rect())
 			ball_surf = pygame.transform.rotate(ball_surf, self.direction.angle_to((1, 0)))
+
 			s.blit(ball_surf, self.center - (self.radius, self.radius))
 
 		# Tail
