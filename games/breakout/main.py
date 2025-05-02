@@ -37,7 +37,7 @@ class Breakout:
 	def __init__(self, screen: pygame.Surface):
 		self.screen: pygame.Surface = screen
 		self.menu_size = self.screen.get_size()
-		self.resize_screen((700, 650))
+		self.resize_screen((700, 750))
 
 		self.glow_surf: pygame.Surface = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
 		self.draw_surf: pygame.Surface = pygame.Surface(self.screen.get_size(), pygame.SRCALPHA)
@@ -65,7 +65,9 @@ class Breakout:
 			self.screen.get_height() - 60,
 			width=100,
 			height=15,
-			speed=8,
+			speed=10,
+			acc=2,
+			resistance=0.8,
 			color=self.colors.paddle,
 		)
 		self.blocks: list[Block]
@@ -179,6 +181,9 @@ class Breakout:
 
 				# Update balls' position based on velocity and remove dead
 				BallManager().update()
+
+				# Update paddle's location
+				self.paddle.update()
 
 				for ball in BallManager().balls:
 					# Bounce from walls

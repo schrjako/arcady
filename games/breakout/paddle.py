@@ -8,12 +8,25 @@ from typing import Literal
 
 
 class Paddle(Sprite):
-	def __init__(self, screen_width: int, y: float, width: float, height: float, speed: float, color: pygame.Color):
+	def __init__(
+		self,
+		screen_width: int,
+		y: float,
+		width: float,
+		height: float,
+		speed: float,
+		acc: float,
+		resistance: float,
+		color: pygame.Color,
+	):
 		super().__init__()
 
 		self.screen_width = screen_width
 
-		self.speed: float = speed
+		self.max_speed: float = speed
+		self.acc: float = acc
+		self.resistance: float = resistance
+		self.velocity = 0
 
 		self.position: pygame.Vector2 = pygame.Vector2(screen_width / 2, y)
 		self.width = width
@@ -35,14 +48,17 @@ class Paddle(Sprite):
 				border_top_right_radius=0,
 			)
 
+	def update(self):
+		self.position += pygame.Vector2(self.velocity, 0)
+		self.position.x = max(min(self.position.x, self.screen_width - self.width / 2), self.width / 2)
+		self.velocity *= self.resistance
+
 	def move(self, dir: Literal[-1, 1]):
 		"""
-		Moves the paddle in the specified direction.
 		Parameters:
 		dir: The direction to move the paddle; 1 to right, -1 to left.
 		"""
-		self.position += pygame.Vector2(self.speed * dir, 0)
-		self.position.x = max(min(self.position.x, self.screen_width - self.width / 2), self.width / 2)
+		self.velocity += self.acc * dir
 
 	def bounce(self, ball: Ball):
 		if (

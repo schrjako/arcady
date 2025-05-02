@@ -61,11 +61,22 @@ class Ball(Sprite):
 		# 1. Move
 		self.center += self.direction * self.speed
 
+		# 1.5 Adjust direction to avoid getting stuck if too horizontal
+		def sign(a: float):
+			return 1 if a >= 0 else -1
+
+		adjust: float = 0
+		threshold: float = math.cos(math.radians(10))
+		if abs(self.direction.x) > threshold:
+			adjust = 0.5 * sign(self.direction.x) * sign(self.direction.y)
+
+		self.direction.rotate_ip(adjust)
+
 		# 2. Compute speed-based desired target
 		speed_target = 1.0 + self.speed * self._MOVE_STRETCH
 		speed_target = limit(speed_target, self._MIN_STRETCH, self._MAX_STRETCH)
 
-		# 3. Slowly adjust actual stretch target (← delayed response!)
+		# 3. Slowly adjust actual stretch target
 		self.stretch_target += (speed_target - self.stretch_target) * self._TARGET_DECAY
 
 		# 4. Spring toward target
@@ -92,4 +103,4 @@ class Ball(Sprite):
 			s.blit(ball_surf, self.center - (self.radius, self.radius))
 
 		# Tail
-		pygame.draw.line(glow_surf, self.color, self.center, self.center - self.direction * self.speed * 7, width=7)
+		pygame.draw.line(glow_surf, self.color, self.center, self.center - self.direction * self.speed * 8, width=8)
