@@ -52,8 +52,8 @@ class Breakout:
 		self.draw_surf.set_colorkey(self.colors.background)
 
 		self.fonts: dict[str, pygame.font.Font] = {
-			"large": pygame.font.Font(str(Path(__file__).parent / "assets/04B_03.ttf"), 40),
-			"smaller": pygame.font.Font(str(Path(__file__).parent / "assets/04B_03.ttf"), 28),
+			"large": pygame.font.Font(str(Path(__file__).parent / "assets" / "04B_03.ttf"), 40),
+			"smaller": pygame.font.Font(str(Path(__file__).parent / "assets" / "04B_03.ttf"), 28),
 		}
 
 		self.metrics: Metrics = Metrics(
@@ -141,6 +141,12 @@ class Breakout:
 		score_val = self.fonts["smaller"].render(f"{self.metrics.score:05d}", True, self.colors.text)
 		surface.blit(score_text, (box_rect.left + 30, box_rect.top + 90))
 		surface.blit(score_val, (box_rect.left + 30, box_rect.top + 120))
+
+		# BEST SCORE
+		score_text = self.fonts["smaller"].render("BEST", True, self.colors.text)
+		score_val = self.fonts["smaller"].render(f"{self.metrics.best_score():05d}", True, self.colors.text)
+		surface.blit(score_text, (box_rect.centerx + 30, box_rect.top + 90))
+		surface.blit(score_val, (box_rect.centerx + 30, box_rect.top + 120))
 
 		# ENTER text
 		button_rect = pygame.Rect(box_rect.left + 20, box_rect.bottom - 60, box_rect.width - 40, 40)
@@ -231,6 +237,7 @@ class Breakout:
 
 					if self.metrics.lives <= 0:
 						self.state = "gameover"
+						self.metrics.save()
 					else:
 						self.serve()
 

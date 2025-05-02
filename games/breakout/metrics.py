@@ -3,6 +3,8 @@ import pygame
 from .sprite import Sprite
 
 from pathlib import Path
+import base64
+import binascii
 
 
 class Metrics(Sprite):
@@ -17,7 +19,9 @@ class Metrics(Sprite):
 
 		self.rect: pygame.Rect = rect
 
-		self.font = pygame.font.Font(str(Path(__file__).parent / "assets/04B_11.ttf"), 25)
+		self.font = pygame.font.Font(str(Path(__file__).parent / "assets" / "04B_11.ttf"), 25)
+
+		self.file = Path(__file__).parent / "assets" / ".SCORES_breakout"
 
 	def draw(self, surface: pygame.Surface, glow_surf: pygame.Surface):
 		# Draw score
@@ -37,3 +41,24 @@ class Metrics(Sprite):
 					radius,
 					width=0 if i < self.lives else 1,
 				)
+
+	def save(self):
+		self.file.parent.mkdir(parents=True, exist_ok=True)
+		encoded = base64.b64encode(str(self.score).encode("utf-8")).decode("ascii")
+		with self.file.open("a", encoding="utf-8") as fout:
+			fout.write(f"{encoded}\n")
+
+	def best_score(self):
+		if not self.file.exists():
+			return None
+
+		with self.file.open("r", encoding="utf-8") as fin:
+			try:
+				decoded_scores = [int(base64.b64decode(line.strip()).decode("utf-8")) for line in fin if line.strip()]
+			except (ValueError, binascii.Error):
+				raise ValueError("Invalid encoded data in metrics file")
+
+		if not decoded_scores:
+			return None
+
+		return max(decoded_scores)
