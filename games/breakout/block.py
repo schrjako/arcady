@@ -40,6 +40,7 @@ class Block(Sprite):
 		"""
 		ball.bounce_anim()
 		SoundManager().play(self.sound)
+		self.kill()
 
 	def bounce(self, ball: Ball) -> bool:
 		def inside(a: float, b: float, c: float) -> bool:
@@ -89,3 +90,25 @@ class BlockWithBall(Block):
 		BallManager().spawn(
 			pygame.Vector2(self.rect.center), pygame.Vector2(1, 0).rotate(random.randint(1, 360)), self.ball_color
 		)
+
+
+class BlockDouble(Block):
+	def __init__(self, rect: pygame.Rect, color: pygame.Color, sound: str):
+		super().__init__(rect, color, sound)
+		self.lives: int = 2
+
+	@override
+	def draw(self, surface: pygame.Surface, glow_surf: pygame.Surface):
+		super().draw(surface, glow_surf)
+
+		if self.lives != 1:
+			pygame.draw.rect(surface, "white", self.rect, width=5, border_radius=10)
+
+	@override
+	def on_hit(self, ball: Ball, side_or_corner: Literal[0, 1], which: int):
+		ball.bounce_anim()
+		SoundManager().play(self.sound)
+
+		self.lives -= 1
+		if self.lives <= 0:
+			self.kill()

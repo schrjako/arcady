@@ -2,7 +2,7 @@ import pygame
 
 from .ball import BallManager
 from .paddle import Paddle
-from .block import Block, BlockWithBall
+from .block import Block, BlockWithBall, BlockDouble
 from .metrics import Metrics
 from .utils import glow, limit
 from .particle import Particle, ParticleManager
@@ -103,7 +103,14 @@ class Breakout:
 
 		for i in range(rows):
 			for j in range(columns):
-				type = BlockWithBall if random.randint(0, 17) == 0 else Block
+				rand = random.randint(0, 17)
+				if rand == 0:
+					type = BlockWithBall
+				elif rand < 3:
+					type = BlockDouble
+				else:
+					type = Block
+
 				self.blocks.append(
 					type(
 						pygame.Rect(
@@ -223,13 +230,15 @@ class Breakout:
 
 					# Bounce from blocks
 					for b in self.blocks:
-						if b.bounce(ball):
-							self.metrics.score += 1
-							b.kill()
+						b.bounce(ball)
 
 					# Check if the ball fell out of the screen
 					if ball.center.y >= self.screen.get_height() - ball.radius:
 						ball.kill()
+
+				# Remove all dead blocks and update score
+				self.metrics.score += sum(not b.is_alive() for b in self.blocks)
+				self.blocks = [b for b in self.blocks if b.is_alive()]
 
 				# Check for lose
 				if len(BallManager().balls) == 0:
@@ -240,9 +249,6 @@ class Breakout:
 						self.metrics.save()
 					else:
 						self.serve()
-
-				# Remove all dead blocks
-				self.blocks = [b for b in self.blocks if b.is_alive()]
 
 				# Check for win
 				if len(self.blocks) == 0:
