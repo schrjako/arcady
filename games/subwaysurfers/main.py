@@ -1,5 +1,5 @@
 import pygame
-from .player import player
+from .player import Player
 import random
 from enum import Enum
 path = "./games/subwaysurfers"
@@ -17,23 +17,19 @@ class subwaysurfersGame:
 	def __init__(
 		self,
 		screen: pygame.Surface,
-		board_radius: int,
-		cell_size: float,
-	) -> None:
-		"""
-		Initializes the game by creating the hex board.
-		"""
+		board_radius: int) -> None:
+		
 		self.screen: pygame.Surface = screen
 		self.clock: pygame.time.Clock = pygame.time.Clock()
 
-		self.backgound: tuple[int, int, int] = (26, 27, 38)
+		self.background: tuple[int, int, int] = (26, 27, 38)
 
 		offset: tuple[int, int] = (
 			self.screen.get_width() // 2,
 			self.screen.get_height() // 2,
 		)
 
-		self.player: player = player()
+		self.player: player = Player(350, 400, 100, 100, 1, 1, self.screen)
 
 		self.running: bool = True
 		self.state: playerGame.States = self.States.NORMAL
@@ -53,18 +49,34 @@ class subwaysurfersGame:
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					self.running = False
+				
+				#print(event)
+				if event.type == pygame.KEYDOWN:
+					if event.key == pygame.K_RIGHT:
+						self.player.vright =15
+					if event.key == pygame.K_LEFT:
+						self.player.vleft =15
+					if self.player.jumps < 2:
+						if event.key == pygame.K_UP:
+							self.player.vy =28
+							self.player.jumps +=1
+						'''if event.key == pygame.K_DOWN:
+							self.player.y +=30'''
 
 
 				if self.state == self.States.GAME_OVER:
 					if event.type == pygame.KEYDOWN and event.key == pygame.K_RETURN:
 						self.running = False
 
+			self.player.jump()
+			self.player.move()
+
 			if self.state == self.States.NORMAL:
 				# Move player
 				self.player.update()
 
 			# Draw everything
-			self.screen.fill(self.backgound)
+			self.screen.fill(self.background)
 
 			self.player.draw(self.screen)
 
@@ -77,7 +89,7 @@ class subwaysurfersGame:
 
 
 def run(screen: pygame.Surface):
-	subwaysurfersGame(screen, board_radius=10, cell_size=17).run()
+	subwaysurfersGame(screen, board_radius=10).run()
 
 
 if __name__ == "__main__":
