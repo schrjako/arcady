@@ -21,34 +21,34 @@ In order to run the game for the first time follow steps bellow:
    installation subsection.
 
 1. **Clone the repository**:
-    ```bash
+    ```
     git clone git@github.com:schrjako/arcady.git
     cd arcady
     ```
 
 2. **Create virtual enviroment**: Virtual enviroment is useful for keeping
   installed libraries separated. Create it with
-    ```bash
+    ```
     {python path} -m venv ./venv
     ```
     and than activate it with
-    ```bash
+    ```
     source venv/bin/activate        #   on linux
     source venv/Scripts/activate    #   on Windows
     ```
 
 3. **Download the necessary libraries**:
-    ```bash
+    ```
     pip install -r requirements.txt
     ```
 
 4. **Run main.py**:
-    ```bash
+    ```
     python main.py
     ```
 
 If the shell doesn't find python you can try to find it with:
-    ```bash
+    ```
     which python
     ```
 
@@ -65,7 +65,7 @@ but the guide below should be enough.
 
 If  you're working on a new computer, you'll have to generate and add new ssh
 keys for that machine. To check whether you already have ssh keys run
-    ```bash
+    ```
     ls ~/.ssh
     ```
 If this command prints `id_X`, `id_X.pub` (possibly among other fillenames; `X`
@@ -75,7 +75,7 @@ machine and can skip the generating step.
 ### Generate an ssh key
 
 To generate a new ssh key, run:
-    ```bash
+    ```
     ssh-keygen
     ```
 
