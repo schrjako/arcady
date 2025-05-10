@@ -8,7 +8,7 @@ WIDTH = 400
 HEIGHT = 400
 GRID_SIZE = 4
 TILE_SIZE = WIDTH // GRID_SIZE
-FONT = pygame.font.SysFont("comicsans", 40)
+FONT = pygame.font.SysFont(None, 40)
 CHOICES = [2, 4, 8]
 
 # Will be set by run
