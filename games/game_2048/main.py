@@ -1,5 +1,6 @@
 import pygame
 import random
+import os
 
 pygame.init()
 
@@ -35,6 +36,19 @@ COLORS = {
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
 pygame.display.set_caption("2048") # title
 
+def load_best_score():
+    if os.path.exists("best_score.txt"):
+        with open("best_score.txt", "r") as file:
+            try:
+                return int(file.read())
+            except ValueError:
+                return 0
+    return 0
+
+def save_best_score(score):
+    with open("best_score.txt", "w") as file:
+        file.write(str(score))
+        
 
 # grid dispay
 def draw_grid(grid, score):
@@ -50,8 +64,12 @@ def draw_grid(grid, score):
                 text_rect = text.get_rect(center=(col*TILE_SIZE + TILE_SIZE//2, row*TILE_SIZE + TILE_SIZE//2))
                 screen.blit(text, text_rect)
                 
+                
+    # scores
     score_text = FONT.render(f"Score: {score}", True, (255, 255, 255))
+    best_text = FONT.render(f"Best: {load_best_score()}", True, (255, 255, 255))
     screen.blit(score_text, (10, HEIGHT - 40))
+    screen.blit(best_text, (WIDTH-130, HEIGHT -40))
     
     pygame.display.update()
                 
@@ -227,6 +245,7 @@ def show_center_message(message, color=(255, 255, 255)):
 
 def main():
     score = 0
+    best_score = load_best_score()
     grid = [
         [0, 0, 0, 0],
         [0, 0, 0, 0],
@@ -267,15 +286,25 @@ def main():
                     add_new(grid, score)
                     
         if if_win(grid) == "end_win":
-            draw_grid(grid, score)
+            screen.fill(BACKGROUND_COLOR)
+            score_text = FONT.render(f"Score: {score}", True, (255, 255, 255))
+            screen.blit(score_text, (10, HEIGHT - 40))
+            
             show_center_message("You Win!", (255, 215, 0))
             running = False
             
         if if_win(grid) == "game_over":
-            draw_grid(grid, score)
+            screen.fill(BACKGROUND_COLOR)
+            score_text = FONT.render(f"Score: {score}", True, (255, 255, 255))
+            screen.blit(score_text, (10, HEIGHT - 40))
+            
             show_center_message("Game Over!", (255, 0, 0)) # red
             running = False
 
+        if running == False:
+            if score > best_score:
+                save_best_score(score)
+                
             
         pygame.time.delay(100)
         
