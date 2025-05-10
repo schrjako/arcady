@@ -184,3 +184,5 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
+
+best_score.txt
