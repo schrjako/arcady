@@ -1,3 +1,6 @@
+# Files with scores
+.SCORES_*
+
 # Nix shell
 shell.nix
 
@@ -184,5 +187,3 @@ cython_debug/
 
 # PyPI configuration file
 .pypirc
-
-best_score.txt
