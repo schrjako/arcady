@@ -4,6 +4,12 @@
 # Some mac metadata
 .DS_Store
 
+# Nix shell
+shell.nix
+
+# Tags for vim
+tags
+
 # Vscode folder
 .vscode
 
