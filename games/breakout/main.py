@@ -2,9 +2,9 @@ import pygame
 
 from .ball import BallManager
 from .paddle import Paddle
-from .block import Block, BlockWithBall, BlockDouble
+from .block import Block, BlockOnesided, BlockWithBall, BlockDouble
 from .metrics import Metrics
-from .utils import glow, limit
+from .utils import glow, limit, choose
 from .particle import Particle, ParticleManager
 from .sound import SoundManager
 
@@ -103,13 +103,7 @@ class Breakout:
 
 		for i in range(rows):
 			for j in range(columns):
-				rand = random.randint(0, 17)
-				if rand == 0:
-					type = BlockWithBall
-				elif rand < 3:
-					type = BlockDouble
-				else:
-					type = Block
+				type = choose([(BlockWithBall, 1), (BlockDouble, 3), (Block, 20), (BlockOnesided, 2)])
 
 				self.blocks.append(
 					type(

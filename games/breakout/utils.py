@@ -3,6 +3,7 @@ import pygame
 from PIL import Image, ImageFilter
 from typing import Union, Callable, TypeVar, Any
 from functools import wraps
+from random import randint
 
 T = TypeVar("T")
 
@@ -28,6 +29,15 @@ def no_null(a: float):
 
 def limit(a: Union[int, float], left: Union[int, float], right: Union[int, float]) -> Union[int, float]:
 	return min(right, max(left, a))
+
+
+def choose(options: list[tuple[Any, int]]) -> Any:
+	all = sum([i[1] for i in options])
+	rand = randint(1, all)
+	for opt in options:
+		rand -= opt[1]
+		if rand <= 0:
+			return opt[0]
 
 
 def glow(surface: pygame.Surface, falloff: float = 15, quality: float = 0.5) -> pygame.Surface:

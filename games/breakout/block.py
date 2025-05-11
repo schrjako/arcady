@@ -112,3 +112,37 @@ class BlockDouble(Block):
 		self.lives -= 1
 		if self.lives <= 0:
 			self.kill()
+
+
+class BlockOnesided(Block):
+	def __init__(self, rect: pygame.Rect, color: pygame.Color, sound: str, side: Literal[0, 1, 2, 3] = 1):
+		super().__init__(rect, color, sound)
+		self.side = side
+
+	@override
+	def on_hit(self, ball: Ball, side_or_corner: Literal[0] | Literal[1], which: int):
+		if side_or_corner == 0 and which == self.side:
+			super().on_hit(ball, side_or_corner, which)
+		else:
+			SoundManager().play("wall_hit")
+
+	@override
+	def draw(self, surface: pygame.Surface, glow_surf: pygame.Surface):
+		super().draw(surface, glow_surf)
+
+		r = self.rect.inflate(-5, -5)
+		points = (
+			pygame.Vector2(r.left, r.top),
+			pygame.Vector2(r.left, r.bottom),
+			pygame.Vector2(r.right, r.bottom),
+			pygame.Vector2(r.right, r.top),
+		)
+		pygame.draw.lines(
+			surface,
+			"white",
+			False,
+			[points[(self.side + i + 1) % 4] for i in range(4)],
+			width=5,
+		)
+		for p in points:
+			pygame.draw.circle(surface, "white", p, 2.5)
