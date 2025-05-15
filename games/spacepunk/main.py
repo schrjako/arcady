@@ -1,6 +1,7 @@
 import pygame
 import random
 
+
 class Entity:
 	def __init__(self,pos,r,v,a,k):
 		self.pos = pos
@@ -67,25 +68,43 @@ class Explosion(Effect):
 		super().__init__(pos,time,r)
 
 class Turret:
-	def __init__(self,pos):
-		self.pos = pos
+	def __init__(self,bullets, player):
+		self.size = 25
+		self.bullets = bullets
+		self.player = player
+		self.start_pos = random.randint(0,3)
+		self.pos = [pygame.Vector2(scrWidth/2,self.size/2),pygame.Vector2(scrWidth/2,scrHeight-self.size/2),pygame.Vector2(self.size/2,scrHeight/2),pygame.Vector2(scrWidth-self.size/2,scrHeight/2)][self.start_pos]
+		self.target_pos = pygame.Vector2(0,0)
 		self.cooldown = 0 
-	def shoot(self,bullets,player):
-		v = (player.pos - self.pos).normalize() * 100
-		bullets.append(Bullet(self.pos.copy(), 5, v, pygame.Vector2(0,0), -0.9,50))
-		self.cooldown = 7
+		self.cooldown_time = 7 
+	def shoot(self):
+		v = (self.player.pos - self.pos).normalize() * 100
+		self.bullets.append(Bullet(self.pos.copy(), 5, v, pygame.Vector2(0,0), -0.9,10))
+		self.cooldown = self.cooldown_time
 	def tick(self,dt):
 		self.cooldown -= dt
+		self.move()
+		if self.cooldown < 0:
+			self.shoot()
 	def draw(self,screen):
-		pygame.draw.rect(screen, "lime", pygame.Rect(self.pos.x-20,self.pos.y-20,40,40))
+		pygame.draw.rect(screen, "darkorchid4", pygame.Rect(self.pos.x-self.size/2,self.pos.y-self.size/2,self.size,self.size))
+	def move(self):
+		if self.cooldown < 0:
+			if self.start_pos == 0 or self.start_pos == 1:
+				self.target_pos = pygame.Vector2(random.randint(self.size//2,scrWidth-self.size//2),self.pos.y)
+			else:
+				target_pos = pygame.Vector2(self.pos.x,random.randint(self.size//2,scrHeight-self.size//2)) 
+		self.pos = self.pos * (self.cooldown_time - self.cooldown) / self.cooldown_time + self.target_pos * self.cooldown / self.cooldown_time
 
+
+
+scrWidth = 1000
+scrHeight = 800
 
 def run(screen):
 	pygame.init()
 	menuWidth = screen.get_width()
 	menuHeight = screen.get_height()
-	scrWidth = 1000
-	scrHeight = 800
 	screen = pygame.display.set_mode((scrWidth, scrHeight))
 
 	running = True
@@ -96,12 +115,12 @@ def run(screen):
 	global space_ship_pos
 	global space_ship_size
 	space_ship_pos = pygame.Vector2(30, 30)
-	space_ship_size = pygame.Vector2(screen.get_width()-60, screen.get_height()-60)
+	space_ship_size = pygame.Vector2(scrWidth-60, scrHeight-60)
 	space_ship = pygame.Rect(space_ship_pos.x, space_ship_pos.y,space_ship_size.x, space_ship_size.y) 
 
-	turrets = [Turret(pygame.Vector2(200,200))]
 	bullets = []
 	explosions = []
+	turrets = [Turret(bullets, player)]
 
 
 	while running:
@@ -133,8 +152,6 @@ def run(screen):
 		#turrets
 		for turret in turrets:
 			turret.tick(dt)
-			if turret.cooldown < 0:
-				turret.shoot(bullets,player)
 		#render
 		screen.fill("green")
 		pygame.draw.rect(screen, "blue", space_ship)
