@@ -2,7 +2,7 @@
 	pkgs.mkShell {
 		nativeBuildInputs = with pkgs; [
 			python312
-			python312Packages.pygame
+            python312Packages.pygame
 		];
 		shellHook = ''
 		'';
