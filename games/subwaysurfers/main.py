@@ -49,9 +49,15 @@ class subwaysurfersGame:
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					self.running = False
-				
+
 				#print(event)
 				if event.type == pygame.KEYDOWN:
+					if event.key == pygame.K_a:
+						self.player.y_odcrte+=0.01
+						self.player.y_odcrte2+=0.01
+					if event.key == pygame.K_d:
+						self.player.y_odcrte-=0.01
+						self.player.y_odcrte2-=0.01
 					if event.key == pygame.K_RIGHT:
 						self.player.vright =15
 					if event.key == pygame.K_LEFT:
