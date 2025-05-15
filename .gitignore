@@ -1,3 +1,9 @@
+# Files with scores
+.SCORES_*
+
+# Some mac metadata
+.DS_Store
+
 # Nix shell
 shell.nix
 
