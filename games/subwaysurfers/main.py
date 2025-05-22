@@ -1,5 +1,6 @@
 import pygame
 from .player import Player
+from .obstacles import Obstacle
 import random
 from enum import Enum
 path = "./games/subwaysurfers"
@@ -8,6 +9,15 @@ path = "./games/subwaysurfers"
 class subwaysurfersGame:
 	"""
 	The main game class handling initialization, game loop, and rendering for the game.
+	
+	   .+------+     +------+     +------+     +------+     +------+.
+	 .' |    .'|    /|     /|     |      |     |\     |\    |`.    | `.
+	+---+--+'  |   +-+----+ |     +------+     | +----+-+   |  `+--+---+
+  z |   |  |   |   | |    | |     |      |     | |    | |   |   |  |   |
+  ^ | y,+--+---+   | +----+-+     +------+     +-+----+ |   +---+--+   |
+  | |.'    | .'    |/     |/      |      |      \|     \|    `. |   `. |
+	+------+'      +------+       +------+       +------+      `+------+
+	 -> x
 	"""
 
 	class States(Enum):
@@ -30,6 +40,7 @@ class subwaysurfersGame:
 		)
 
 		self.player: player = Player(350, 400, 100, 100, 1, 1, self.screen)
+		self.obstacle: obstacle = Obstacle(0.004, 0.7, 1, 200, 100, self.screen)
 
 		self.running: bool = True
 		self.state: playerGame.States = self.States.NORMAL
@@ -53,11 +64,11 @@ class subwaysurfersGame:
 				#print(event)
 				if event.type == pygame.KEYDOWN:
 					if event.key == pygame.K_a:
-						self.player.y_odcrte+=0.01
-						self.player.y_odcrte2+=0.01
+						self.obstacle.y+=0.01
+						self.obstacle.y2+=0.01
 					if event.key == pygame.K_d:
-						self.player.y_odcrte-=0.01
-						self.player.y_odcrte2-=0.01
+						self.obstacle.y-=0.01
+						self.obstacle.y2-=0.01
 					if event.key == pygame.K_RIGHT:
 						self.player.vright =15
 					if event.key == pygame.K_LEFT:
@@ -76,15 +87,17 @@ class subwaysurfersGame:
 
 			self.player.jump()
 			self.player.move()
+			self.obstacle.move()
 
 			if self.state == self.States.NORMAL:
-				# Move player
 				self.player.update()
+				self.obstacle.update()
 
 			# Draw everything
 			self.screen.fill(self.background)
 
 			self.player.draw(self.screen)
+			self.obstacle.draw(self.screen)
 
 			if self.state == self.States.GAME_OVER:
 				self.draw_game_over(self.game_over_msg)

@@ -46,14 +46,3 @@ class Player:
 	def draw(self, surface: pygame.Surface):
 		white=(255,255,255)
 		pygame.draw.rect(surface,white,(self.x, self.y, self.width, self.height))
-
-		polovica_screena=Vector(400, 300)
-
-		def narisi_crto(vogal, smer):
-			pygame.draw.line(surface, white, vogal.projekcija(self.Y, polovica_screena).totuple,  (smer + vogal).projekcija(self.Y, polovica_screena).totuple, width=3)
-
-		vogal1= Vector3D(500, self.y_odcrte, 400)
-		smer= [Vector3D(100, 0, 0), Vector3D(0, 0.3, 0), Vector3D(0, 0, 100)]
-		for i in range(3):
-			narisi_crto(vogal1, smer[i])
-
