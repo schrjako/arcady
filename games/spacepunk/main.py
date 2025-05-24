@@ -1,5 +1,6 @@
 import pygame
 import random
+import time
 
 
 class Entity:
@@ -54,7 +55,7 @@ class Bullet(Entity):
 		self.time = t
 		self.player = player
 
-	def tick(self,dt):
+	def update(self,dt):
 		self.time -= dt
 		if self.time < 0:
 			self.dead = True
@@ -71,7 +72,7 @@ class Effect:
 		self.pos = pos
 		self.time = time
 
-	def tick(self,dt):
+	def update(self,dt):
 		self.time -= dt
 
 		
@@ -92,10 +93,10 @@ class Laser(Effect):
 		super().__init__(pos, time)
 		if self.start_pos == 0 or self.start_pos == 1:
 			if player.pos.x - player.r < self.pos.x < player.pos.x + player.r:
-				player.damage(50)
+				player.damage(10)
 		else:
 			if player.pos.y - player.r < self.pos.y < player.pos.y + player.r:
-				player.damage(50)
+				player.damage(10)
 
 	def draw(self,screen):
 		match self.start_pos:
@@ -126,7 +127,7 @@ class Turret:
 		v = (self.player.pos - self.pos).normalize() * 100
 		bullets.append(Bullet(self.pos.copy(), 5, v, pygame.Vector2(0,0), -0.9, 10, self.player))
 
-	def tick(self,dt):
+	def update(self,dt):
 		self.cooldown -= dt
 		self.cooldown = max(self.cooldown, 0)
 		self.move()
@@ -161,7 +162,7 @@ class LaserTurret(Turret):
 class HealthBar:
 	def __init__(self, healthMax):
 		self.healthMax = healthMax
-		self.width = 150
+		self.width = 200
 		self.height = 25
 		self.bg = pygame.Rect(scrWidth - self.width - 10, 10, self.width, self.height)
 		self.healthR = pygame.Rect(scrWidth - self.width - 10, 10, self.width, self.height)
@@ -177,6 +178,27 @@ class HealthBar:
 		pygame.draw.rect(screen, "gray21", self.bg)
 		pygame.draw.rect(screen, "firebrick3", self.damageR)
 		pygame.draw.rect(screen, "green2", self.healthR)
+		
+
+class Timer:
+	def __init__(self):
+		self.time = 0
+
+	def update(self, dt):
+		self.time += dt
+	
+	def draw(self, screen):
+		font = pygame.font.SysFont('Fira Code', 40)
+		time_str = str(int(self.time)) + '.' + str(int((self.time * 1000)%1000))
+		title = font.render(time_str, True, (255, 255, 255))
+		screen.blit(title, (scrWidth/2 - title.get_width()/2, title.get_height()/2))
+
+
+def draw_game_over_screen(screen):
+   font = pygame.font.SysFont('Fira Code', 40)
+   title = font.render('Game Over', True, (255, 255, 255))
+   screen.blit(title, (scrWidth/2 - title.get_width()/2, scrHeight/2 - title.get_height()/3))
+   pygame.display.update()
 
 
 scrWidth = 750
@@ -196,16 +218,27 @@ def run(screen):
 
 	dt = 0
 	clock = pygame.time.Clock()
+	spawn_timer = 0
 	
 	player = Player(pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2),25,pygame.Vector2(0,0),pygame.Vector2(0,0),-0.2)
-	turrets = [LaserTurret(player) for i in range(2)] + [ Turret(player) for i in range(2)]
+	turrets = [Turret(player)]
 	
 	bar = HealthBar(100) 
+	timer = Timer()
 
 	running = True
+	dificulty = 2
 
 
 	while running:
+		#turret spawn
+		spawn_timer += dt
+		if spawn_timer > 4:
+			spawn_timer = 0
+			if random.randint(0, 2 * dificulty) == 0:
+				turrets.append(Turret(player))
+			if random.randint(0, dificulty) == 0:
+				turrets.append(LaserTurret(player))
 
 		#events
 		for event in pygame.event.get():
@@ -226,7 +259,7 @@ def run(screen):
 
 		#entities
 		for i, bullet in enumerate(bullets):
-			bullet.tick(dt)
+			bullet.update(dt)
 			bullet.check_player_colision(player)
 			if bullet.dead:
 				bullets.pop(i)
@@ -235,12 +268,13 @@ def run(screen):
 			d = (bullet.pos - player.pos).length()
 			bullet.a = max((500 - d),0)/500 * player.a
 			bullet.physics(dt)
-		#health bar
+		#UI update
 		bar.update(player.health)
+		timer.update(dt)
 
 		#turrets
 		for turret in turrets:
-			turret.tick(dt)
+			turret.update(dt)
 
 		#render
 		screen.fill("darkslategray4")
@@ -250,16 +284,19 @@ def run(screen):
 		for bullet in bullets:
 			bullet.draw(screen)
 		for i, explosion in enumerate(effects):
-			explosion.tick(dt)
+			explosion.update(dt)
 			explosion.draw(screen)
 			if explosion.time < 0:
 				effects.pop(i)
 		bar.draw(screen)
+		timer.draw(screen)
 
 		pygame.display.flip()
 
 		dt = clock.tick(60)/1000  # limits FPS to 60
-
+	
+	draw_game_over_screen(screen)
+	time.sleep(3)
 	screen = pygame.display.set_mode((menuWidth, menuHeight))
 
 
