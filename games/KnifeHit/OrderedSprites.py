@@ -56,14 +56,14 @@ class Particle(pygame.sprite.Sprite):
         self.image = self.parentImage
         self.rect = self.image.get_rect()
 
-    def update(self, screen):
+    def update(self, screen, dTs):
         #update lifetime
-        self.lifeTime -= 1
+        self.lifeTime -= 1 * dTs
         
         #update velocity and position
         self.vel = (self.vel[0], self.vel[1] + self.gravity)
-        self.x += self.vel[0]
-        self.y += self.vel[1]
+        self.x += self.vel[0] * dTs
+        self.y += self.vel[1] * dTs
 
         #update rect
         self.image = pygame.transform.rotate(self.image, self.angluralVel)

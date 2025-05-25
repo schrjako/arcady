@@ -115,9 +115,10 @@ class gameSceneTransition():
         self.overlaySurface = pygame.Surface((self.gs.screenWidth, self.gs.screenHeight), pygame.SRCALPHA)
         self.overlaySurface.fill((0, 0, 0, self.a))  # RGBA: black with 50% opacity
 
-    def updateOverlay(self):
+    def updateOverlay(self, dTs):
         #interpolate towards target a
-        self.a = self.a + 0.01*(self.ta - self.a) + 0.1
+        print(dTs)
+        self.a = self.a + ((self.ta - self.a) + 0.1) * 0.005 * dTs
 
         if self.a > 255:
             self.a = 255
@@ -186,6 +187,9 @@ class KnifeHitGame:
         abspath = os.path.abspath(__file__)
         dname = os.path.dirname(abspath)
         os.chdir(dname)
+
+        #clock tick for target framerate
+        self.clock = pygame.time.Clock()
 
         self.musicVolume = 0.4
         self.soundVolume = 0.4
@@ -315,17 +319,18 @@ class KnifeHitGame:
 
             #blit particles
             for particle in self.gs.particles:
-                particle.update(self.screen)
+                particle.update(self.screen, dTs)
             self.gs.particles = [particle for particle in self.gs.particles if particle.lifeTime > 0]
 
             #display music/sound ui
             self.gs.soundMngr.displayIcons(self.screen)
 
             #update transition animation
-            self.gs.transition.updateOverlay()
+            self.gs.transition.updateOverlay(dTs)
 
             # Update the display
             pygame.display.flip()
+            self.clock.tick(60)
 
             #update delta time
             prevT = currT

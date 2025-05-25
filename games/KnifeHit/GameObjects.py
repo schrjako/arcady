@@ -16,13 +16,13 @@ class Log(pygame.sprite.Sprite):
 
         self.rotationType = random.choice([0, 0, 1])
         if self.rotationType == 0:
-            self.speed = random.uniform(0.07, 0.14)
+            self.speed = random.uniform(0.2, 0.04)
             self.dir = random.choice([1, -1])
             self.rotationSpeed = self.speed * self.dir
         
         if self.rotationType == 1:
-            self.amplitude = random.uniform(0.03, 0.06)
-            self.frequency = random.uniform(0.0001, 0.0004)
+            self.amplitude = random.uniform(0.012, 0.0022)
+            self.frequency = random.uniform(0.0001, 0.0003)
             self.rotationSpeed = math.sin(pygame.time.get_ticks() * self.frequency) * self.amplitude
 
         self.angle = 0
