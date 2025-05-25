@@ -94,9 +94,11 @@ class Laser(Effect):
 		if self.start_pos == 0 or self.start_pos == 1:
 			if player.pos.x - player.r < self.pos.x < player.pos.x + player.r:
 				player.damage(10)
+				player.v = pygame.Vector2(0,0)
 		else:
 			if player.pos.y - player.r < self.pos.y < player.pos.y + player.r:
 				player.damage(10)
+				player.v = pygame.Vector2(0,0)
 
 	def draw(self,screen):
 		match self.start_pos:
