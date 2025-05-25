@@ -4,17 +4,18 @@ import time
 
 
 class Entity:
-	def __init__(self,pos,r,v,a,k):
+	def __init__(self,pos,r,v,a,k,color):
 		self.pos = pos
 		self.r = r
 		self.v = v
 		self.a = a
 		self.k = k
+		self.color = color
 		self.dead = False
 
 	def draw(self,screen):
-		pygame.draw.circle(screen, "red", self.pos, self.r)
-		self.draw_arrow(screen)
+		pygame.draw.circle(screen, self.color, self.pos, self.r)
+		#self.draw_arrow(screen)
 
 	def draw_arrow(self, screen):
 		pygame.draw.line(screen, "black", self.pos, self.pos + self.v//3, width=3)
@@ -41,30 +42,45 @@ class Entity:
 
 
 class Player(Entity):
-	def __init__(self,pos,r,v,a,k):
+	def __init__(self,pos,r,v,a,k,color):
 		self.health = 100
-		super().__init__(pos,r,v,a,k)
+		super().__init__(pos,r,v,a,k,color)
 
 	def damage(self,x):
 		self.health -= x
 
 
 class Bullet(Entity):
-	def __init__(self,pos,r,v,a,k,t, player):
-		super().__init__(pos,r,v,a,k)
+	def __init__(self,pos,r,v,a,k,t,color, player):
+		super().__init__(pos,r,v,a,k,color)
 		self.time = t
 		self.player = player
+		self.explosion_size = 75
 
 	def update(self,dt):
 		self.time -= dt
 		if self.time < 0:
 			self.dead = True
-			effects.append(Explosion(self.pos,0.2,50,self.player))
+			effects.append(Explosion(self.pos,0.2,self.explosion_size,self.player))
 
 	def check_player_colision(self,player):
 		if(player.pos - self.pos).length() <= player.r + self.r:
 			self.dead = True
-			effects.append(Explosion(self.pos,0.2,50,self.player))
+			effects.append(Explosion(self.pos,0.2,self.explosion_size,self.player))
+			
+class Missile(Bullet):
+	def __init__(self,pos,r,v,a,k,t, color, player):
+		super().__init__(pos,r,v,a,k,t, color, player)
+		self.explosion_size = 25
+		self.speed_limit = 300
+
+	def physics(self,dt):
+		self.a += (self.player.pos - self.pos).normalize() * 300
+		self.v += self.a * dt
+		if self.v.length() > self.speed_limit:
+			self.v = self.v.normalize() * self.speed_limit
+		self.pos += self.v * dt
+		self.check_wall_colision()
 
 
 class Effect:
@@ -127,7 +143,7 @@ class Turret:
 
 	def shoot(self):
 		v = (self.player.pos - self.pos).normalize() * 100
-		bullets.append(Bullet(self.pos.copy(), 5, v, pygame.Vector2(0,0), -0.9, 10, self.player))
+		bullets.append(Bullet(self.pos.copy(), 5, v, pygame.Vector2(0,0), -0.9, 10, "fuchsia", self.player))
 
 	def update(self,dt):
 		self.cooldown -= dt
@@ -162,6 +178,21 @@ class LaserTurret(Turret):
 	
 	def draw(self, screen):
 		pygame.draw.rect(screen, "brown", pygame.Rect(self.pos.x-self.size/2,self.pos.y-self.size/2,self.size,self.size))
+
+
+class MissileTurret(Turret):
+	def __init__(self, player):
+		super().__init__(player)
+		self.cooldown_time = 10
+		self.cooldown = self.cooldown_time
+
+	def shoot(self):
+		v = (self.player.pos - self.pos).normalize() * 100
+		bullets.append(Missile(self.pos.copy(), 8, v, pygame.Vector2(0,0), -0.9, 5, "green", self.player))
+
+	def draw(self, screen):
+		pygame.draw.rect(screen, "darkgreen", pygame.Rect(self.pos.x-self.size/2,self.pos.y-self.size/2,self.size,self.size))
+
 
 class HealthBar:
 	def __init__(self, healthMax):
@@ -223,14 +254,14 @@ def run(screen):
 	clock = pygame.time.Clock()
 	spawn_timer = 0
 	
-	player = Player(pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2),25,pygame.Vector2(0,0),pygame.Vector2(0,0),-0.2)
-	turrets = [LaserTurret(player)]
+	player = Player(pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2),25,pygame.Vector2(0,0),pygame.Vector2(0,0),-0.2, "dodgerblue")
+	turrets = [Turret(player)]
 	
 	bar = HealthBar(100) 
 	timer = Timer()
 
 	running = True
-	dificulty = 2
+	dificulty = 3
 
 
 	while running:
@@ -238,10 +269,12 @@ def run(screen):
 		spawn_timer += dt
 		if spawn_timer > 4:
 			spawn_timer = 0
-			if random.randint(0, 2 * dificulty) == 0:
-				turrets.append(Turret(player))
 			if random.randint(0, dificulty) == 0:
+				turrets.append(Turret(player))
+			if random.randint(0, 2 * dificulty) == 0:
 				turrets.append(LaserTurret(player))
+			if random.randint(0, 3 * dificulty) == 0:
+				turrets.append(MissileTurret(player))
 
 		#events
 		for event in pygame.event.get():
