@@ -1,0 +1,626 @@
+* [33mcommit 2d43a5d0c1e1d5f2309ac65bd6565f2a8702d2ed[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mKnifeHit[m[33m, [m[1;31morigin/KnifeHit[m[33m)[m
+[31m|[m Author: TroiGDev <zapis.troi@gmail.com>
+[31m|[m Date:   Sun May 25 06:54:37 2025 +0200
+[31m|[m 
+[31m|[m     added correct deltatime implementation
+[31m|[m 
+* [33mcommit 107f91746ae09c388a2083060da292f86e7e9bdb[m
+[31m|[m Author: TroiGDev <zapis.troi@gmail.com>
+[31m|[m Date:   Sat Apr 12 19:25:57 2025 +0200
+[31m|[m 
+[31m|[m     attempted to fix pygame initialization error for knifehit minigame
+[31m|[m 
+* [33mcommit 4ba48fc3e3ca7637bbe612ac28e577503e9f5c27[m
+[31m|[m Author: TroiGDev <zapis.troi@gmail.com>
+[31m|[m Date:   Sat Apr 12 07:32:59 2025 +0200
+[31m|[m 
+[31m|[m     modified requirements to include knifehits numpy
+[31m|[m 
+* [33mcommit 88e47e1d13f558b2678cf8fe3165ef1c12467d53[m
+[31m|[m Author: TroiGDev <zapis.troi@gmail.com>
+[31m|[m Date:   Fri Apr 11 20:24:08 2025 +0200
+[31m|[m 
+[31m|[m     on return to menu also reset working directory back to original
+[31m|[m 
+* [33mcommit 7e7c6ea39c1173508417f46efbb5e5581a601f7c[m
+[31m|[m Author: Troi <143833120+TroiGDev@users.noreply.github.com>
+[31m|[m Date:   Fri Apr 11 18:55:05 2025 +0200
+[31m|[m 
+[31m|[m     Renamed snake.py to Snake.py
+[31m|[m     
+[31m|[m     forgot to pull previous renaming (find previous rename commit) so i have to rename again
+[31m|[m 
+* [33mcommit bbe5ae9323dff15ad592df9b632f5801c7f72f0a[m
+[31m|[m Author: TroiGDev <zapis.troi@gmail.com>
+[31m|[m Date:   Fri Apr 11 18:50:56 2025 +0200
+[31m|[m 
+[31m|[m     added return to menu button
+[31m|[m     
+[31m|[m     added return to menu buttton and correctly stopped music and reset caption on return to menu
+[31m|[m 
+* [33mcommit dc2d226e4f2584d20ea29438e30e14c6464ec5dd[m
+[31m|[m Author: TroiGDev <zapis.troi@gmail.com>
+[31m|[m Date:   Fri Apr 11 18:15:43 2025 +0200
+[31m|[m 
+[31m|[m     added returning to menu with backspace key
+[31m|[m 
+* [33mcommit 98a155bde9ae42ad9ef1d62a05505c954813dcb5[m
+[31m|[m Author: TroiGDev <zapis.troi@gmail.com>
+[31m|[m Date:   Fri Apr 11 16:42:18 2025 +0200
+[31m|[m 
+[31m|[m     Integrated knife hit game in the menu, NOTE: snake game is commented out cuz it doesnt work for me for some reason, NOTE: there is no way to return to the menu from the kinfehit game yet
+[31m|[m 
+* [33mcommit c6b42b37faf69312c8857aff74573d8c089900bb[m
+[31m|[m Author: TroiGDev <zapis.troi@gmail.com>
+[31m|[m Date:   Fri Apr 11 16:05:35 2025 +0200
+[31m|[m 
+[31m|[m     added in up to date standalone knifehit version
+[31m|[m 
+* [33mcommit 0810f02efee81e8ed15c17fc689aba5b158425cd[m
+[31m|[m Author: Troi <143833120+TroiGDev@users.noreply.github.com>
+[31m|[m Date:   Fri Apr 4 05:20:56 2025 +0200
+[31m|[m 
+[31m|[m     Updated requirements.txt
+[31m|[m     
+[31m|[m     changed pygame from 2.6.0 to 2.6.1
+[31m|[m 
+* [33mcommit 1baa480763ffabfeba55009b9b031db05b42002a[m
+[31m|[m Author: Troi <143833120+TroiGDev@users.noreply.github.com>
+[31m|[m Date:   Fri Apr 4 05:20:37 2025 +0200
+[31m|[m 
+[31m|[m     Updated main.py
+[31m|[m     
+[31m|[m     updated pygame from 2.6.0 to 2.6.1
+[31m|[m     previous version used pygame 2.6.0, where surface width is obtained by .width while in the 2.6.1 its .get_width()
+[31m|[m 
+* [33mcommit 0eef4786168c51e5cef5ace1268ad7847fde1b07[m
+[31m|[m Author: Troi <143833120+TroiGDev@users.noreply.github.com>
+[31m|[m Date:   Thu Apr 3 20:00:15 2025 +0200
+[31m|[m 
+[31m|[m     accidentaly added pychache :sob:
+[31m|[m 
+* [33mcommit 04ed95746693123cd696fddea3cab7255ffb5e31[m
+[31m|[m Author: Troi <143833120+TroiGDev@users.noreply.github.com>
+[31m|[m Date:   Thu Apr 3 19:31:00 2025 +0200
+[31m|[m 
+[31m|[m     Added KnifeHit arcade game
+[31m|[m     
+[31m|[m     Added first version of the KnifeHit arcade game with all required assets
+[31m|[m   
+[31m|[m * [33mcommit 7fee5d5620097b9d3d1b258367553724636d6174[m[33m ([m[1;31morigin/spacepunk[m[33m)[m
+[31m|[m [32m|[m Author: qyx22122 <tibor.macek1@gmail.com>
+[31m|[m [32m|[m Date:   Sat May 24 22:04:57 2025 +0200
+[31m|[m [32m|[m 
+[31m|[m [32m|[m     Turret spawning, timer, game over
+[31m|[m [32m|[m 
+[31m|[m * [33mcommit 35f69c4649b580ffb77a87099a63830b130e1664[m
+[31m|[m [32m|[m Author: qyx22122 <tibor.macek1@gmail.com>
+[31m|[m [32m|[m Date:   Sat May 24 13:11:44 2025 +0200
+[31m|[m [32m|[m 
+[31m|[m [32m|[m     Lasers and bars
+[31m|[m [32m|[m 
+[31m|[m * [33mcommit ddaf1b53e07cbfa8c20b9262a0c8ebd6fd1a6d4c[m
+[31m|[m [32m|[m Author: qyx22122 <tibor.macek1@gmail.com>
+[31m|[m [32m|[m Date:   Thu May 15 16:56:24 2025 +0200
+[31m|[m [32m|[m 
+[31m|[m [32m|[m     in proggress
+[31m|[m [32m|[m 
+[31m|[m * [33mcommit 5fe4f41a01d53e07e1cf81a38c20befdd1d07ccf[m
+[31m|[m [32m|[m Author: qyx22122 <tibor.macek1@gmail.com>
+[31m|[m [32m|[m Date:   Thu May 15 15:52:40 2025 +0200
+[31m|[m [32m|[m 
+[31m|[m [32m|[m     idk
+[31m|[m [32m|[m 
+[31m|[m * [33mcommit a7cbf342359a62fb345ac79dd8c00bc6dc8e8b08[m
+[31m|[m [32m|[m Author: qyx22122 <tibor.macek1@gmail.com>
+[31m|[m [32m|[m Date:   Thu Apr 24 16:34:35 2025 +0200
+[31m|[m [32m|[m 
+[31m|[m [32m|[m     Turrets
+[31m|[m [32m|[m 
+[31m|[m * [33mcommit ea4719d61e3c4596adf717f9ec8164a5cb68a1b4[m
+[31m|[m [32m|[m Author: qyx22122 <tibor.macek1@gmail.com>
+[31m|[m [32m|[m Date:   Thu Apr 17 16:38:58 2025 +0200
+[31m|[m [32m|[m 
+[31m|[m [32m|[m     progress 2
+[31m|[m [32m|[m 
+[31m|[m * [33mcommit 1b12111b6ca02e5b6b9190cae8a265b873ea1d89[m
+[31m|[m [32m|[m Author: qyx22122 <tibor.macek1@gmail.com>
+[31m|[m [32m|[m Date:   Thu Apr 17 16:27:05 2025 +0200
+[31m|[m [32m|[m 
+[31m|[m [32m|[m     progress
+[31m|[m [32m|[m   
+[31m|[m [32m|[m * [33mcommit 4a0532e950418c4d2aa273057c7c9d3ab1213848[m[33m ([m[1;31morigin/subwaysurfers[m[33m)[m
+[31m|[m [32m|[m [33m|[m Author: Hrvatin <lea.hrvatin@gimvic.local>
+[31m|[m [32m|[m [33m|[m Date:   Thu May 22 16:31:08 2025 +0200
+[31m|[m [32m|[m [33m|[m 
+[31m|[m [32m|[m [33m|[m     WIP dodan class za oviro s projekcijo s koti (x, z)
+[31m|[m [32m|[m [33m|[m 
+[31m|[m [32m|[m * [33mcommit 9e2ee9212f3c1bad2999e474e2653e5169b2118d[m
+[31m|[m [32m|[m [33m|[m Author: Hrvatin <lea.hrvatin@gimvic.local>
+[31m|[m [32m|[m [33m|[m Date:   Thu May 15 16:57:31 2025 +0200
+[31m|[m [32m|[m [33m|[m 
+[31m|[m [32m|[m [33m|[m     dodan 3D in 2D vector, projekcija iz 3D v 2D
+[31m|[m [32m|[m [33m|[m 
+[31m|[m [32m|[m * [33mcommit 5784913eeaa1bf1f2f2c71d16afcae296397e738[m
+[31m|[m [32m|[m [33m|[m Author: Hrvatin <lea.hrvatin@gimvic.local>
+[31m|[m [32m|[m [33m|[m Date:   Thu May 15 16:19:42 2025 +0200
+[31m|[m [32m|[m [33m|[m 
+[31m|[m [32m|[m [33m|[m     eksperimentiranje s 3D risanjem
+[31m|[m [32m|[m [33m|[m 
+[31m|[m [32m|[m * [33mcommit ecb27954f9a8c72308dc18244b0c78fc4114a838[m
+[31m|[m [32m|[m [33m|[m Author: Hrvatin <lea.hrvatin@gimvic.local>
+[31m|[m [32m|[m [33m|[m Date:   Thu May 8 17:00:54 2025 +0200
+[31m|[m [32m|[m [33m|[m 
+[31m|[m [32m|[m [33m|[m     Player se premika z gravitacijo (gor, dol levo in desno)
+[31m|[m [32m|[m [33m|[m 
+[31m|[m [32m|[m * [33mcommit 503d38fdb01d83ab5984a09391cc73a0e939d4c9[m
+[31m|[m [32m|[m[32m/[m  Author: Hrvatin <lea.hrvatin@gimvic.local>
+[31m|[m [32m|[m   Date:   Thu Apr 17 16:50:47 2025 +0200
+[31m|[m [32m|[m   
+[31m|[m [32m|[m       dodana subwaysurfers igra, player in main
+[31m|[m [32m|[m   
+[31m|[m [32m|[m * [33mcommit 53299f614a9e7423ebeb01e8bd52911284fc0f65[m[33m ([m[1;31morigin/minigolf[m[33m)[m
+[31m|[m [32m|[m [34m|[m Author: Luka Novak <luka22novak@gmail.com>
+[31m|[m [32m|[m [34m|[m Date:   Thu May 15 14:46:59 2025 +0200
+[31m|[m [32m|[m [34m|[m 
+[31m|[m [32m|[m [34m|[m     polepsana koda
+[31m|[m [32m|[m [34m|[m 
+[31m|[m [32m|[m * [33mcommit d6c6e891e95af2e0e49a3e70d8f93933c558ea4d[m
+[31m|[m [32m|[m [34m|[m Author: Luka Novak <luka22novak@gmail.com>
+[31m|[m [32m|[m [34m|[m Date:   Thu Apr 24 17:17:37 2025 +0200
+[31m|[m [32m|[m [34m|[m 
+[31m|[m [32m|[m [34m|[m     dodal sem novo igrico minigolf
+[31m|[m [32m|[m [34m|[m   
+[31m|[m [32m|[m [34m|[m * [33mcommit ce0f51d074fa2e86e8189acea699a8bf7e03071c[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m
+[31m|[m [32m|[m [34m|[m [35m|[m Author: Gregor Potočnik <99352119+Gregorcnik@users.noreply.github.com>
+[31m|[m [32m|[m [34m|[m [35m|[m Date:   Thu May 15 14:28:28 2025 +0200
+[31m|[m [32m|[m [34m|[m [35m|[m 
+[31m|[m [32m|[m [34m|[m [35m|[m     Added breakout game
+[31m|[m [32m|[m [34m|[m [35m|[m     
+[31m|[m [32m|[m [34m|[m [35m|[m     * Added breakout
+[31m|[m [32m|[m [34m|[m [35m|[m     
+[31m|[m [32m|[m [34m|[m [35m|[m     * Ignored .DS_Store
+[31m|[m [32m|[m [34m|[m [35m|[m     
+[31m|[m [32m|[m [34m|[m [35m|[m     * Changed screen dimensions
+[31m|[m [32m|[m [34m|[m [35m|[m     
+[31m|[m [32m|[m [34m|[m [35m|[m     * Added ball deformation
+[31m|[m [32m|[m [34m|[m [35m|[m     
+[31m|[m [32m|[m [34m|[m [35m|[m     * Added SFX and particle support
+[31m|[m [32m|[m [34m|[m [35m|[m     
+[31m|[m [32m|[m [34m|[m [35m|[m     * Added block that spawns ball
+[31m|[m [32m|[m [34m|[m [35m|[m     
+[31m|[m [32m|[m [34m|[m [35m|[m     * Several small improvements
+[31m|[m [32m|[m [34m|[m [35m|[m     
+[31m|[m [32m|[m [34m|[m [35m|[m     Changed window size ratio, made paddle movement more physics-based, and ensured the ball cannot get stuck if the direction is too horizontal.
+[31m|[m [32m|[m [34m|[m [35m|[m     
+[31m|[m [32m|[m [34m|[m [35m|[m     * Added score tracking (best score)
+[31m|[m [32m|[m [34m|[m [35m|[m     
+[31m|[m [32m|[m [34m|[m [35m|[m     * Added block that requires two hits.
+[31m|[m [32m|[m [34m|[m [35m|[m     
+[31m|[m [32m|[m [34m|[m [35m|[m     * Added block that can be broken only from one direction
+[31m|[m [32m|[m [34m|[m [35m|[m     
+[31m|[m [32m|[m [34m|[m [35m|[m     * Removed unused assets
+[31m|[m [32m|[m [34m|[m [35m|[m 
+[31m|[m [32m|[m [34m|[m * [33mcommit 8291901b97926268e947dbff577b6db06ed50346[m
+[31m|[m [32m|[m [34m|[m [35m|[m Author: Jakob Schrader <jakob.schrader@guest.arnes.si>
+[31m|[m [32m|[m [34m|[m [35m|[m Date:   Sat May 10 22:30:55 2025 +0200
+[31m|[m [32m|[m [34m|[m [35m|[m 
+[31m|[m [32m|[m [34m|[m [35m|[m     Remove bash specifiers in README codeblocks
+[31m|[m [32m|[m [34m|[m [35m|[m     
+[31m|[m [32m|[m [34m|[m [35m|[m     Github apparently recognizes these only if they're part of a list and
+[31m|[m [32m|[m [34m|[m [35m|[m     doesn't take triple backticks to mean code in a separate line either.
+[31m|[m [32m|[m [34m|[m [35m|[m 
+[31m|[m [32m|[m [34m|[m * [33mcommit 43e18b07bfd68dfb2d0dc8e701134e0695af1afb[m
+[31m|[m [32m|[m [34m|[m [35m|[m Author: Gregor Potočnik <99352119+Gregorcnik@users.noreply.github.com>
+[31m|[m [32m|[m [34m|[m [35m|[m Date:   Tue Apr 29 17:33:10 2025 +0200
+[31m|[m [32m|[m [34m|[m [35m|[m 
+[31m|[m [32m|[m [34m|[m [35m|[m     Added project description to readme
+[31m|[m [32m|[m [34m|[m [35m|[m 
+[31m|[m [32m|[m [34m|[m * [33mcommit e1e5321451b00f465ad6f3242f465a0057482c13[m
+[31m|[m [32m|[m [34m|[m [35m|[m Author: Jakob Schrader <jakob.schrader@guest.arnes.si>
+[31m|[m [32m|[m [34m|[m [35m|[m Date:   Fri Apr 25 12:40:07 2025 +0200
+[31m|[m [32m|[m [34m|[m [35m|[m 
+[31m|[m [32m|[m [34m|[m [35m|[m     Add ssh guid link and mac clipboard program
+[31m|[m [32m|[m [34m|[m [35m|[m 
+[31m|[m [32m|[m [34m|[m * [33mcommit 80fc817bc0f589b9806edba1e653aaa6d025e6cc[m
+[31m|[m [32m|[m [34m|[m [35m|[m Author: Jakob Schrader <jakob.schrader@guest.arnes.si>
+[31m|[m [32m|[m [34m|[m [35m|[m Date:   Sat Apr 19 19:09:48 2025 +0200
+[31m|[m [32m|[m [34m|[m [35m|[m 
+[31m|[m [32m|[m [34m|[m [35m|[m     Add ssh key guide to README.md
+[31m|[m [32m|[m [34m|[m [35m|[m 
+[31m|[m [32m|[m [34m|[m * [33mcommit bce56c03bc1c9336d95025fce45138f1e7ae4e15[m
+[31m|[m [32m|[m [34m|[m [35m|[m Author: Jakob Schrader <jakob.schrader@guest.arnes.si>
+[31m|[m [32m|[m [34m|[m [35m|[m Date:   Sat Apr 19 18:52:07 2025 +0200
+[31m|[m [32m|[m [34m|[m [35m|[m 
+[31m|[m [32m|[m [34m|[m [35m|[m     Change stuff in README.md
+[31m|[m [32m|[m [34m|[m [35m|[m   
+[31m|[m [32m|[m [34m|[m [35m|[m * [33mcommit fac8e12f4039140f8021b19e6db57b9fa62f785d[m[33m ([m[1;31morigin/breakout[m[33m)[m
+[31m|[m [32m|[m [34m|[m [35m|[m [36m|[m Author: Gregor Potočnik <gregor.pot.gm@gmail.com>
+[31m|[m [32m|[m [34m|[m [35m|[m [36m|[m Date:   Sun May 11 10:19:12 2025 +0200
+[31m|[m [32m|[m [34m|[m [35m|[m [36m|[m 
+[31m|[m [32m|[m [34m|[m [35m|[m [36m|[m     Removed unused assets
+[31m|[m [32m|[m [34m|[m [35m|[m [36m|[m   
+[31m|[m [32m|[m [34m|[m [35m|[m *   [33mcommit 584414cbe700556db6996fb9ff97131bb2ad5e2a[m
+[31m|[m [32m|[m [34m|[m [35m|[m [1;31m|[m[35m\[m  Merge: 3d1a583 6e0377a
+[31m|[m [32m|[m [34m|[m [35m|[m [1;31m|[m[35m/[m  Author: Gregor Potočnik <99352119+Gregorcnik@users.noreply.github.com>
+[31m|[m [32m|[m [34m|[m [35m|[m[35m/[m[1;31m|[m   Date:   Sun May 11 10:10:39 2025 +0200
+[31m|[m [32m|[m [34m|[m [35m|[m [1;31m|[m   
+[31m|[m [32m|[m [34m|[m [35m|[m [1;31m|[m       Merge branch 'main' into breakout
+[31m|[m [32m|[m [34m|[m [35m|[m [1;31m|[m 
+[31m|[m [32m|[m [34m|[m * [1;31m|[m [33mcommit 6e0377a9719738203264595ee7b199ef86111354[m
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;31m|[m Author: Matic Strgar <matic.strgar09@gmail.com>
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;31m|[m Date:   Sat May 10 16:46:08 2025 +0200
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;31m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;31m|[m     2048 game added
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;31m|[m 
+[31m|[m [32m|[m [34m|[m * [1;31m|[m [33mcommit 17692b3e580a05715053d3d8c88418e7ba84cb24[m
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;31m|[m Author: Matic Strgar <matic.strgar09@gmail.com>
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;31m|[m Date:   Sat May 10 16:20:18 2025 +0200
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;31m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;31m|[m     2048 game added
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;31m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m * [33mcommit 3d1a583df4b99bd006488b2c3b322ceb963db037[m
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m Author: Gregor Potočnik <gregor.pot.gm@gmail.com>
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m Date:   Sun May 11 10:07:13 2025 +0200
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m     Added block that can be broken only from one direction
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m * [33mcommit 89c1c139b1c6614ca5ce4b51958fce4a0b56665e[m
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m Author: Gregor Potocnik <gregor.pot.gm@gmail.com>
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m Date:   Sat May 3 21:36:40 2025 +0200
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m     Added block that requires two hits.
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m * [33mcommit d447f5dfb1db0faf4fb46bc92ead1b1b4728e196[m
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m Author: Gregor Potocnik <gregor.pot.gm@gmail.com>
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m Date:   Fri May 2 11:13:56 2025 +0200
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m     Added score tracking (best score)
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m * [33mcommit fcfd0a2e88f869a1d0e950f27019f1b661afd63d[m
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m Author: Gregor Potocnik <gregor.pot.gm@gmail.com>
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m Date:   Fri May 2 10:37:04 2025 +0200
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m     Several small improvements
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m     
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m     Changed window size ratio, made paddle movement more physics-based, and ensured the ball cannot get stuck if the direction is too horizontal.
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m * [33mcommit 94895b57ecfb78ff6c8929e330ad5e9538d34703[m
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m Author: Gregor Potocnik <gregor.pot.gm@gmail.com>
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m Date:   Thu May 1 11:35:46 2025 +0200
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m     Added block that spawns ball
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m * [33mcommit d437c009314c76375fadc8e771cd705496f76dbd[m
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m Author: Gregor Potočnik <gregor.pot.gm@gmail.com>
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m Date:   Wed Apr 30 18:02:19 2025 +0200
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m     Added SFX and particle support
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m * [33mcommit 5f68e12a419e5cd2ec95fe8f2d8a94990a24c45f[m
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m Author: Gregor Potocnik <gregor.pot.gm@gmail.com>
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m Date:   Wed Apr 30 10:28:27 2025 +0200
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m     Added ball deformation
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m * [33mcommit b8914460e8f64c57406e775f8a97f8b1fc75fb85[m
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m Author: Gregor Potocnik <gregor.pot.gm@gmail.com>
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m Date:   Tue Apr 29 20:45:59 2025 +0200
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m     Changed screen dimensions
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m * [33mcommit b0b66d382d06e89b376c58e0e32cca7713ffc878[m
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m Author: Gregor Potocnik <gregor.pot.gm@gmail.com>
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m Date:   Tue Apr 29 17:14:02 2025 +0200
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m     Ignored .DS_Store
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;32m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m * [33mcommit ccf6c1f51c9ee3acd2a3e08e14b84b9e1c59ff41[m
+[31m|[m [32m|[m [34m|[m[32m_[m[1;32m|[m[32m/[m  Author: Gregor Potocnik <gregor.pot.gm@gmail.com>
+[31m|[m [32m|[m[32m/[m[34m|[m [1;32m|[m   Date:   Thu Apr 17 17:03:59 2025 +0200
+[31m|[m [32m|[m [34m|[m [1;32m|[m   
+[31m|[m [32m|[m [34m|[m [1;32m|[m       Added breakout
+[31m|[m [32m|[m [34m|[m [1;32m|[m   
+[31m|[m [32m|[m [34m|[m [1;32m|[m * [33mcommit 2065a96e5446505eddad095e5394cc5accc7316f[m[33m ([m[1;31morigin/2048[m[33m)[m
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;33m|[m Author: Gregor Potočnik <gregor.pot.gm@gmail.com>
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;33m|[m Date:   Sun May 11 09:59:47 2025 +0200
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;33m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;33m|[m     reworked best score saving and cosmetic fixes
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;33m|[m   
+[31m|[m [32m|[m [34m|[m [1;32m|[m *   [33mcommit 87f5b687ea5c7085e5769a3e8d38044019b29c9b[m
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;34m|[m[1;35m\[m  Merge: 2ff7b6b f752778
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;34m|[m [1;35m|[m Author: Matic Strgar <matic.strgar09@gmail.com>
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;34m|[m [1;35m|[m Date:   Sat May 10 21:51:45 2025 +0200
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;34m|[m [1;35m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;34m|[m [1;35m|[m     Merge remote-tracking branch 'refs/remotes/origin/2048' into 2048
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;34m|[m [1;35m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;34m|[m * [33mcommit f7527783a4cd8ae5de889c4db1edf94ccc05e011[m
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;34m|[m [1;35m|[m Author: M368c <matic.strgar09@gmail.com>
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;34m|[m [1;35m|[m Date:   Sat May 10 21:27:25 2025 +0200
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;34m|[m [1;35m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;34m|[m [1;35m|[m     Delete games/game_2048/best_score.txt
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;34m|[m [1;35m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m * [1;35m|[m [33mcommit 2ff7b6bfc00d8c927240b1b73ab7d91cbdce0fa3[m
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;35m|[m[1;35m/[m  Author: Matic Strgar <matic.strgar09@gmail.com>
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;35m|[m   Date:   Sat May 10 21:42:30 2025 +0200
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;35m|[m   
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;35m|[m       best_score.txt removed
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;35m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m * [33mcommit 02ca53d9130cc96e4c68257fa04a823767b9eedd[m
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;35m|[m Author: Matic Strgar <matic.strgar09@gmail.com>
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;35m|[m Date:   Sat May 10 20:38:07 2025 +0200
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;35m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;35m|[m     added best_score tracking
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;35m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m * [33mcommit 830c527fd30398a022b74afb26cc79860f775c9b[m
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;35m|[m Author: Matic Strgar <matic.strgar09@gmail.com>
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;35m|[m Date:   Sat May 10 16:46:08 2025 +0200
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;35m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;35m|[m     2048 game added
+[31m|[m [32m|[m [34m|[m [1;32m|[m [1;35m|[m 
+[31m|[m [32m|[m [34m|[m [1;32m|[m * [33mcommit fb3b0abd183eaafc3704bb2f9a506e4ee5ef4676[m
+[31m|[m [32m|[m [34m|[m [1;32m|[m[1;32m/[m  Author: Matic Strgar <matic.strgar09@gmail.com>
+[31m|[m [32m|[m [34m|[m [1;32m|[m   Date:   Sat May 10 16:20:18 2025 +0200
+[31m|[m [32m|[m [34m|[m [1;32m|[m   
+[31m|[m [32m|[m [34m|[m [1;32m|[m       2048 game added
+[31m|[m [32m|[m [34m|[m [1;32m|[m 
+[31m|[m [32m|[m [34m|[m * [33mcommit aec49087d966addc68104a40eb2aec8566863ce7[m
+[31m|[m [32m|[m [34m|[m[34m/[m  Author: Gregor Potočnik <gregor.pot.gm@gmail.com>
+[31m|[m [32m|[m [34m|[m   Date:   Thu Apr 24 18:48:42 2025 +0200
+[31m|[m [32m|[m [34m|[m   
+[31m|[m [32m|[m [34m|[m       ignored tags and nix shell
+[31m|[m [32m|[m [34m|[m   
+[31m|[m [32m|[m [34m|[m * [33mcommit a62bfbe65f1acb5b064dc151b0633aab6bff6a40[m[33m ([m[1;31morigin/navodila[m[33m)[m
+[31m|[m [32m|[m [34m|[m [1;36m|[m Author: Jakob Schrader <jakob.schrader@guest.arnes.si>
+[31m|[m [32m|[m [34m|[m [1;36m|[m Date:   Sat May 10 22:30:55 2025 +0200
+[31m|[m [32m|[m [34m|[m [1;36m|[m 
+[31m|[m [32m|[m [34m|[m [1;36m|[m     Remove bash specifiers in README codeblocks
+[31m|[m [32m|[m [34m|[m [1;36m|[m     
+[31m|[m [32m|[m [34m|[m [1;36m|[m     Github apparently recognizes these only if they're part of a list and
+[31m|[m [32m|[m [34m|[m [1;36m|[m     doesn't take triple backticks to mean code in a separate line either.
+[31m|[m [32m|[m [34m|[m [1;36m|[m 
+[31m|[m [32m|[m [34m|[m * [33mcommit 207b063d515c14e5f6918b876ee05c1b38358717[m
+[31m|[m [32m|[m [34m|[m [1;36m|[m Author: Gregor Potočnik <99352119+Gregorcnik@users.noreply.github.com>
+[31m|[m [32m|[m [34m|[m [1;36m|[m Date:   Tue Apr 29 17:33:10 2025 +0200
+[31m|[m [32m|[m [34m|[m [1;36m|[m 
+[31m|[m [32m|[m [34m|[m [1;36m|[m     Added project description to readme
+[31m|[m [32m|[m [34m|[m [1;36m|[m 
+[31m|[m [32m|[m [34m|[m * [33mcommit f4026cff7995377aa05a77ebc8a5f5f0aedc2ef7[m
+[31m|[m [32m|[m [34m|[m [1;36m|[m Author: Jakob Schrader <jakob.schrader@guest.arnes.si>
+[31m|[m [32m|[m [34m|[m [1;36m|[m Date:   Fri Apr 25 12:40:07 2025 +0200
+[31m|[m [32m|[m [34m|[m [1;36m|[m 
+[31m|[m [32m|[m [34m|[m [1;36m|[m     Add ssh guid link and mac clipboard program
+[31m|[m [32m|[m [34m|[m [1;36m|[m 
+[31m|[m [32m|[m [34m|[m * [33mcommit 66fa89a28ffee4d3b8879cb78e71894aba6d7c63[m
+[31m|[m [32m|[m [34m|[m [1;36m|[m Author: Jakob Schrader <jakob.schrader@guest.arnes.si>
+[31m|[m [32m|[m [34m|[m [1;36m|[m Date:   Sat Apr 19 19:09:48 2025 +0200
+[31m|[m [32m|[m [34m|[m [1;36m|[m 
+[31m|[m [32m|[m [34m|[m [1;36m|[m     Add ssh key guide to README.md
+[31m|[m [32m|[m [34m|[m [1;36m|[m 
+[31m|[m [32m|[m [34m|[m * [33mcommit 9deb09e788f46b9c65e6eb298880585ee453fbee[m
+[31m|[m [32m|[m [34m|[m[34m/[m  Author: Jakob Schrader <jakob.schrader@guest.arnes.si>
+[31m|[m [32m|[m [34m|[m   Date:   Sat Apr 19 18:52:07 2025 +0200
+[31m|[m [32m|[m [34m|[m   
+[31m|[m [32m|[m [34m|[m       Change stuff in README.md
+[31m|[m [32m|[m [34m|[m 
+[31m|[m [32m|[m * [33mcommit 489532a8fb99c18ce4660b3dee48ba13aa510369[m
+[31m|[m [32m|[m [1;36m|[m Author: TroiGDev <zapis.troi@gmail.com>
+[31m|[m [32m|[m [1;36m|[m Date:   Sat Apr 12 19:25:57 2025 +0200
+[31m|[m [32m|[m [1;36m|[m 
+[31m|[m [32m|[m [1;36m|[m     attempted to fix pygame initialization error for knifehit minigame
+[31m|[m [32m|[m [1;36m|[m 
+[31m|[m [32m|[m * [33mcommit 5d4a73192b2c3b262a851a4d013a2dd4c7c669c6[m
+[31m|[m [32m|[m [1;36m|[m Author: TroiGDev <zapis.troi@gmail.com>
+[31m|[m [32m|[m [1;36m|[m Date:   Sat Apr 12 07:32:59 2025 +0200
+[31m|[m [32m|[m [1;36m|[m 
+[31m|[m [32m|[m [1;36m|[m     modified requirements to include knifehits numpy
+[31m|[m [32m|[m [1;36m|[m 
+[31m|[m [32m|[m * [33mcommit 8cd2c01c180af32b52d0a72d23c34eb4ad59ebe0[m
+[31m|[m [32m|[m [1;36m|[m Author: TroiGDev <zapis.troi@gmail.com>
+[31m|[m [32m|[m [1;36m|[m Date:   Fri Apr 11 20:24:08 2025 +0200
+[31m|[m [32m|[m [1;36m|[m 
+[31m|[m [32m|[m [1;36m|[m     on return to menu also reset working directory back to original
+[31m|[m [32m|[m [1;36m|[m 
+[31m|[m [32m|[m * [33mcommit 0e5a183fdef3839064043c723c557212e05ed439[m
+[31m|[m [32m|[m [1;36m|[m Author: TroiGDev <zapis.troi@gmail.com>
+[31m|[m [32m|[m [1;36m|[m Date:   Fri Apr 11 18:50:56 2025 +0200
+[31m|[m [32m|[m [1;36m|[m 
+[31m|[m [32m|[m [1;36m|[m     added return to menu button
+[31m|[m [32m|[m [1;36m|[m     
+[31m|[m [32m|[m [1;36m|[m     added return to menu buttton and correctly stopped music and reset caption on return to menu
+[31m|[m [32m|[m [1;36m|[m 
+[31m|[m [32m|[m * [33mcommit 059be5629c776ba995c3399443a901f16a592370[m
+[31m|[m [32m|[m [1;36m|[m Author: TroiGDev <zapis.troi@gmail.com>
+[31m|[m [32m|[m [1;36m|[m Date:   Fri Apr 11 18:15:43 2025 +0200
+[31m|[m [32m|[m [1;36m|[m 
+[31m|[m [32m|[m [1;36m|[m     added returning to menu with backspace key
+[31m|[m [32m|[m [1;36m|[m 
+[31m|[m [32m|[m * [33mcommit bf10d1d8f16c57c38f63eadf48ab841a18e447d1[m
+[31m|[m [32m|[m [1;36m|[m Author: TroiGDev <zapis.troi@gmail.com>
+[31m|[m [32m|[m [1;36m|[m Date:   Fri Apr 11 16:42:18 2025 +0200
+[31m|[m [32m|[m [1;36m|[m 
+[31m|[m [32m|[m [1;36m|[m     Integrated knife hit game in the menu, NOTE: snake game is commented out cuz it doesnt work for me for some reason, NOTE: there is no way to return to the menu from the kinfehit game yet
+[31m|[m [32m|[m [1;36m|[m 
+[31m|[m [32m|[m * [33mcommit 9e1d9f81f5cbdb7d6ea43d086903b89c68d1b39d[m
+[31m|[m [32m|[m [1;36m|[m Author: TroiGDev <zapis.troi@gmail.com>
+[31m|[m [32m|[m [1;36m|[m Date:   Fri Apr 11 16:05:35 2025 +0200
+[31m|[m [32m|[m [1;36m|[m 
+[31m|[m [32m|[m [1;36m|[m     added in up to date standalone knifehit version
+[31m|[m [32m|[m [1;36m|[m 
+[31m|[m [32m|[m * [33mcommit e67e41477624899930cd3c6fcf3d5f4e5a490376[m
+[31m|[m [32m|[m [1;36m|[m Author: Troi <143833120+TroiGDev@users.noreply.github.com>
+[31m|[m [32m|[m [1;36m|[m Date:   Fri Apr 4 05:20:56 2025 +0200
+[31m|[m [32m|[m [1;36m|[m 
+[31m|[m [32m|[m [1;36m|[m     Updated requirements.txt
+[31m|[m [32m|[m [1;36m|[m     
+[31m|[m [32m|[m [1;36m|[m     changed pygame from 2.6.0 to 2.6.1
+[31m|[m [32m|[m [1;36m|[m 
+[31m|[m [32m|[m * [33mcommit 4cce1bb2bf464ae3ed08270eed5640c957237cf0[m
+[31m|[m [32m|[m [1;36m|[m Author: Troi <143833120+TroiGDev@users.noreply.github.com>
+[31m|[m [32m|[m [1;36m|[m Date:   Fri Apr 4 05:20:37 2025 +0200
+[31m|[m [32m|[m [1;36m|[m 
+[31m|[m [32m|[m [1;36m|[m     Updated main.py
+[31m|[m [32m|[m [1;36m|[m     
+[31m|[m [32m|[m [1;36m|[m     updated pygame from 2.6.0 to 2.6.1
+[31m|[m [32m|[m [1;36m|[m     previous version used pygame 2.6.0, where surface width is obtained by .width while in the 2.6.1 its .get_width()
+[31m|[m [32m|[m [1;36m|[m 
+[31m|[m [32m|[m * [33mcommit 2fc92fa8818683875fda60971dd12c0e60ccd3d1[m
+[31m|[m [32m|[m [1;36m|[m Author: Troi <143833120+TroiGDev@users.noreply.github.com>
+[31m|[m [32m|[m [1;36m|[m Date:   Thu Apr 3 20:00:15 2025 +0200
+[31m|[m [32m|[m [1;36m|[m 
+[31m|[m [32m|[m [1;36m|[m     accidentaly added pychache :sob:
+[31m|[m [32m|[m [1;36m|[m 
+[31m|[m [32m|[m * [33mcommit 50084e486bed7c1ab7452bc3499c6c3f3bb65813[m
+[31m|[m [32m|[m[32m/[m  Author: Troi <143833120+TroiGDev@users.noreply.github.com>
+[31m|[m [32m|[m   Date:   Thu Apr 3 19:31:00 2025 +0200
+[31m|[m [32m|[m   
+[31m|[m [32m|[m       Added KnifeHit arcade game
+[31m|[m [32m|[m       
+[31m|[m [32m|[m       Added first version of the KnifeHit arcade game with all required assets
+[31m|[m [32m|[m 
+[31m|[m * [33mcommit 08d1a890a51062c7bfb2c3c212fc53188e8b5eda[m
+[31m|[m [1;36m|[m Author: Gregor Potočnik <99352119+Gregorcnik@users.noreply.github.com>
+[31m|[m [1;36m|[m Date:   Wed Apr 16 15:40:37 2025 +0200
+[31m|[m [1;36m|[m 
+[31m|[m [1;36m|[m     Rename Snake.py to snake.py
+[31m|[m [1;36m|[m     
+[31m|[m [1;36m|[m     Mac ni case sensitive 😢
+[31m|[m [1;36m|[m   
+[31m|[m *   [33mcommit 66c8cec59f9745151808c513400476d63f12704d[m
+[31m|[m [31m|[m[32m\[m  Merge: cbeaf66 02b0761
+[31m|[m [31m|[m [32m|[m Author: Gregor Potočnik <gregor.pot.gm@gmail.com>
+[31m|[m [31m|[m [32m|[m Date:   Wed Apr 16 15:39:06 2025 +0200
+[31m|[m [31m|[m [32m|[m 
+[31m|[m [31m|[m [32m|[m     Merge branch 'snake'
+[31m|[m [31m|[m [32m|[m 
+[31m|[m [31m|[m * [33mcommit 02b0761fcb4ffd38e9520f2233a797f42c0fa033[m
+[31m|[m [31m|[m [32m|[m Author: Gregor Potočnik <gregor.pot.gm@gmail.com>
+[31m|[m [31m|[m [32m|[m Date:   Sat Apr 12 18:43:39 2025 +0200
+[31m|[m [31m|[m [32m|[m 
+[31m|[m [31m|[m [32m|[m     Fixed forward jumping
+[31m|[m [31m|[m [32m|[m     
+[31m|[m [31m|[m [32m|[m     Fixed a bug where the snake would jump forward after eating an apple
+[31m|[m [31m|[m [32m|[m 
+[31m|[m [31m|[m * [33mcommit a8c33490eff7b687bccb1b212498ced99ace7dab[m
+[31m|[m [31m|[m [32m|[m Author: Gregor Potočnik <gregor.pot.gm@gmail.com>
+[31m|[m [31m|[m [32m|[m Date:   Sat Apr 12 16:48:11 2025 +0200
+[31m|[m [31m|[m [32m|[m 
+[31m|[m [31m|[m [32m|[m     Added score
+[31m|[m [31m|[m [32m|[m 
+[31m|[m [31m|[m * [33mcommit 0209b0e380139d2763541fadd2a9378590c098a9[m
+[31m|[m [31m|[m [32m|[m Author: Gregor Potočnik <gregor.pot.gm@gmail.com>
+[31m|[m [31m|[m [32m|[m Date:   Sat Apr 12 16:37:23 2025 +0200
+[31m|[m [31m|[m [32m|[m 
+[31m|[m [31m|[m [32m|[m     Made snake go faster through time
+[31m|[m [31m|[m [32m|[m 
+[31m|[m [31m|[m * [33mcommit 2f64b8fb3af2d8ccfd9aef97cdd7ad06d006619c[m
+[31m|[m [31m|[m [32m|[m Author: Gregor Potočnik <gregor.pot.gm@gmail.com>
+[31m|[m [31m|[m [32m|[m Date:   Sat Apr 12 16:02:16 2025 +0200
+[31m|[m [31m|[m [32m|[m 
+[31m|[m [31m|[m [32m|[m     Made bomb warnings blink
+[31m|[m [31m|[m [32m|[m 
+[31m|[m [31m|[m * [33mcommit 15c6e6794d138e3d55fbac86629d3ae508dec5a1[m
+[31m|[m [31m|[m [32m|[m Author: Gregor Potočnik <gregor.pot.gm@gmail.com>
+[31m|[m [31m|[m [32m|[m Date:   Sat Apr 12 15:58:21 2025 +0200
+[31m|[m [31m|[m [32m|[m 
+[31m|[m [31m|[m [32m|[m     Added scissors
+[31m|[m [31m|[m [32m|[m 
+[31m|[m [31m|[m * [33mcommit 74bbcf213673da0c82df2e266284f86d0c27e9b3[m
+[31m|[m [31m|[m [32m|[m Author: Gregor Potočnik <gregor.pot.gm@gmail.com>
+[31m|[m [31m|[m [32m|[m Date:   Sat Apr 12 15:07:51 2025 +0200
+[31m|[m [31m|[m [32m|[m 
+[31m|[m [31m|[m [32m|[m     Game over screen added
+[31m|[m [31m|[m [32m|[m 
+[31m|[m [31m|[m * [33mcommit ab3c17b903348e4d87427f4193d089adbec83168[m
+[31m|[m [31m|[m [32m|[m Author: Gregor Potočnik <gregor.pot.gm@gmail.com>
+[31m|[m [31m|[m [32m|[m Date:   Sat Apr 12 10:41:18 2025 +0200
+[31m|[m [31m|[m [32m|[m 
+[31m|[m [31m|[m [32m|[m     Added bombs
+[31m|[m [31m|[m [32m|[m 
+[31m|[m [31m|[m * [33mcommit 9c2b1e55f388923777bcee4d6869d9394df8ef9a[m
+[31m|[m [31m|[m [32m|[m Author: Gregor Potočnik <gregor.pot.gm@gmail.com>
+[31m|[m [31m|[m [32m|[m Date:   Sat Apr 12 09:23:44 2025 +0200
+[31m|[m [31m|[m [32m|[m 
+[31m|[m [31m|[m [32m|[m     Added .vscode and ruff.toml
+[31m|[m [31m|[m [32m|[m 
+[31m|[m [31m|[m * [33mcommit a3bed7a3e51f0dd95930c50e12490138b1b6d391[m
+[31m|[m [31m|[m[31m/[m  Author: Gregor Potočnik <gregor.pot.gm@gmail.com>
+[31m|[m[31m/[m[31m|[m   Date:   Fri Apr 11 19:01:42 2025 +0200
+[31m|[m [31m|[m   
+[31m|[m [31m|[m       Changed color theme
+[31m|[m [31m|[m 
+[31m|[m * [33mcommit cbeaf66ba078d5d7b834beecc2628d2bb8cf8206[m
+[31m|[m [32m|[m Author: elesfau <travakosnja32@gmail.com>
+[31m|[m [32m|[m Date:   Tue Apr 15 20:38:37 2025 +0200
+[31m|[m [32m|[m 
+[31m|[m [32m|[m     README.md
+[31m|[m [32m|[m   
+[31m|[m [32m|[m * [33mcommit 9705b04cd1794b75c925cb249922b6d450cb868c[m[33m ([m[1;31morigin/EdgeCase[m[33m)[m
+[31m|[m [32m|[m [33m|[m Author: TroiGDev <zapis.troi@gmail.com>
+[31m|[m [32m|[m [33m|[m Date:   Wed Apr 30 16:06:14 2025 +0200
+[31m|[m [32m|[m [33m|[m 
+[31m|[m [32m|[m [33m|[m     improved tile falling animation
+[31m|[m [32m|[m [33m|[m 
+[31m|[m [32m|[m * [33mcommit 95eaa2d0af9e5ef567cd31d731b0f715ce9ad0c9[m
+[31m|[m [32m|[m [33m|[m Author: TroiGDev <zapis.troi@gmail.com>
+[31m|[m [32m|[m [33m|[m Date:   Fri Apr 18 21:05:14 2025 +0200
+[31m|[m [32m|[m [33m|[m 
+[31m|[m [32m|[m [33m|[m     Added delete and add level to level builder
+[31m|[m [32m|[m [33m|[m 
+[31m|[m [32m|[m * [33mcommit 793238b4daba1c39a345150c00fec0bb71612e8b[m
+[31m|[m [32m|[m [33m|[m Author: TroiGDev <zapis.troi@gmail.com>
+[31m|[m [32m|[m [33m|[m Date:   Wed Apr 16 18:21:29 2025 +0200
+[31m|[m [32m|[m [33m|[m 
+[31m|[m [32m|[m [33m|[m     added animations and delays
+[31m|[m [32m|[m [33m|[m     
+[31m|[m [32m|[m [33m|[m     added a nice block falling animation and cretaed level transition delay, planning on making a level transition animation as well
+[31m|[m [32m|[m [33m|[m 
+[31m|[m [32m|[m * [33mcommit e0f8551376927f1d75795bd3bfa644276b318305[m
+[31m|[m [32m|[m[32m/[m  Author: TroiGDev <zapis.troi@gmail.com>
+[31m|[m [32m|[m   Date:   Tue Apr 15 17:51:55 2025 +0200
+[31m|[m [32m|[m   
+[31m|[m [32m|[m       Started new minigame
+[31m|[m [32m|[m 
+[31m|[m * [33mcommit 7d63cd665693409c604b4f3c27e871d6926cba2b[m
+[31m|[m [33m|[m Author: qyx22122 <tibor.macek1@gmail.com>
+[31m|[m [33m|[m Date:   Sun Apr 13 12:14:06 2025 +0200
+[31m|[m [33m|[m 
+[31m|[m [33m|[m     Add shell.nix and tags. Also started on my game
+[31m|[m [33m|[m 
+[31m|[m * [33mcommit 734ea66b3eeabaad7421a07239d526fa2b9538ad[m
+[31m|[m [33m|[m Author: Gregor Potočnik <99352119+Gregorcnik@users.noreply.github.com>
+[31m|[m [33m|[m Date:   Sat Apr 12 11:25:47 2025 +0200
+[31m|[m [33m|[m 
+[31m|[m [33m|[m     Updated clone link
+[31m|[m [33m|[m     
+[31m|[m [33m|[m     Updated clone link to jakob's account and rephrased things a little.
+[31m|[m [33m|[m 
+[31m|[m * [33mcommit ff63bb5895b5c149960693023224b8391e86fb4b[m
+[31m|[m[31m/[m  Author: Gregor Potočnik <99352119+Gregorcnik@users.noreply.github.com>
+[31m|[m   Date:   Fri Apr 11 18:55:23 2025 +0200
+[31m|[m   
+[31m|[m       Rename snake.py to Snake.py
+[31m|[m 
+* [33mcommit a5e7e31dfdff3df34be1c708f609bafada3baca8[m
+[33m|[m Author: Gregor Potočnik <gregor.pot.gm@gmail.com>
+[33m|[m Date:   Thu Apr 3 18:35:58 2025 +0200
+[33m|[m 
+[33m|[m     Format with tabs (sry)
+[33m|[m 
+* [33mcommit 611b0296b4339a9ad2fde212b1b2a57c026bbe24[m
+[33m|[m Author: Gregor Potočnik <gregor.pot.gm@gmail.com>
+[33m|[m Date:   Thu Apr 3 18:16:50 2025 +0200
+[33m|[m 
+[33m|[m     Splitted snake into multiple files
+[33m|[m 
+* [33mcommit 22b8ad567060cd8ed786e00af747f6a4448f4ce1[m
+[33m|[m Author: Gregor Potočnik <gregor.pot.gm@gmail.com>
+[33m|[m Date:   Mon Mar 31 16:52:37 2025 +0200
+[33m|[m 
+[33m|[m     Initial commit
+[33m|[m 
+* [33mcommit 4d1ed9f4feba402137a4b466c6f80a5eeacb4936[m
+  Author: Gregor Potočnik <99352119+Gregorcnik@users.noreply.github.com>
+  Date:   Fri Mar 28 17:24:25 2025 +0100
+  
+      Initial commit

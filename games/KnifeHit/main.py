@@ -117,7 +117,6 @@ class gameSceneTransition():
 
     def updateOverlay(self, dTs):
         #interpolate towards target a
-        print(dTs)
         self.a = self.a + ((self.ta - self.a) + 0.1) * 0.005 * dTs
 
         if self.a > 255:
