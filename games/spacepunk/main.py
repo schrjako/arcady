@@ -152,6 +152,8 @@ class Turret:
 class LaserTurret(Turret):
 	def __init__(self, player):
 		super().__init__(player)
+		self.cooldown_time = 5
+		self.cooldown = self.cooldown_time
 
 	def shoot(self):
 		effects.append(Laser(self.pos, 0.2, self.player, self.start_pos))
@@ -187,22 +189,20 @@ class Timer:
 	def update(self, dt):
 		self.time += dt
 	
-	def draw(self, screen):
-		font = pygame.font.SysFont('Fira Code', 40)
+	def draw(self, screen, font):
 		time_str = str(int(self.time)) + '.' + str(int((self.time * 1000)%1000))
 		title = font.render(time_str, True, (255, 255, 255))
 		screen.blit(title, (scrWidth/2 - title.get_width()/2, title.get_height()/2))
 
 
-def draw_game_over_screen(screen):
-   font = pygame.font.SysFont('Fira Code', 40)
+def draw_game_over_screen(screen, font):
    title = font.render('Game Over', True, (255, 255, 255))
    screen.blit(title, (scrWidth/2 - title.get_width()/2, scrHeight/2 - title.get_height()/3))
    pygame.display.update()
 
 
-scrWidth = 750
-scrHeight = 750
+scrWidth = 900
+scrHeight = 900
 
 
 def run(screen):
@@ -210,6 +210,7 @@ def run(screen):
 	menuWidth = screen.get_width()
 	menuHeight = screen.get_height()
 	screen = pygame.display.set_mode((scrWidth, scrHeight))
+	font = pygame.font.Font("./games/spacepunk/FiraCode.ttf", 40)
 
 	global bullets
 	global effects
@@ -221,7 +222,7 @@ def run(screen):
 	spawn_timer = 0
 	
 	player = Player(pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2),25,pygame.Vector2(0,0),pygame.Vector2(0,0),-0.2)
-	turrets = [Turret(player)]
+	turrets = [LaserTurret(player)]
 	
 	bar = HealthBar(100) 
 	timer = Timer()
@@ -289,13 +290,13 @@ def run(screen):
 			if explosion.time < 0:
 				effects.pop(i)
 		bar.draw(screen)
-		timer.draw(screen)
+		timer.draw(screen, font)
 
 		pygame.display.flip()
 
 		dt = clock.tick(60)/1000  # limits FPS to 60
 	
-	draw_game_over_screen(screen)
+	draw_game_over_screen(screen, font)
 	time.sleep(3)
 	screen = pygame.display.set_mode((menuWidth, menuHeight))
 
