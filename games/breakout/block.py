@@ -5,7 +5,7 @@ from .ball import Ball, BallManager
 from .sound import SoundManager
 from .particle import ParticleManager, Particle
 
-from typing import override, Literal
+from typing import Literal
 import random
 
 
@@ -18,7 +18,6 @@ class Block(Sprite):
 		self.color = color
 		self.sound = sound
 
-	@override
 	def kill(self):
 		self.alive = False
 
@@ -79,12 +78,10 @@ class BlockWithBall(Block):
 		super().__init__(rect, color, sound)
 		self.ball_color = self.color - pygame.Color(50, 50, 50, 0)
 
-	@override
 	def draw(self, surface: pygame.Surface, glow_surf: pygame.Surface):
 		super().draw(surface, glow_surf)
 		pygame.draw.circle(surface, self.ball_color, self.rect.center, min(self.rect.height, self.rect.width) * 0.35)
 
-	@override
 	def on_hit(self, ball: Ball, side_or_corner: Literal[0] | Literal[1], which: int):
 		super().on_hit(ball, side_or_corner, which)
 		BallManager().spawn(
@@ -97,14 +94,12 @@ class BlockDouble(Block):
 		super().__init__(rect, color, sound)
 		self.lives: int = 2
 
-	@override
 	def draw(self, surface: pygame.Surface, glow_surf: pygame.Surface):
 		super().draw(surface, glow_surf)
 
 		if self.lives != 1:
 			pygame.draw.rect(surface, "white", self.rect, width=5, border_radius=10)
 
-	@override
 	def on_hit(self, ball: Ball, side_or_corner: Literal[0, 1], which: int):
 		ball.bounce_anim()
 		SoundManager().play(self.sound)
@@ -119,14 +114,12 @@ class BlockOnesided(Block):
 		super().__init__(rect, color, sound)
 		self.side = side
 
-	@override
 	def on_hit(self, ball: Ball, side_or_corner: Literal[0] | Literal[1], which: int):
 		if side_or_corner == 0 and which == self.side:
 			super().on_hit(ball, side_or_corner, which)
 		else:
 			SoundManager().play("wall_hit")
 
-	@override
 	def draw(self, surface: pygame.Surface, glow_surf: pygame.Surface):
 		super().draw(surface, glow_surf)
 
