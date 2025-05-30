@@ -6,6 +6,8 @@ import numpy as np
 import math
 import random
 import time
+
+from scores.scores import Scores
 #project scripts
 #import ExtraMath
 from . import OrderedSprites
@@ -353,10 +355,5 @@ class KnifeHitGame:
                     self.gs.score = 0
                     self.gs.transition.outTransition()
 
-def run(screen):
+def run(screen, scores):
     KnifeHitGame(screen).run()
-
-if __name__ == "__main__":
-    pygame.init()
-    screen = pygame.display.set_mode((400, 800))
-    run(screen)

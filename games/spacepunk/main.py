@@ -23,7 +23,7 @@ class Entity:
 			self.pos.y = space_ship_size.y + space_ship_pos.x -self.r 
 			self.v.y *= -0.25
 
-def run(screen):
+def run(screen, scores):
 	# pygame setup
 	pygame.init()
 	running = True

@@ -1,5 +1,6 @@
 import pygame
 from menu.menu import show_menu
+from scores.scores import Scores
 
 import games.snake.main as snake
 import games.spacepunk.main as spacepunk
@@ -13,19 +14,23 @@ def main():
 	screen = pygame.display.set_mode((800, 600))
 	pygame.display.set_caption("Arcady")
 
+	scores = Scores()
+
 	running = True
 	while running:
 		choice = show_menu(screen, ["snake", "spacepunk", "knifehit", "2048 game", "breakout"])
+		scores.set_game(choice)
+
 		if choice == "snake":
-			snake.run(screen)
+			snake.run(screen, scores)
 		elif choice == "spacepunk":
-			spacepunk.run(screen)
+			spacepunk.run(screen, scores)
 		elif choice == "breakout":
-			breakout.run(screen)
+			breakout.run(screen, scores)
 		elif choice == "knifehit":
-			knifehit.run(screen)
+			knifehit.run(screen, scores)
 		elif choice == "2048 game":
-			game_2048.run(screen)
+			game_2048.run(screen, scores)
 		elif choice == "quit":
 			running = False
 

@@ -1,5 +1,7 @@
 import pygame
 
+from scores.scores import Scores
+
 from .hex import HexBoard
 from .snake import Snake
 from .spawnables import SpawnableManager, Apple, Bomb, Scissors
@@ -7,10 +9,11 @@ from .collisionManager import CollisionManager
 
 import random
 from enum import Enum
+from pathlib import Path
 
 # The article about hexagonal grids I used: https://www.redblobgames.com/grids/hexagons/
 
-path = "./games/snake"
+path = Path(__file__).parent
 
 
 class SnakeGame:
@@ -44,9 +47,7 @@ class SnakeGame:
 
 		self.snake: Snake = Snake((0, 0), 5, 15, self.board)
 
-		self.spawnable_manager: SpawnableManager = SpawnableManager(
-			self.board, self.snake
-		)
+		self.spawnable_manager: SpawnableManager = SpawnableManager(self.board, self.snake)
 
 		self.collision_manager: CollisionManager = CollisionManager(
 			self.snake, self.spawnable_manager, self.initiate_game_over
@@ -70,36 +71,28 @@ class SnakeGame:
 		self.screen.blit(overlay, (0, 0))
 
 		# Create fonts
-		giant_font = pygame.font.Font(path + "/fonts/PressStart2P.ttf", 65)
-		large_font = pygame.font.Font(path + "/fonts/PressStart2P.ttf", 46)
-		small_font = pygame.font.Font(path + "/fonts/PressStart2P.ttf", 20)
+		giant_font = pygame.font.Font(path / "fonts/PressStart2P.ttf", 65)
+		large_font = pygame.font.Font(path / "fonts/PressStart2P.ttf", 46)
+		small_font = pygame.font.Font(path / "fonts/PressStart2P.ttf", 20)
 
 		# Render the main Game Over message.
 		game_over_text = large_font.render("GAME OVER", True, color)
-		game_over_rect = game_over_text.get_rect(
-			center=(self.screen.get_width() // 2, self.screen.get_height() // 2)
-		)
+		game_over_rect = game_over_text.get_rect(center=(self.screen.get_width() // 2, self.screen.get_height() // 2))
 		self.screen.blit(game_over_text, game_over_rect)
 
 		# Render score
 		score_text = giant_font.render(str(self.snake.score), True, color)
-		score_rect = score_text.get_rect(
-			center=(self.screen.get_width() // 2, self.screen.get_height() // 4 - 30)
-		)
+		score_rect = score_text.get_rect(center=(self.screen.get_width() // 2, self.screen.get_height() // 4 - 30))
 		self.screen.blit(score_text, score_rect)
 
 		# Render the message
 		message_text = small_font.render(message, True, color)
-		message_rect = message_text.get_rect(
-			center=(self.screen.get_width() // 2, self.screen.get_height() // 2 + 60)
-		)
+		message_rect = message_text.get_rect(center=(self.screen.get_width() // 2, self.screen.get_height() // 2 + 60))
 		self.screen.blit(message_text, message_rect)
 
 		# Render the "Press Enter to Continue" text
 		message_text = small_font.render("Press Enter to Continue", True, color)
-		extra_rect = message_text.get_rect(
-			center=(self.screen.get_width() // 2, self.screen.get_height() // 2 - 60)
-		)
+		extra_rect = message_text.get_rect(center=(self.screen.get_width() // 2, self.screen.get_height() // 2 - 60))
 		self.screen.blit(message_text, extra_rect)
 
 	def run(self) -> None:
@@ -139,10 +132,7 @@ class SnakeGame:
 						self.spawnable_manager.spawn_random(Bomb)
 
 				# Spawn scrissors
-				if (
-					self.snake.length % 20 == 0
-					and len(self.spawnable_manager.get(Scissors)) == 0
-				):
+				if self.snake.length % 20 == 0 and len(self.spawnable_manager.get(Scissors)) == 0:
 					# Only one scissors at a time
 					self.spawnable_manager.spawn_random(Scissors)
 
@@ -167,11 +157,5 @@ class SnakeGame:
 			frame += 1
 
 
-def run(screen: pygame.Surface):
+def run(screen: pygame.Surface, scores):
 	SnakeGame(screen, board_radius=10, cell_size=17).run()
-
-
-if __name__ == "__main__":
-	pygame.init()
-	screen = pygame.display.set_mode((800, 600))
-	run(screen)
