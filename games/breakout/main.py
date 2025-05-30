@@ -8,6 +8,8 @@ from .utils import glow, limit, choose
 from .particle import Particle, ParticleManager
 from .sound import SoundManager
 
+from scores.scores import Scores
+
 import random
 from typing import Literal
 from pathlib import Path
@@ -34,7 +36,7 @@ class Colors:
 
 
 class Breakout:
-	def __init__(self, screen: pygame.Surface):
+	def __init__(self, screen: pygame.Surface, scores: Scores):
 		self.screen: pygame.Surface = screen
 		self.menu_size = self.screen.get_size()
 		self.resize_screen((700, 750))
@@ -57,7 +59,7 @@ class Breakout:
 		}
 
 		self.metrics: Metrics = Metrics(
-			pygame.Rect(35, 5, self.screen.get_width() - 35 * 2, 60), self.colors.text, self.colors.lives
+			pygame.Rect(35, 5, self.screen.get_width() - 35 * 2, 60), self.colors.text, self.colors.lives, scores
 		)
 
 		self.paddle: Paddle = Paddle(
@@ -275,5 +277,5 @@ class Breakout:
 		self.resize_screen(self.menu_size)
 
 
-def run(screen: pygame.Surface):
-	Breakout(screen).run()
+def run(screen: pygame.Surface, scores: Scores):
+	Breakout(screen, scores).run()

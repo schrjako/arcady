@@ -1,5 +1,5 @@
-# Files with scores
-.SCORES_*
+# File with scores
+.SCORES
 
 # Some mac metadata
 .DS_Store

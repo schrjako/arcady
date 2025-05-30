@@ -2,17 +2,21 @@ import pygame
 
 from .sprite import Sprite
 
+from scores.scores import Scores
+
 from pathlib import Path
-import base64
-import binascii
 
 
 class Metrics(Sprite):
-	def __init__(self, rect: pygame.Rect, score_color: pygame.Color, lives_color: pygame.Color, lives: int = 3):
+	def __init__(
+		self, rect: pygame.Rect, score_color: pygame.Color, lives_color: pygame.Color, scores: Scores, lives: int = 3
+	):
 		super().__init__()
 
+		self.scores = scores
+
 		self.score: int = 0
-		self.lives: int = 3
+		self.lives: int = lives
 
 		self.score_color = score_color
 		self.lives_color = lives_color
@@ -43,22 +47,7 @@ class Metrics(Sprite):
 				)
 
 	def save(self):
-		self.file.parent.mkdir(parents=True, exist_ok=True)
-		encoded = base64.b64encode(str(self.score).encode("utf-8")).decode("ascii")
-		with self.file.open("a", encoding="utf-8") as fout:
-			fout.write(f"{encoded}\n")
+		self.scores.write(self.score)
 
 	def best_score(self):
-		if not self.file.exists():
-			return None
-
-		with self.file.open("r", encoding="utf-8") as fin:
-			try:
-				decoded_scores = [int(base64.b64decode(line.strip()).decode("utf-8")) for line in fin if line.strip()]
-			except (ValueError, binascii.Error):
-				raise ValueError("Invalid encoded data in metrics file")
-
-		if not decoded_scores:
-			return None
-
-		return max(decoded_scores)
+		return max(self.scores.get())
