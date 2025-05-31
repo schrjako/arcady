@@ -15,7 +15,7 @@ class Entity:
 
 	def draw(self,screen):
 		pygame.draw.circle(screen, self.color, self.pos, self.r)
-		#self.draw_arrow(screen)
+		self.draw_arrow(screen)
 
 	def draw_arrow(self, screen):
 		pygame.draw.line(screen, "black", self.pos, self.pos + self.v//3, width=3)
@@ -251,30 +251,43 @@ def run(screen):
 	effects = []
 
 	dt = 0
+	time_speed = 0.25
 	clock = pygame.time.Clock()
 	spawn_timer = 0
 	
 	player = Player(pygame.Vector2(screen.get_width() / 2, screen.get_height() / 2),25,pygame.Vector2(0,0),pygame.Vector2(0,0),-0.2, "dodgerblue")
-	turrets = [Turret(player)]
+	turrets = []
 	
 	bar = HealthBar(100) 
 	timer = Timer()
 
 	running = True
-	dificulty = 3
+
+	dificulty = 0
+	dificulty_timer = 0
 
 
 	while running:
 		#turret spawn
 		spawn_timer += dt
-		if spawn_timer > 4:
+		if spawn_timer > 3:
 			spawn_timer = 0
 			if random.randint(0, dificulty) == 0:
 				turrets.append(Turret(player))
+				dificulty += 1
 			if random.randint(0, 2 * dificulty) == 0:
 				turrets.append(LaserTurret(player))
+				dificulty += 1
 			if random.randint(0, 3 * dificulty) == 0:
 				turrets.append(MissileTurret(player))
+				dificulty += 1
+
+		dificulty_timer += dt
+		if dificulty_timer > 30:
+			dificulty_timer = 0
+			dificulty = 1
+		print(f"dificulty : {dificulty}, Turret : {1/(dificulty + 1)}, LaserTurret : {1/(2*dificulty + 1)}, MissileTurret : {1/(3*dificulty + 1)}")
+
 
 		#events
 		for event in pygame.event.get():
@@ -283,10 +296,12 @@ def run(screen):
 
 		#inputs
 		keys = pygame.key.get_pressed()
-		if keys[pygame.K_s]:player.a = pygame.Vector2(0,98)
-		if keys[pygame.K_w]:player.a = pygame.Vector2(0,-98)
-		if keys[pygame.K_d]:player.a = pygame.Vector2(98,0)
-		if keys[pygame.K_a]:player.a = pygame.Vector2(-98,0)
+		if keys[pygame.K_s]: player.a = pygame.Vector2(0,98)
+		if keys[pygame.K_w]: player.a = pygame.Vector2(0,-98)
+		if keys[pygame.K_d]: player.a = pygame.Vector2(98,0)
+		if keys[pygame.K_a]: player.a = pygame.Vector2(-98,0)
+		time_speed = min(time_speed + dt, 1)
+		if keys[pygame.K_SPACE]: time_speed = max(time_speed - 2*dt, 0.25)
 
 		#player
 		player.physics(dt)
@@ -329,7 +344,7 @@ def run(screen):
 
 		pygame.display.flip()
 
-		dt = clock.tick(60)/1000  # limits FPS to 60
+		dt = clock.tick(60)/1000 * time_speed  # limits FPS to 60
 	
 	draw_game_over_screen(screen, font)
 	time.sleep(3)
